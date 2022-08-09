@@ -10,8 +10,8 @@ logging:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/board
-    username: mrcocoball
-    password: tmxjrtls23!
+    username: agencytest
+    password: agencytest23!@
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
