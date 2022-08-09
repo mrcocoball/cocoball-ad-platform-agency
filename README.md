@@ -11,7 +11,7 @@
 * Spring Properties DevTools
 * Spring HAL Explorer
 * Thymeleaf
-
+* MySQL
 * Chart.js
 * Querydsl
 * GitKraken
