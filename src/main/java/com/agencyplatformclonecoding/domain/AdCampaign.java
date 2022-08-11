@@ -24,7 +24,7 @@ public class AdCampaign extends AuditingFields {
     private long id;
 
     // 다대일 양방향
-    @Setter @ManyToOne @JoinColumn(name = "CLIENT_ID", insertable = false, updatable = false) private ClientUser clientUser; // 에이전시 정보 (ID)
+    @Setter @ManyToOne(optional = false) @JoinColumn(name = "CLIENT_ID", insertable = false, updatable = false) private ClientUser clientUser; // 에이전시 정보 (ID)
 
     @Setter @Column(length = 50, nullable = false) private String name;
     @Setter @Column private long budget;
@@ -43,7 +43,7 @@ public class AdCampaign extends AuditingFields {
         this.budget = budget;
     }
 
-    public AdCampaign of (ClientUser clientUser, long id, String name, long budget) {
+    public static AdCampaign of(ClientUser clientUser, long id, String name, long budget) {
         return new AdCampaign(clientUser, id, name, budget);
     }
 

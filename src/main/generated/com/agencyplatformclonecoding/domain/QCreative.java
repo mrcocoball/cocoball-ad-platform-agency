@@ -26,7 +26,7 @@ public class QCreative extends EntityPathBase<Creative> {
 
     public final QAdCampaign adCampaign;
 
-    public final NumberPath<Long> biding_price = createNumber("biding_price", Long.class);
+    public final NumberPath<Long> bidingPrice = createNumber("bidingPrice", Long.class);
 
     public final NumberPath<Long> click = createNumber("click", Long.class);
 

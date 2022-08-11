@@ -44,7 +44,7 @@ public class ClientUser extends AuditingFields {
         this.nickname = nickname;
     }
 
-    public ClientUser of(Agency agency, Agent agent, String userId, String userPassword, String email, String nickname) {
+    public static ClientUser of(Agency agency, Agent agent, String userId, String userPassword, String email, String nickname) {
         return new ClientUser(agency, agent, userId, userPassword, email, nickname);
     }
 

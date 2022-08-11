@@ -43,7 +43,7 @@ public class Agency extends AuditingFields {
         this.agencyName = agencyName;
     }
 
-    public Agency of (String agencyId, String agencyName) {
+    public static Agency of(String agencyId, String agencyName) {
         return new Agency(agencyId, agencyName);
     }
 

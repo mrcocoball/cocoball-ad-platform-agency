@@ -43,7 +43,7 @@ public class AgentGroup extends AuditingFields {
         this.name = name;
     }
 
-    public AgentGroup of (Agency agency, long id, String name) {
+    public static AgentGroup of (Agency agency, long id, String name) {
         return new AgentGroup(agency, id, name);
     }
 

@@ -39,16 +39,17 @@ public class Agent extends AuditingFields {
 
     protected Agent() {}
 
-    private Agent(Agency agency, String userId, String userPassword, String email, String nickname) {
+    private Agent(Agency agency, AgentGroup agentGroup, String userId, String userPassword, String email, String nickname) {
         this.agency = agency;
+        this.agentGroup = agentGroup;
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
         this.nickname = nickname;
     }
 
-    public Agent of(Agency agency, String userId, String userPassword, String email, String nickname) {
-        return new Agent(agency, userId, userPassword, email, nickname);
+    public static Agent of(Agency agency, AgentGroup agentGroup, String userId, String userPassword, String email, String nickname) {
+        return new Agent(agency, agentGroup, userId, userPassword, email, nickname);
     }
 
     @Override
