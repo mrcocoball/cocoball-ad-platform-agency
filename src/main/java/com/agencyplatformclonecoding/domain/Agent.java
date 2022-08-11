@@ -30,7 +30,6 @@ public class Agent extends AuditingFields {
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
-    @JoinColumn(name = "AGENT_ID")
     private final Set<ClientUser> clientUsers = new LinkedHashSet<>();
 
     @Setter @Column(nullable = false) private String userPassword;

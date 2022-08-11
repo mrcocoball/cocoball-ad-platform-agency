@@ -31,7 +31,6 @@ public class AgentGroup extends AuditingFields {
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "agentGroup", cascade = CascadeType.ALL)
-    @JoinColumn(name = "AGENT_GROUP_ID")
     private final Set<Agent> agents = new LinkedHashSet<>();
 
     @Setter @Column(length = 50, nullable = false) private String name;

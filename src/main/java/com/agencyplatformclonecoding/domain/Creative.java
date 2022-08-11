@@ -13,7 +13,8 @@ import java.util.Objects;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
-public class Creative {
+@Entity
+public class Creative extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +24,7 @@ public class Creative {
     // 다대일 양방향
     @Setter
     @ManyToOne(optional = false)
-    @JoinColumn(name = "CAMPAIGN_ID", insertable = false, updatable = false)
-    private AdCampaign adCampaign; // 에이전시 정보 (ID) */
+    @JoinColumn(name = "CAMPAIGN_ID", insertable = false, updatable = false) private AdCampaign adCampaign; // 에이전시 정보 (ID) */
 
     @Setter @Column private String keyword;
     @Setter @Column private long biding_price;

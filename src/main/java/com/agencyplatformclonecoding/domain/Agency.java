@@ -11,8 +11,8 @@ import java.util.Set;
 @Getter
 @ToString(callSuper = true)
 @Table(indexes = {
-        @Index(columnList = "agents"),
-        @Index(columnList = "agentGroups"),
+        @Index(columnList = "AGENCY_ID"),
+        @Index(columnList = "AGENCY_NAME"),
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
@@ -20,22 +20,20 @@ import java.util.Set;
 public class Agency extends AuditingFields {
 
     @Id
-    @Column(name = "id", length = 50)
+    @Column(name = "AGENCY_ID", length = 50)
     private String agencyId;
 
-    @Column(name = "name", length = 50)
+    @Column(name = "AGENCY_NAME", length = 50)
     private String agencyName;
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
-    @JoinColumn(name = "AGENCY_ID")
     private final Set<Agent> agents = new LinkedHashSet<>();
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
-    @JoinColumn(name = "AGENT_GROUP_ID")
     private final Set<AgentGroup> agentGroups = new LinkedHashSet<>();
 
     protected Agency() {}
