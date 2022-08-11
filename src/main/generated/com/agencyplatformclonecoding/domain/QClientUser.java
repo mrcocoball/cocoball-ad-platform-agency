@@ -24,7 +24,7 @@ public class QClientUser extends EntityPathBase<ClientUser> {
 
     public final QAuditingFields _super = new QAuditingFields(this);
 
-    public final SetPath<AdCampaign, SimplePath<AdCampaign>> adCampaigns = this.<AdCampaign, SimplePath<AdCampaign>>createSet("adCampaigns", AdCampaign.class, SimplePath.class, PathInits.DIRECT2);
+    public final SetPath<AdCampaign, QAdCampaign> adCampaigns = this.<AdCampaign, QAdCampaign>createSet("adCampaigns", AdCampaign.class, QAdCampaign.class, PathInits.DIRECT2);
 
     public final QAgency agency;
 

@@ -21,7 +21,7 @@ public class ClientUser extends AuditingFields {
     @Column(name = "CLIENT_ID", length = 50)
     private String userId;
 
-    @Setter @ManyToOne @JoinColumn(name = "AGENT_ID", insertable = false, updatable = false) private Agency agency; // 에이전트 정보 (ID)
+    @Setter @ManyToOne @JoinColumn(name = "AGENCY_ID", insertable = false, updatable = false) private Agency agency; // 에이전트 정보 (ID)
     @Setter @ManyToOne @JoinColumn(name = "AGENT_ID", insertable = false, updatable = false) private Agent agent; // 에이전트 정보 (ID)
 
     @Setter @Column(nullable = false) private String userPassword;
