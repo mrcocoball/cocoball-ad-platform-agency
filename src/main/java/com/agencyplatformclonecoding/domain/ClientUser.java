@@ -3,6 +3,7 @@ package com.agencyplatformclonecoding.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.*;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class ClientUser extends AuditingFields {
 
@@ -21,8 +23,8 @@ public class ClientUser extends AuditingFields {
     @Column(name = "CLIENT_ID", length = 50)
     private String userId;
 
-    @Setter @ManyToOne @JoinColumn(name = "AGENT_ID", insertable = false, updatable = false) private Agency agency; // 에이전트 정보 (ID)
-    @Setter @ManyToOne @JoinColumn(name = "AGENT_ID", insertable = false, updatable = false) private Agent agent; // 에이전트 정보 (ID)
+    @Setter @ManyToOne @JoinColumn(name = "AGENCY_ID") private Agency agency; // 에이전트 정보 (ID)
+    @Setter @ManyToOne @JoinColumn(name = "AGENT_ID") private Agent agent; // 에이전트 정보 (ID)
 
     @Setter @Column(nullable = false) private String userPassword;
 
@@ -31,7 +33,7 @@ public class ClientUser extends AuditingFields {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "clientUser", cascade = CascadeType.ALL)
-    private final Set<AdCampaign> adCampaigns = new LinkedHashSet<>();
+    private final Set<Campaign> campaigns = new LinkedHashSet<>();
 
     protected ClientUser() {}
 
@@ -44,7 +46,7 @@ public class ClientUser extends AuditingFields {
         this.nickname = nickname;
     }
 
-    public ClientUser of(Agency agency, Agent agent, String userId, String userPassword, String email, String nickname) {
+    public static ClientUser of(Agency agency, Agent agent, String userId, String userPassword, String email, String nickname) {
         return new ClientUser(agency, agent, userId, userPassword, email, nickname);
     }
 

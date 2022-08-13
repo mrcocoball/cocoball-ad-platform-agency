@@ -24,11 +24,11 @@ public class QClientUser extends EntityPathBase<ClientUser> {
 
     public final QAuditingFields _super = new QAuditingFields(this);
 
-    public final SetPath<AdCampaign, SimplePath<AdCampaign>> adCampaigns = this.<AdCampaign, SimplePath<AdCampaign>>createSet("adCampaigns", AdCampaign.class, SimplePath.class, PathInits.DIRECT2);
-
     public final QAgency agency;
 
     public final QAgent agent;
+
+    public final SetPath<Campaign, QCampaign> campaigns = this.<Campaign, QCampaign>createSet("campaigns", Campaign.class, QCampaign.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;

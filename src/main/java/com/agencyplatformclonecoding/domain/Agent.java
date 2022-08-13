@@ -3,6 +3,7 @@ package com.agencyplatformclonecoding.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -16,6 +17,7 @@ import java.util.Set;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Agent extends AuditingFields {
 
@@ -39,16 +41,17 @@ public class Agent extends AuditingFields {
 
     protected Agent() {}
 
-    private Agent(Agency agency, String userId, String userPassword, String email, String nickname) {
+    private Agent(Agency agency, AgentGroup agentGroup, String userId, String userPassword, String email, String nickname) {
         this.agency = agency;
+        this.agentGroup = agentGroup;
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
         this.nickname = nickname;
     }
 
-    public Agent of(Agency agency, String userId, String userPassword, String email, String nickname) {
-        return new Agent(agency, userId, userPassword, email, nickname);
+    public static Agent of(Agency agency, AgentGroup agentGroup, String userId, String userPassword, String email, String nickname) {
+        return new Agent(agency, agentGroup, userId, userPassword, email, nickname);
     }
 
     @Override

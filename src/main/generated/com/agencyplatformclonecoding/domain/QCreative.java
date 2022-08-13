@@ -24,9 +24,9 @@ public class QCreative extends EntityPathBase<Creative> {
 
     public final QAuditingFields _super = new QAuditingFields(this);
 
-    public final QAdCampaign adCampaign;
+    public final NumberPath<Long> bidingPrice = createNumber("bidingPrice", Long.class);
 
-    public final NumberPath<Long> biding_price = createNumber("biding_price", Long.class);
+    public final QCampaign campaign;
 
     public final NumberPath<Long> click = createNumber("click", Long.class);
 
@@ -68,7 +68,7 @@ public class QCreative extends EntityPathBase<Creative> {
 
     public QCreative(Class<? extends Creative> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.adCampaign = inits.isInitialized("adCampaign") ? new QAdCampaign(forProperty("adCampaign"), inits.get("adCampaign")) : null;
+        this.campaign = inits.isInitialized("campaign") ? new QCampaign(forProperty("campaign"), inits.get("campaign")) : null;
     }
 
 }

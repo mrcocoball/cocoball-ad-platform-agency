@@ -3,6 +3,7 @@ package com.agencyplatformclonecoding.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -16,17 +17,17 @@ import java.util.Set;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class AgentGroup extends AuditingFields {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "AGENT_GROUP_ID")
-    private long id;
+    private String id;
 
     // 다대일 양방향
     @Setter
-    @ManyToOne @JoinColumn(name = "AGENCY_ID", insertable = false, updatable = false) private Agency agency; // 에이전시 정보 (ID)
+    @ManyToOne @JoinColumn(name = "AGENCY_ID") private Agency agency; // 에이전시 정보 (ID)
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
@@ -37,13 +38,22 @@ public class AgentGroup extends AuditingFields {
 
     protected AgentGroup() {}
 
-    private AgentGroup(Agency agency, long id, String name) {
+    private AgentGroup(Agency agency, String name) {
+        this.agency = agency;
+        this.name = name;
+    }
+
+    private AgentGroup(Agency agency, String id, String name) {
         this.agency = agency;
         this.id = id;
         this.name = name;
     }
 
-    public AgentGroup of (Agency agency, long id, String name) {
+    public static AgentGroup of (Agency agency, String name) {
+        return new AgentGroup(agency, name);
+    }
+
+    public static AgentGroup of (Agency agency, String id, String name) {
         return new AgentGroup(agency, id, name);
     }
 
@@ -51,7 +61,7 @@ public class AgentGroup extends AuditingFields {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AgentGroup that)) return false;
-        return id == that.getId();
+        return id != null && id.equals(that.getId());
     }
 
     @Override
