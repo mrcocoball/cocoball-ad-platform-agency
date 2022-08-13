@@ -11,16 +11,16 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QAdCampaign is a Querydsl query type for AdCampaign
+ * QCampaign is a Querydsl query type for Campaign
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QAdCampaign extends EntityPathBase<AdCampaign> {
+public class QCampaign extends EntityPathBase<Campaign> {
 
-    private static final long serialVersionUID = -1831326383L;
+    private static final long serialVersionUID = -1109248114L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QAdCampaign adCampaign = new QAdCampaign("adCampaign");
+    public static final QCampaign campaign = new QCampaign("campaign");
 
     public final QAuditingFields _super = new QAuditingFields(this);
 
@@ -46,23 +46,23 @@ public class QAdCampaign extends EntityPathBase<AdCampaign> {
 
     public final StringPath name = createString("name");
 
-    public QAdCampaign(String variable) {
-        this(AdCampaign.class, forVariable(variable), INITS);
+    public QCampaign(String variable) {
+        this(Campaign.class, forVariable(variable), INITS);
     }
 
-    public QAdCampaign(Path<? extends AdCampaign> path) {
+    public QCampaign(Path<? extends Campaign> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QAdCampaign(PathMetadata metadata) {
+    public QCampaign(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QAdCampaign(PathMetadata metadata, PathInits inits) {
-        this(AdCampaign.class, metadata, inits);
+    public QCampaign(PathMetadata metadata, PathInits inits) {
+        this(Campaign.class, metadata, inits);
     }
 
-    public QAdCampaign(Class<? extends AdCampaign> type, PathMetadata metadata, PathInits inits) {
+    public QCampaign(Class<? extends Campaign> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.clientUser = inits.isInitialized("clientUser") ? new QClientUser(forProperty("clientUser"), inits.get("clientUser")) : null;
     }
