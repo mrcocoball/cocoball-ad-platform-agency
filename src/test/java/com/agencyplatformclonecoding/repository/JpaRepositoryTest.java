@@ -53,11 +53,11 @@ class JpaRepositoryTest {
         List<Creative> creatives = creativeRepository.findAll();
 
         // Then
-        assertThat(agentGroups).isNotNull().hasSize(3);
-        assertThat(agents).isNotNull().hasSize(5);
-        assertThat(clientUsers).isNotNull().hasSize(7);
-        assertThat(campaigns).isNotNull().hasSize(5);
-        assertThat(creatives).isNotNull().hasSize(3);
+        assertThat(agentGroups).isNotNull().hasSize(5);
+        assertThat(agents).isNotNull().hasSize(20);
+        assertThat(clientUsers).isNotNull().hasSize(100);
+        assertThat(campaigns).isNotNull().hasSize(200);
+        assertThat(creatives).isNotNull().hasSize(1000);
     }
 
     @DisplayName("INSERT 테스트 - 에이전트 그룹")
@@ -79,7 +79,7 @@ class JpaRepositoryTest {
         // Given
         long previousCount = agentRepository.count();
         Agency agency = agencyRepository.findById("TestAgency").orElseThrow();
-        AgentGroup agentGroup = agentGroupRepository.findById("마케팅 1팀").orElseThrow();
+        AgentGroup agentGroup = agentGroupRepository.findById("mkt1").orElseThrow();
         Agent agent = Agent.of(agency, agentGroup, "test", "pw", "email@mail.com", "테스트");
 
         // When
@@ -162,7 +162,7 @@ class JpaRepositoryTest {
     @Test
     void givenTestClientData_whenClientUpdating_thenWorksFine() {
         // Given
-        ClientUser clientUser = clientUserRepository.findById("client1").orElseThrow();
+        ClientUser clientUser = clientUserRepository.findById("c1").orElseThrow();
         String updatedName = "update";
         clientUser.setNickname(updatedName);
 
