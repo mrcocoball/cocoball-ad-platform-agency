@@ -1,4 +1,4 @@
-package com.agencyplatformclonecoding.Config;
+package com.agencyplatformclonecoding.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
