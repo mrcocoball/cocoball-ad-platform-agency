@@ -27,7 +27,7 @@ public class Agent extends AuditingFields {
 
     // 다대일 양방향
     @Setter @ManyToOne @JoinColumn(name = "AGENCY_ID") private Agency agency; // 에이전시 정보 (ID)
-    @Setter @ManyToOne(optional = false) @JoinColumn(name = "AGENCY_GROUP_ID") private AgentGroup agentGroup; // 에이전트 그룹 정보 (ID)
+    @Setter @ManyToOne(optional = false) @JoinColumn(name = "AGENT_GROUP_ID") private AgentGroup agentGroup; // 에이전트 그룹 정보 (ID)
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")

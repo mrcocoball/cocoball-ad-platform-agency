@@ -1,7 +1,26 @@
 package com.agencyplatformclonecoding.repository;
 
 import com.agencyplatformclonecoding.domain.AgentGroup;
+import com.agencyplatformclonecoding.domain.QAgentGroup;
+import com.querydsl.core.types.dsl.DateTimeExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-public interface AgentGroupRepository extends JpaRepository<AgentGroup, String> {
+public interface AgentGroupRepository extends
+        JpaRepository<AgentGroup, String>,
+        QuerydslPredicateExecutor<AgentGroup>,
+        QuerydslBinderCustomizer<QAgentGroup> {
+
+    @Override
+    default void customize(QuerydslBindings bindings, QAgentGroup root) {
+        bindings.excludeUnlistedProperties(true);
+        bindings.including(root.name, root.createdAt, root.createdBy);
+        bindings.bind(root.name).first(StringExpression::containsIgnoreCase);
+        bindings.bind(root.createdAt).first(DateTimeExpression::eq);
+        bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
+    }
 }
+
