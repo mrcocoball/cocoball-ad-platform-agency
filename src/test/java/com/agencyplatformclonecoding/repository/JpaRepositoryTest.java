@@ -1,6 +1,6 @@
 package com.agencyplatformclonecoding.repository;
 
-import com.agencyplatformclonecoding.Config.JpaConfig;
+import com.agencyplatformclonecoding.config.JpaConfig;
 import com.agencyplatformclonecoding.domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
