@@ -1,5 +1,8 @@
 package com.agencyplatformclonecoding.controller;
 
+import com.agencyplatformclonecoding.config.SecurityConfig;
+import com.agencyplatformclonecoding.service.CampaignService;
+import com.agencyplatformclonecoding.service.CreativeService;
 import com.agencyplatformclonecoding.service.ManageService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import org.junit.jupiter.api.Disabled;
@@ -8,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -15,8 +19,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
-@Disabled("구현 중")
 @DisplayName("VIEW 컨트롤러 - 광고주 관리")
+@Import(SecurityConfig.class)
 @WebMvcTest(ManageController.class)
 class ManageControllerTest {
 
@@ -27,6 +31,12 @@ class ManageControllerTest {
 
     @MockBean
     private PaginationService paginationService;
+
+    @MockBean
+    private CampaignService campaignService;
+
+    @MockBean
+    private CreativeService creativeService;
 
     public ManageControllerTest(
             @Autowired MockMvc mvc
@@ -55,11 +65,12 @@ class ManageControllerTest {
         // Given : 추후 구현
 
         // When & Then
-        mvc.perform(get("/manage/c1"))
+        mvc.perform(get("/manage/clientId"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("manage/c1"))
-                .andExpect(model().attributeExists("manage/client"));
+                .andExpect(view().name("manage/client"))
+                .andExpect(model().attributeExists("clientId"))
+                .andExpect(model().attributeExists("campaigns"));
     }
 
     //@Disabled("구현 중")
@@ -69,11 +80,13 @@ class ManageControllerTest {
         // Given : 추후 구현
 
         // When & Then
-        mvc.perform(get("/manage/c1/1"))
+        mvc.perform(get("/manage/clientId/campaignId"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("manage/c1/1"))
-                .andExpect(model().attributeExists("manage/client/campaign"));
+                .andExpect(view().name("manage/campaign"))
+                .andExpect(model().attributeExists("clientId"))
+                .andExpect(model().attributeExists("campaignId"))
+                .andExpect(model().attributeExists("creatives"));
     }
 
     //@Disabled("구현 중")
@@ -83,11 +96,13 @@ class ManageControllerTest {
         // Given : 추후 구현
 
         // When & Then
-        mvc.perform(get("/manage/c1/1/1"))
+        mvc.perform(get("/manage/clientId/campaignId/creativeId"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("manage/c1/1/1"))
-                .andExpect(model().attributeExists("manage/client/campaign/creative"));
+                .andExpect(view().name("manage/creative"))
+                .andExpect(model().attributeExists("clientId"))
+                .andExpect(model().attributeExists("campaignId"))
+                .andExpect(model().attributeExists("creativeId"));
     }
 
 }
