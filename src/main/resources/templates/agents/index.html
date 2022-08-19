@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="mrcocoball">
+  <title>에이전트 리스트</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="/css/search-bar.css" rel="stylesheet">
+  <link href="/css/articles/table-header.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <header id="header">
+    헤더 삽입부
+    <hr>
+  </header>
+
+  <main class="d-flex flex-nowrap">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;, height: 100%;">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+        <span class="fs-4"></span>
+      </a>
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <a href="#" class="nav-link active" aria-current="page">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+            에이전트 관리
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+            에이전트 그룹 관리
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+            광고주 관리
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+            광고 관리
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+            대시보드
+          </a>
+        </li>
+    </div>
+
+   <div class="container">
+   <h1> 에이전트 관리 페이지 </h1>
+    <div class="row">
+      <div class="card card-margin search-form">
+        <div class="card-body p-0">
+          <form action="/agents" method="get">
+            <div class="row">
+              <div class="col-12">
+                <div class="row no-gutters">
+                  <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                    <label for="search-type" hidden>검색 유형</label>
+                    <select class="form-control" id="search-type" name="searchType">
+                      <option>에이전트 ID</option>
+                      <option>에이전트 이름</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 p-0">
+                    <label for="search-value" hidden>검색어</label>
+                    <input type="text" placeholder="검색어..." class="form-control" id="search-value" name="searchValue">
+                  </div>
+                  <div class="col-lg-1 col-md-3 col-sm-12 p-0">
+                    <button type="submit" class="btn btn-base">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="d-grid gap-2 d-md-flex justify-content-md">
+        <a class="btn btn-primary me-md-2" role="button" id="write-article">에이전트 계정 생성</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <table class="table" id="client-table">
+        <thead>
+        <tr>
+          <th class="user-id col-2"><a>ID</a></th>
+          <th class="nickname col-2"><a>이름</a></th>
+          <th class="agent-group col-2"><a>그룹</a></th>
+          <th class="created-at col"><a>계정 생성일</a></th>
+          <th class="profile col-2"><a>상세 정보 확인</a></th>
+          <th class="button col"><a></a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="user-id"><a>cocoballagent</a></td>
+          <td class="nickname">김코코볼</td>
+          <td class="agent-group">마케팅 1팀</td>
+          <td class="clients"><time>2022-08-18</time></td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>jioagent</td>
+          <td>김지오</td>
+          <td>마케팅 2팀</td>
+          <td>2022-08-19</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>ykagent1</td>
+          <td>김흐압</td>
+          <td>마케팅 5팀</td>
+          <td>2022-08-20</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>ykagent2</td>
+          <td>김쾅쾅</td>
+          <td>마케팅 본부</td>
+          <td>2022-08-20</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>ykagent3</td>
+          <td>박쁑쁑</td>
+          <td>마케팅 1팀</td>
+          <td>2022-08-20</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>ykagent4</td>
+          <td>최쾅큥</td>
+          <td>마케팅 2팀</td>
+          <td>2022-08-20</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>ykagent5</td>
+          <td>김복동</td>
+          <td>마케팅 3팀</td>
+          <td>2022-08-20</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>ykagent6</td>
+          <td>김모찌</td>
+          <td>마케팅 5팀</td>
+          <td>2022-08-20</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>ykagent7</td>
+          <td>김호빵</td>
+          <td>마케팅 3팀</td>
+          <td>2022-08-20</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+        <tr>
+          <td>ykagent8</td>
+          <td>김호떡</td>
+          <td>마케팅 3팀</td>
+          <td>2022-08-20</td>
+          <td class="profile">상세 정보 확인</td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="row">
+      <nav id="pagination" aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+      </nav>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+</body>
