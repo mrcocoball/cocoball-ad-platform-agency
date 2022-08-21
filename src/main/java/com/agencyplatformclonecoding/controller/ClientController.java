@@ -27,6 +27,6 @@ public class ClientController {
 
     @GetMapping("/{clientId}")
     public String manageClient(@PathVariable String clientId) {
-         return "forward:/manage/{clientId}";
+         return "forward:/manage/{clientId}/campaigns";
      }
 }

@@ -57,8 +57,8 @@ class ClientControllerTest {
         // When & Then
         mvc.perform(get("/clients/c1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("forward:/manage/{clientId}"))
-                .andExpect(forwardedUrl("/manage/{clientId}"))
+                .andExpect(view().name("forward:/manage/{clientId}/campaigns"))
+                .andExpect(forwardedUrl("/manage/{clientId}/campaigns"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
