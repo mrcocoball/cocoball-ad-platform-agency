@@ -65,7 +65,7 @@ class ManageControllerTest {
         // Given : 추후 구현
 
         // When & Then
-        mvc.perform(get("/manage/clientId"))
+        mvc.perform(get("/manage/clientId/campaigns"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("manage/client"))
@@ -80,7 +80,7 @@ class ManageControllerTest {
         // Given : 추후 구현
 
         // When & Then
-        mvc.perform(get("/manage/clientId/campaignId"))
+        mvc.perform(get("/manage/clientId/campaigns/campaignId"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("manage/campaign"))
@@ -96,7 +96,7 @@ class ManageControllerTest {
         // Given : 추후 구현
 
         // When & Then
-        mvc.perform(get("/manage/clientId/campaignId/creativeId"))
+        mvc.perform(get("/manage/clientId/campaigns/campaignId/creatives/creativeId"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("manage/creative"))

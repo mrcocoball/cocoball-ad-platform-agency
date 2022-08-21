@@ -26,14 +26,14 @@ public class ManageController {
         return "manage/index";
     }
 
-    @GetMapping("/{clientId}")
+    @GetMapping("/{clientId}/campaigns")
      public String manageClient(@PathVariable String clientId, ModelMap map) {
         map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
         map.addAttribute("campaigns", List.of());
          return "manage/client";
      }
 
-    @GetMapping("/{clientId}/{campaignId}")
+    @GetMapping("/{clientId}/campaigns/{campaignId}")
      public String manageClientsCampaign(@PathVariable String clientId, Long campaignId, ModelMap map) {
         map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
         map.addAttribute("campaignId", "campaignId");
@@ -41,7 +41,7 @@ public class ManageController {
          return "manage/campaign";
      }
 
-    @GetMapping("/{clientId}/{campaignId}/{creativeId}")
+    @GetMapping("/{clientId}/campaigns/{campaignId}/creatives/{creativeId}")
      public String manageClientsCreative(@PathVariable String clientId, Long campaignId, Long creativeId, ModelMap map) {
         map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
         map.addAttribute("campaignId", "campaignId");
