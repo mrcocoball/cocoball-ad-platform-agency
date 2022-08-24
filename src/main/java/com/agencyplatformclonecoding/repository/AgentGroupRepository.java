@@ -1,18 +1,31 @@
 package com.agencyplatformclonecoding.repository;
 
+import com.agencyplatformclonecoding.domain.Agent;
 import com.agencyplatformclonecoding.domain.AgentGroup;
+import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.QAgentGroup;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+
+@RepositoryRestResource
 public interface AgentGroupRepository extends
         JpaRepository<AgentGroup, String>,
         QuerydslPredicateExecutor<AgentGroup>,
         QuerydslBinderCustomizer<QAgentGroup> {
+
+    Page<AgentGroup> findByIdContaining(String id, Pageable pageable);
+    Page<AgentGroup> findByNameContaining(String nickname, Pageable pageable);
+
+    void deleteAgentGroupById(String agentGroupId);
 
     @Override
     default void customize(QuerydslBindings bindings, QAgentGroup root) {
