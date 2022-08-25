@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="#header" th:replace="header :: header" />
+  <attr sel="#footer" th:replace="footer :: footer" />
+
+    <attr sel="#agent-info">
+      <attr sel="tbody" th:remove="all-but-first">
+        <attr sel="td.user-id" th:text="${agent.userId}" />
+        <attr sel="td.nickname" th:text="${agent.nickname}" />
+        <attr sel="td.agent-group" th:text="${agent.agentGroupName}" />
+      </attr>
+    </attr>
+
+    <attr sel="#client-table">
+      <attr sel="tbody" th:remove="all-but-first">
+        <attr sel="tr[0]" th:each="client : ${clients}">
+          <attr sel="td.client-id" th:text="${client.userId}" />
+          <attr sel="td.nickname" th:text="${client.nickname}" />
+          <attr sel="#client-manage" th:href="@{'/manage/' + ${client.userId}}" />
+        </attr>
+      </attr>
+    </attr>
+  </attr>
+</thlogic>
