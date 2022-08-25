@@ -13,7 +13,6 @@ import com.agencyplatformclonecoding.repository.AgencyRepository;
 import com.agencyplatformclonecoding.repository.AgentGroupRepository;
 import com.agencyplatformclonecoding.repository.AgentRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -34,7 +32,6 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 @DisplayName("비즈니스 로직 - 에이전트 관리")
@@ -155,13 +152,13 @@ class AgentServiceTest {
     void givenNotMappingClientsAgentId_whenDeletingAgent_thenDeleteAgent() {
         // Given
         String agentId = "test";
-        willDoNothing().given(agentRepository).deleteAgentByUserId(agentId);
+        willDoNothing().given(agentRepository).deleteByUserId(agentId);
 
         // When
         sut.deleteAgent(agentId);
 
         // Then
-        then(agentRepository).should().deleteAgentByUserId(agentId);
+        then(agentRepository).should().deleteByUserId(agentId);
     }
 
     @Disabled("에이전트-광고주 매핑 관계를 테스트에 넣는 방법 확인 필요")
@@ -173,7 +170,7 @@ class AgentServiceTest {
         String agentId = agent.getUserId();
         List<ClientUser> clientUsers = clientUsers();
         given(clientUserRepository.findByAgent_UserId(agentId)).willReturn(clientUsers);
-        willDoNothing().given(agentRepository).deleteAgentByUserId(agentId);
+        willDoNothing().given(agentRepository).deleteByUserId(agentId);
 
         // When
         Throwable t = catchThrowable(() -> sut.deleteAgent(agentId));
@@ -182,7 +179,7 @@ class AgentServiceTest {
         assertThat(t)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("매핑된 광고주가 있어 삭제가 불가능합니다 - agentId : " + agentId);
-        then(agentRepository).should().deleteAgentByUserId(agentId);
+        then(agentRepository).should().deleteByUserId(agentId);
     }
 
     @Disabled("에이전트-광고주 매핑 관계를 테스트에 넣는 방법 확인 필요")
@@ -192,7 +189,7 @@ class AgentServiceTest {
         // Given
         String agentId = "none-agent";
         given(agentRepository.findById(agentId)).willReturn(Optional.empty());
-        willDoNothing().given(agentRepository).deleteAgentByUserId(agentId);
+        willDoNothing().given(agentRepository).deleteByUserId(agentId);
 
         // When
         Throwable t= catchThrowable(() -> sut.deleteAgent(agentId));
@@ -201,7 +198,7 @@ class AgentServiceTest {
         assertThat(t)
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("에이전트가 존재하지 않습니다 - agentId : " + agentId);
-        then(agentRepository).should().deleteAgentByUserId(agentId);
+        then(agentRepository).should().deleteByUserId(agentId);
     }
 
     @DisplayName("READ - 에이전트 수를 조회하면, 에이전트트 수를반환한다")

@@ -1,7 +1,6 @@
 package com.agencyplatformclonecoding.repository;
 
 import com.agencyplatformclonecoding.domain.Agent;
-import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.QAgent;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
@@ -26,7 +25,7 @@ public interface AgentRepository extends
 
     List<Agent> findByAgentGroup_Id(String agentGroupId);
 
-    void deleteAgentByUserId(String agentId);
+    void deleteByUserId(String agentId);
 
     @Override
     default void customize(QuerydslBindings bindings, QAgent root) {

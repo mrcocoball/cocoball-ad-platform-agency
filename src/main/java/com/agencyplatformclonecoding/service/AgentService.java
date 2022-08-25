@@ -1,8 +1,5 @@
 package com.agencyplatformclonecoding.service;
 
-import com.agencyplatformclonecoding.domain.Agency;
-import com.agencyplatformclonecoding.domain.Agent;
-import com.agencyplatformclonecoding.domain.AgentGroup;
 import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.AgentDto;
@@ -20,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -63,8 +59,8 @@ public class AgentService {
         try {
             List<ClientUser> clientUsers = clientUserRepository.findByAgent_UserId(agentId);
 
-            if (clientUsers.size() == 0) {
-                agentRepository.deleteAgentByUserId(agentId);
+            if (clientUsers.isEmpty()) {
+                agentRepository.deleteByUserId(agentId);
             } else {
                 throw new IllegalArgumentException();
             }

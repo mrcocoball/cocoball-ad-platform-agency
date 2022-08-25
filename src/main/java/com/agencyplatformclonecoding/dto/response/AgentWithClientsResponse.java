@@ -12,26 +12,28 @@ public record AgentWithClientsResponse(
         String userId,
         LocalDateTime createdAt,
         String nickname,
-        Set<ClientUserResponse> clientUserResponses
+        Set<ClientUserResponse> clientUserResponses,
+        String agentGroupName
 ) implements Serializable {
 
-    public static AgentWithClientsResponse of (String userId, LocalDateTime createdAt, String nickname, Set<ClientUserResponse> clientUserResponses) {
-        return new AgentWithClientsResponse(userId, createdAt, nickname, clientUserResponses);
+    public static AgentWithClientsResponse of (String userId, LocalDateTime createdAt, String nickname, Set<ClientUserResponse> clientUserResponses, String agentGroupName) {
+        return new AgentWithClientsResponse(userId, createdAt, nickname, clientUserResponses, agentGroupName);
     }
 
     public static AgentWithClientsResponse from(AgentWithClientsDto dto) {
-        String nickname = dto.nickname();
-        if (nickname == null || nickname.isBlank()) {
-            nickname = dto.userId();
+        String agentGroupName = dto.agentGroupDto().name();
+        if (agentGroupName == null || agentGroupName.isBlank()) {
+            agentGroupName = dto.agentGroupDto().id();
         }
 
         return new AgentWithClientsResponse(
                 dto.userId(),
                 dto.createdAt(),
-                nickname,
+                dto.nickname(),
                 dto.clientUserDtos().stream()
                         .map(ClientUserResponse::from)
-                        .collect(Collectors.toCollection(LinkedHashSet::new))
+                        .collect(Collectors.toCollection(LinkedHashSet::new)),
+                agentGroupName
         );
     }
 

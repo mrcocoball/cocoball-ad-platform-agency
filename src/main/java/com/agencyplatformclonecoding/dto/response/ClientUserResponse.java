@@ -6,27 +6,31 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record ClientUserResponse(
-        String clientId,
+        String userId,
         LocalDateTime createdAt,
         String nickname,
-        String email
+        String email,
+        String agentId,
+        String agentName
 ) implements Serializable {
 
-    public static ClientUserResponse of (String clientId, LocalDateTime createdAt, String nickname, String email) {
-        return new ClientUserResponse(clientId, createdAt, nickname, email);
+    public static ClientUserResponse of (String userId, LocalDateTime createdAt, String nickname, String email, String agentId, String agentName) {
+        return new ClientUserResponse(userId, createdAt, nickname, email, agentId, agentName);
     }
 
     public static ClientUserResponse from (ClientUserDto dto) {
-        String nickname = dto.nickname();
-        if (nickname == null || nickname.isBlank()) {
-            nickname = dto.userId();
+        String agentName = dto.agentDto().nickname();
+        if (agentName == null || agentName.isBlank()) {
+            agentName = dto.agentDto().userId();
         }
 
         return new ClientUserResponse(
                 dto.userId(),
                 dto.createdAt(),
-                nickname,
-                dto.email()
+                dto.nickname(),
+                dto.email(),
+                dto.agentDto().userId(),
+                agentName
         );
     }
 }

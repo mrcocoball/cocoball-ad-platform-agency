@@ -45,7 +45,7 @@ public class AgentController {
     public String agent(@PathVariable String agentId, ModelMap map) {
     		AgentWithClientsResponse agent = AgentWithClientsResponse.from(agentService.getAgentWithClients(agentId));
 
-            map.addAttribute("agent", agent); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
+            map.addAttribute("agent", agent);
             map.addAttribute("clients", agent.clientUserResponses());
     		map.addAttribute("totalCount", agentService.getAgentCount());
 
