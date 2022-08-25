@@ -33,7 +33,8 @@ insert into agent (agent_id, agent_group_id, agency_id, created_at, created_by, 
 ('agent17', 'mkthq', 'TestAgency', '2022-02-09 21:12:38', 'Archaimbaud', '2021-12-01 10:03:21', 'Archaimbaud', 'adimmneg@shareasale.com', 'Archaimbaud', 'B0s4vN8p7G'),
 ('agent18', 'mkt5', 'TestAgency', '2022-03-14 04:58:46', 'Sydney', '2022-04-09 22:58:38', 'Sydney', 'ssmithendh@skype.com', 'Sydney', 'Uw6uv2vh'),
 ('agent19', 'mkthq', 'TestAgency', '2021-11-02 20:34:27', 'Donica', '2022-06-18 09:16:21', 'Donica', 'dlaughreyi@constantcontact.com', 'Donica', 'iW0mlxHrJ4bo'),
-('agent20', 'mkthq', 'TestAgency', '2022-04-27 22:31:37', 'Heida', '2022-04-28 00:50:10', 'Heida', 'hgaleyj@meetup.com', 'Heida', 'BfMqWo0kH');
+('agent20', 'mkthq', 'TestAgency', '2022-04-27 22:31:37', 'Heida', '2022-04-28 00:50:10', 'Heida', 'hgaleyj@meetup.com', 'Heida', 'BfMqWo0kH'),
+('testagent', 'mkthq', 'TestAgency', '2022-04-27 22:31:37', '김쾅쾅', '2022-04-28 00:50:10', '김쾅쾅', 'hgaleyj@meetup.com', 'Heida', 'BfMqWo0kH');
 
 
 -- 광고주 관련 (100명)

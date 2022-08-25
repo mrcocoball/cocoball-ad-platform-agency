@@ -54,7 +54,7 @@ class JpaRepositoryTest {
 
         // Then
         assertThat(agentGroups).isNotNull().hasSize(5);
-        assertThat(agents).isNotNull().hasSize(20);
+        assertThat(agents).isNotNull().hasSize(21);
         assertThat(clientUsers).isNotNull().hasSize(100);
         assertThat(campaigns).isNotNull().hasSize(200);
         assertThat(creatives).isNotNull().hasSize(1000);
