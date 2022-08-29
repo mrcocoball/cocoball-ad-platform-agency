@@ -96,56 +96,56 @@
 
     <div class="row">
       <div class="d-grid gap-2 d-md-flex justify-content-md">
-        <a class="btn btn-primary me-md-2" role="button" id="write-article">에이전트 그룹 생성</a>
+        <a class="btn btn-primary me-md-2" role="button" id="create-agentgroup">에이전트 그룹 생성</a>
       </div>
     </div>
 
     <div class="row">
-      <table class="table" id="client-table">
+      <table class="table" id="agentgroup-table">
         <thead>
         <tr>
-          <th class="user-id col-2"><a>ID</a></th>
-          <th class="nickname col-2"><a>그룹명</a></th>
-          <th class="created-at col"><a>그룹 생성일</a></th>
-          <th class="profile col-2"><a>소속 에이전트 확인</a></th>
+          <th class="id col-2"><a>ID</a></th>
+          <th class="name col-2"><a>그룹명</a></th>
+          <th class="agents-list col-2"><a>소속 에이전트 확인</a></th>
+          <th class="button"><a></a></th>
           <th class="button"><a></a></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="user-id"><a>team01</a></td>
-          <td class="nickname">마케팅 1팀</td>
-          <td class="clients"><time>2022-08-18</time></td>
-          <td class="profile">소속 에이전트 확인</td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+          <td class="id"><a>team01</a></td>
+          <td class="name">마케팅 1팀</td>
+          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
+          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
         </tr>
         <tr>
           <td>team02</td>
           <td>마케팅 2팀</td>
-          <td>2022-08-19</td>
-          <td class="profile">소속 에이전트 확인</td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
+          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
         </tr>
         <tr>
           <td>team03</td>
           <td>마케팅 3팀</td>
-          <td>2022-08-20</td>
-          <td class="profile">소속 에이전트 확인</td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
+          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
         </tr>
         <tr>
           <td>team04</td>
           <td>마케팅 5팀</td>
-          <td>2022-08-20</td>
-          <td class="profile">소속 에이전트 확인</td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
+          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
         </tr>
         <tr>
           <td>team05</td>
           <td>마케팅 본부</td>
-          <td>2022-08-20</td>
-          <td class="profile">소속 에이전트 확인</td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="agent-delete">삭제</a></td>
+          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
+          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
+          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
         </tr>
       </tbody>
     </table>
