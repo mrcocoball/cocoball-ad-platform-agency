@@ -1,14 +1,22 @@
 package com.agencyplatformclonecoding.controller;
 
+import com.agencyplatformclonecoding.domain.constrant.FormStatus;
+import com.agencyplatformclonecoding.domain.constrant.SearchType;
+import com.agencyplatformclonecoding.dto.AgencyDto;
+import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
+import com.agencyplatformclonecoding.dto.response.AgentGroupResponse;
+import com.agencyplatformclonecoding.dto.response.AgentGroupWithAgentsResponse;
 import com.agencyplatformclonecoding.service.AgentGroupService;
 import com.agencyplatformclonecoding.service.AgentService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,21 +29,75 @@ public class AgentGroupController {
     private final PaginationService paginationService;
 
     @GetMapping
-    public String agentGroups(ModelMap map) {
-        map.addAttribute("agentGroups", List.of());
-        return "agentgroups/index";
-    }
+    public String agentGroups(
+                @RequestParam(required = false) SearchType searchType,
+                @RequestParam(required = false) String searchValue,
+                @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                ModelMap map
+    	) {
+    		Page<AgentGroupResponse> agentGroups = agentGroupService.searchAgentGroups(searchType, searchValue, pageable)
+    				.map(AgentGroupResponse::from);
+    		List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), agentGroups.getTotalPages());
+            map.addAttribute("agentGroups", agentGroups);
+    		map.addAttribute("paginationBarNumbers", barNumbers);
+    		map.addAttribute("searchTypes", SearchType.values());
+
+            return "agentgroups/index";
+        }
 
     @GetMapping("/{agentGroupId}")
     public String agentGroup(@PathVariable String agentGroupId, ModelMap map) {
-        map.addAttribute("agentGroup", "agentGroup"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
-        map.addAttribute("agents", List.of());
-         return "agentgroups/detail";
+
+		AgentGroupWithAgentsResponse agentGroup = AgentGroupWithAgentsResponse.from(agentGroupService.getAgentGroupWithAgents(agentGroupId));
+
+        map.addAttribute("agentGroup", agentGroup);
+        map.addAttribute("agents", agentGroup.agentResponses());
+		map.addAttribute("totalCount", agentGroupService.getAgentGroupCount());
+
+        return "agentgroups/detail";
     }
 
     @GetMapping("/{agentGroupId}/{agentId}")
-        public String selectAgent(@PathVariable String agentGroupId, String agentId) {
-             return "forward:/agents/{agentId}";
-         }
+    public String selectAgent(@PathVariable String agentGroupId, String agentId) {
+        return "forward:/agents/{agentId}";
+    }
+
+    @GetMapping("/form")
+   	public String agentGroupForm(ModelMap map) {
+   		map.addAttribute("formStatus", FormStatus.CREATE);
+
+   		return "agentgroups/form";
+   	}
+
+   	@PostMapping("/form")
+   	public String createNewAgentGroup(AgentGroupRequest agentGroupRequest) {
+   		agentGroupService.saveAgentGroup(agentGroupRequest.toDto(AgencyDto.of("TestAgency", "쾅쾅마케팅"))); // TODO : 추후 에이전시 인증 기능 부여
+
+   		return "redirect:/agentGroups";
+   	}
+
+   	@GetMapping("/{agentGroupId}/form")
+   	public String updateAgentGroupForm(@PathVariable String agentGroupId, ModelMap map) {
+   		AgentGroupResponse agentGroup = AgentGroupResponse.from(agentGroupService.getAgentGroup(agentGroupId));
+
+   		map.addAttribute("agentGroup", agentGroup);
+   		map.addAttribute("formStatus", FormStatus.UPDATE);
+
+   		return "agentgroups/form";
+   	}
+
+   	@PostMapping("/{agentGroupId}/form")
+   	public String updateAgentGroup(@PathVariable String agentGroupId, AgentGroupRequest agentGroupRequest) {
+   		agentGroupService.updateAgentGroup(agentGroupId, agentGroupRequest.toDto(AgencyDto.of("TestAgency", "쾅쾅마케팅")));  // TODO : 추후 에이전시 인증 기능 부여
+
+   		return "redirect:/agentGroups/" + agentGroupId;
+   	}
+
+   	@PostMapping ("/{agentGroupId}/delete")
+   	public String deleteAgentGroup(@PathVariable String agentGroupId) {
+   		agentGroupService.deleteAgentGroup(agentGroupId);
+
+   		return "redirect:/agentGroups";
+   	}
 
 }
