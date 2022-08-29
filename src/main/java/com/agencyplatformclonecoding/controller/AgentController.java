@@ -31,25 +31,25 @@ public class AgentController {
                 @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                 ModelMap map
     	) {
-    		Page<AgentResponse> agents = agentService.searchAgents(searchType, searchValue, pageable)
+        Page<AgentResponse> agents = agentService.searchAgents(searchType, searchValue, pageable)
     				.map(AgentResponse::from);
-    		List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), agents.getTotalPages());
-            map.addAttribute("agents", agents);
-    		map.addAttribute("paginationBarNumbers", barNumbers);
-    		map.addAttribute("searchTypes", SearchType.values());
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), agents.getTotalPages());
+        map.addAttribute("agents", agents);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("searchTypes", SearchType.values());
 
         return "agents/index";
     }
 
     @GetMapping("/{agentId}")
     public String agent(@PathVariable String agentId, ModelMap map) {
-    		AgentWithClientsResponse agent = AgentWithClientsResponse.from(agentService.getAgentWithClients(agentId));
+        AgentWithClientsResponse agent = AgentWithClientsResponse.from(agentService.getAgentWithClients(agentId));
 
-            map.addAttribute("agent", agent);
-            map.addAttribute("clients", agent.clientUserResponses());
-    		map.addAttribute("totalCount", agentService.getAgentCount());
+        map.addAttribute("agent", agent);
+        map.addAttribute("clients", agent.clientUserResponses());
+        map.addAttribute("totalCount", agentService.getAgentCount());
 
-         return "agents/detail";
+        return "agents/detail";
     }
     @GetMapping("/{agentId}/{clientId}")
     public String mappingClient(@PathVariable String agentId, String clientId) {
