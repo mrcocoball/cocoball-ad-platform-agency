@@ -1,5 +1,6 @@
 package com.agencyplatformclonecoding.repository;
 
+import com.agencyplatformclonecoding.domain.Agent;
 import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.QClientUser;
 import com.querydsl.core.types.dsl.DateTimeExpression;
@@ -21,6 +22,9 @@ public interface ClientUserRepository extends
         QuerydslBinderCustomizer<QClientUser> {
 
     Page<ClientUser> findByAgent_UserIdContaining(String userId, Pageable pageable);
+
+    Page<ClientUser> findByUserIdContaining(String userId, Pageable pageable);
+    Page<ClientUser> findByNicknameContaining(String nickname, Pageable pageable);
     List<ClientUser> findByAgent_UserId(String userId);
 
     @Override

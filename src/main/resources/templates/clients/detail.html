@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="mrcocoball">
-  <title>에이전트 그룹 상세 페이지</title>
+  <title>광고주 세부 정보</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   <link href="/css/search-bar.css" rel="stylesheet">
@@ -33,13 +33,13 @@
           </a>
         </li>
         <li>
-          <a href="/agentGroups" class="nav-link active" aria-current="page">
+          <a href="/agentGroups" class="nav-link text-white">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
             에이전트 그룹 관리
           </a>
         </li>
         <li>
-          <a href="/clients" class="nav-link text-white">
+          <a href="/clients" class="nav-link active" aria-current="page">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
             광고주 관리
           </a>
@@ -56,29 +56,29 @@
             대시보드
           </a>
         </li>
+      </div>
     </div>
 
    <div class="container">
-   <h1> 에이전트 그룹 정보 </h1>
+   <h1> 광고주 세부 정보 </h1>
     <div class="row">
-      <table class="table" id="agent-table">
+      <table class="table" id="client-info">
         <thead>
         <tr>
-          <th class="agent-id col-2"><a>ID</a></th>
-          <th class="nickname col-2"><a>이름</a></th>
-          <th class="agent-info"></th>
+          <th class="user-id col-2"><a>광고주 ID</a></th>
+          <th class="nickname col-2"><a>광고주명</a></th>
+		  <th class="email co-2"><a>이메일</a></th>
+		  <th class="agent-id col-2"><a>담당 에이전트 ID</a></th>
+		  <th class="agent-name col-2"><a>담당 에이전트명</a></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="agent-id"><a>agent1</a></td>
-          <td class="nickname">김코코볼</td>
-          <th class="button"><a class="btn btn-primary" role="button" id="agent-info">에이전트 정보</a></th>
-        </tr>
-        <tr>
-          <td>agent2</td>
-          <td>김지오</td>
-          <th class="button"><a class="btn btn-primary" role="button" id="agent-info">에이전트 정보</a></th>
+          <td class="user-id"><a>client1</a></td>
+          <td class="nickname">코코볼자동차</td>
+          <td class="email">cocoball@mail.com</td>
+		  <td class="agent-id">agent1</td>
+		  <td class="agent-name">김코코볼</td>
         </tr>
       </tbody>
     </table>
