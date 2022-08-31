@@ -1,12 +1,20 @@
 package com.agencyplatformclonecoding.controller;
 
+import com.agencyplatformclonecoding.domain.constrant.SearchType;
+import com.agencyplatformclonecoding.dto.response.ClientUserResponse;
+import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
 import com.agencyplatformclonecoding.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,32 +29,49 @@ public class ManageController {
     private final PaginationService paginationService;
 
     @GetMapping
-    public String manage(ModelMap map) {
-        map.addAttribute("manage", List.of());
+    public String manage(
+				@RequestParam(required = false) SearchType searchType,
+				@RequestParam(required = false) String searchValue,
+				@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+				ModelMap map
+		) {
+		Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)
+    				.map(ClientUserResponse::from);
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), clientUsers.getTotalPages());
+        map.addAttribute("clientUsers", clientUsers);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("searchTypes", SearchType.values());
+
         return "manage/index";
     }
 
     @GetMapping("/{clientId}/campaigns")
-     public String manageClient(@PathVariable String clientId, ModelMap map) {
-        map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
-        map.addAttribute("campaigns", List.of());
-         return "manage/client";
-     }
+    public String campaigns(@PathVariable String clientId, ModelMap map) {
+		ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+
+		map.addAttribute("clientUser", clientUserWithCampaigns);
+        map.addAttribute("campaigns", clientUserWithCampaigns.campaignResponses());
+        map.addAttribute("totalCount", manageService.getClientUserCount());
+
+        return "manage/client";
+    }
 
     @GetMapping("/{clientId}/campaigns/{campaignId}")
-     public String manageClientsCampaign(@PathVariable String clientId, Long campaignId, ModelMap map) {
+    public String manageCampaign(@PathVariable String clientId, Long campaignId, ModelMap map) {
         map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
         map.addAttribute("campaignId", "campaignId");
         map.addAttribute("creatives", List.of());
-         return "manage/campaign";
-     }
+
+        return "manage/campaign";
+    }
 
     @GetMapping("/{clientId}/campaigns/{campaignId}/creatives/{creativeId}")
-     public String manageClientsCreative(@PathVariable String clientId, Long campaignId, Long creativeId, ModelMap map) {
+    public String manageCreative(@PathVariable String clientId, Long campaignId, Long creativeId, ModelMap map) {
         map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
         map.addAttribute("campaignId", "campaignId");
         map.addAttribute("creativeId", "creativeId");
-         return "manage/creative";
-     }
+
+        return "manage/creative";
+    }
 
 }

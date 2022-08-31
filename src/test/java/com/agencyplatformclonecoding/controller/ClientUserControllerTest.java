@@ -175,6 +175,7 @@ class ClientUserControllerTest {
                 "테스트"
         );
     }
+
     private AgentDto createAgentDto() {
         return AgentDto.of(
                 createAgencyDto(),
