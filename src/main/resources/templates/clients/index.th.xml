@@ -19,7 +19,7 @@
       <attr sel="thead/tr">
         <attr sel="th.user-id/a" th:text="'광고주 ID'" th:href="@{/clients(
             page=${clientUsers.number},
-            sort='user-id' + (*{sort.getOrderFor('user-id')} != null ? (*{sort.getOrderFor('user-id').direction.name} != 'DESC' ? ',desc' : '') : ''),
+            sort='userId' + (*{sort.getOrderFor('userId')} != null ? (*{sort.getOrderFor('userId').direction.name} != 'DESC' ? ',desc' : '') : ''),
             searchType=${param.searchType},
             searchValue=${param.searchValue}
         )}"/>
@@ -37,7 +37,7 @@
           <attr sel="td.nickname" th:text="${clientUser.nickname}" />
 		  <attr sel="td.agent-name" th:text="${clientUser.agentName}" />
           <attr sel="#client-info" th:href="@{'/clients/' + ${clientUser.userId}}" />
-          <attr sel="#client-manage" th:href="@{'/manage/' + ${clientUser.userId}}" />
+          <attr sel="#client-manage" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'}" />
           <attr sel="#client-mapping" th:href="@{'/clients/' + ${clientUser.userId}}" />
         </attr>
       </attr>
