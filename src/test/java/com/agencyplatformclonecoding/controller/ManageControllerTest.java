@@ -147,21 +147,6 @@ class ManageControllerTest {
         then(paginationService).should().getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages());
     }
 
-    @DisplayName("[VIEW][GET] 특정 광고주의 특정 캠페인 정보 조회 - 정상 호출")
-    @Test
-    public void givenClientAndCampaignInfo_whenRequestingManageDetailView_thenReturnsManageDetailView() throws Exception {
-        // Given : 추후 구현
-
-        // When & Then
-        mvc.perform(get("/manage/clientId/campaigns/campaignId"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("manage/campaign"))
-                .andExpect(model().attributeExists("clientId"))
-                .andExpect(model().attributeExists("campaignId"))
-                .andExpect(model().attributeExists("creatives"));
-    }
-
     @DisplayName("[VIEW][GET] 특정 광고주의 특정 캠페인의 단일 소재 조회 - 정상 호출")
     @Test
     public void givenClientAndCampaignAndCreativeInfo_whenRequestingManageDetailView_thenReturnsManageDetailView() throws Exception {
