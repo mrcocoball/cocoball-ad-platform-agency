@@ -210,37 +210,7 @@ class AgentGroupServiceTest {
     void givenAgentGroupId_whenDeletingAgentGroup_thenDeleteAgentGroup() {
 		// Given
         String agentGroupId = "t-group";
-        willDoNothing().given(agentGroupRepository).deleteAgentGroupById(agentGroupId);
-
-        // When
-        sut.deleteAgentGroup(agentGroupId);
-
-        // Then
-        then(agentGroupRepository).should().deleteAgentGroupById(agentGroupId);
-    }
-
-    @Disabled("")
-	@DisplayName("DELETE - 존재하지 않는 에이전트 그룹의 ID로 삭제 요청 시 경고 로그 출력")
-    @Test
-    void givenNotExistAgentGroupId_whenDeletingAgentGroup_thenLogsWarningAndDoesNothing() {
-		// Given
-        String agentGroupId = "t-group";
-        // given(agentGroupRepository).deleteAgentGroupById(agentGroupId).willThrow(EntityNotFoundException.class);
-
-        // When
-        sut.deleteAgentGroup(agentGroupId);
-
-        // Then
-        then(agentGroupRepository).should().deleteAgentGroupById(agentGroupId);
-    }
-
-    @Disabled("")
-	@DisplayName("DELETE - 에이전트가 남아 있는 에이전트 그룹 ID로 삭제 요청 시 경고 로그 출력")
-    @Test
-    void givenHavingAgentsAgentGroupId_whenDeletingAgentGroup_thenLogsWarningAndDoesNothing() {
-		// Given
-        String agentGroupId = "t-group";
-        // given(agentGroupRepository).deleteAgentGroupById(agentGroupId).willThrow(IllegalArgumentException.class);
+        willDoNothing().given(agentGroupRepository).deleteById(agentGroupId);
 
         // When
         sut.deleteAgentGroup(agentGroupId);

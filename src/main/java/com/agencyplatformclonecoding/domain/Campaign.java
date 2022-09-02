@@ -29,7 +29,7 @@ public class Campaign extends AuditingFields {
     @Setter @ManyToOne(optional = false) @JoinColumn(name = "CLIENT_ID") private ClientUser clientUser; // 에이전시 정보 (ID)
 
     @Setter @Column(length = 50, nullable = false) private String name;
-    @Setter @Column private long budget;
+    @Setter @Column private Long budget;
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
@@ -38,13 +38,13 @@ public class Campaign extends AuditingFields {
 
     protected Campaign() {}
 
-    private Campaign(ClientUser clientUser, String name, long budget) {
+    private Campaign(ClientUser clientUser, String name, Long budget) {
         this.clientUser = clientUser;
         this.name = name;
         this.budget = budget;
     }
 
-    public static Campaign of(ClientUser clientUser, String name, long budget) {
+    public static Campaign of(ClientUser clientUser, String name, Long budget) {
         return new Campaign(clientUser, name, budget);
     }
 

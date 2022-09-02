@@ -39,7 +39,7 @@
           <attr sel="td.name" th:text="${agentGroup.name}" />
           <attr sel="#agents-list" th:href="@{'/agentGroups/' + ${agentGroup.id}}" />
           <attr sel="#update-agentgroup" th:href="'/agentGroups/' + ${agentGroup.id} + '/form'" />
-          <attr sel="#delete-agentgroup" th:action="'/agentGroups/' + ${agentGroup.id} + '/delete'" th:method="post" />
+          <attr sel="#delete-agentgroup-form" th:action="'/agentGroups/' + ${agentGroup.id} + '/delete'" th:method="post">
         </attr>
       </attr>
     </attr>

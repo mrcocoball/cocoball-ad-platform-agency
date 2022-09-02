@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="#header" th:replace="header :: header" />
+  <attr sel="#footer" th:replace="footer :: footer" />
+
+    <attr sel="#create-campaign" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/form'}" />
+
+      <attr sel="tbody" th:remove="all-but-first">
+        <attr sel="tr[0]" th:each="campaign : ${campaigns}">
+          <attr sel="td.id" th:text="${campaign.id}" />
+          <attr sel="td.name" th:text="${campaign.name}" />
+          <attr sel="td.budget" th:text="${campaign.budget}" />
+          <attr sel="#manage-campaign" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/form'" />
+          <attr sel="#delete-campaign-form" th:action="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/delete'" th:method="post" />
+        </attr>
+      </attr>
+    </attr>
+  </attr>
+</thlogic>

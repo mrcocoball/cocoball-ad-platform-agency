@@ -66,6 +66,8 @@ public class AgentService {
             }
         } catch (EntityNotFoundException e) {
             log.warn("에이전트를 삭제하지 못하였습니다. 에이전트가 존재하지 않습니다.", e.getLocalizedMessage());
+        } catch (IllegalArgumentException e) {
+      			log.warn("매핑된 광고주가 남아 있어 에이전트을 삭제할 수 없습니다. - agentGroupId : {}", e.getLocalizedMessage());
         }
     }
 

@@ -11,7 +11,8 @@ insert into agent_group (agent_group_id, created_at, created_by, modified_at, mo
                                                                                                                 ('mkt2', now(), '김흐압', now(), '김흐압', '마케팅 2팀', 'TestAgency'),
                                                                                                                 ('mkt3', now(), '김뿅뿅', now(), '김뿅뿅', '마케팅 3팀', 'TestAgency'),
                                                                                                                 ('mkt5', now(), '김뿅뿅', now(), '김뿅뿅', '마케팅 5팀', 'TestAgency'),
-                                                                                                                ('mkthq', now(), '김뿅뿅', now(), '김뿅뿅', '마케팅 본부', 'TestAgency');
+                                                                                                                ('mkthq', now(), '김뿅뿅', now(), '김뿅뿅', '마케팅 본부', 'TestAgency'),
+                                                                                                                ('nullgroup', now(), '김뿅뿅', now(), '김뿅뿅', '빈 그룹', 'TestAgency');
 -- 에이전트 관련 (20명)
 insert into agent (agent_id, agent_group_id, agency_id, created_at, created_by, modified_at, modified_by, email, nickname, user_password) values
 ('agent1', 'mkt3', 'TestAgency', '2022-08-04 12:39:20', 'Ransell', '2021-12-23 23:38:15', 'Ransell', 'raps0@networkadvertising.org', 'Ransell', 'PrRdDZvEA'),
@@ -34,7 +35,7 @@ insert into agent (agent_id, agent_group_id, agency_id, created_at, created_by, 
 ('agent18', 'mkt5', 'TestAgency', '2022-03-14 04:58:46', 'Sydney', '2022-04-09 22:58:38', 'Sydney', 'ssmithendh@skype.com', 'Sydney', 'Uw6uv2vh'),
 ('agent19', 'mkthq', 'TestAgency', '2021-11-02 20:34:27', 'Donica', '2022-06-18 09:16:21', 'Donica', 'dlaughreyi@constantcontact.com', 'Donica', 'iW0mlxHrJ4bo'),
 ('agent20', 'mkthq', 'TestAgency', '2022-04-27 22:31:37', 'Heida', '2022-04-28 00:50:10', 'Heida', 'hgaleyj@meetup.com', 'Heida', 'BfMqWo0kH'),
-('testagent', 'mkthq', 'TestAgency', '2022-04-27 22:31:37', '김쾅쾅', '2022-04-28 00:50:10', '김쾅쾅', 'hgaleyj@meetup.com', 'Heida', 'BfMqWo0kH');
+('nullagent', 'mkthq', 'TestAgency', '2022-04-27 22:31:37', '김쾅쾅', '2022-04-28 00:50:10', '김쾅쾅', 'hgaleyj@meetup.com', '빈 에이전트', 'BfMqWo0kH');
 
 
 -- 광고주 관련 (100명)

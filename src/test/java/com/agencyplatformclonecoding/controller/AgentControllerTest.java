@@ -120,8 +120,8 @@ class AgentControllerTest {
         // When & Then
         mvc.perform(get("/agents/agentId/clientId"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("forward:/manage/{clientId}"))
-                .andExpect(forwardedUrl("/manage/{clientId}"))
+                .andExpect(view().name("forward:/manage/{clientId}/campaigns"))
+                .andExpect(forwardedUrl("/manage/{clientId}/campaigns"))
                 .andDo(MockMvcResultHandlers.print());
     }
 

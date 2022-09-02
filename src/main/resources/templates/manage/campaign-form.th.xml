@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="#header" th:replace="header :: header" />
+  <attr sel="#footer" th:replace="footer :: footer" />
+
+  <attr sel="#campaign-form-header/h1" th:text="${formStatus} ? '캠페인 ' + ${formStatus.description} : _" />
+
+  <attr sel="#campaign-form" th:action="${formStatus?.update} ? '/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/form' : '/manage/' + ${clientUser.userId} + '/campaigns/form'" th:method="post">
+    <attr sel="#name" th:value="${campaign?.name} ?: _" />
+    <attr sel="#budget" th:text="${campaign?.budget} ?: _" />
+    <attr sel="#submit-button" th:text="${formStatus?.description} ?: _" />
+    <attr sel="#cancel-button" th:onclick="'history.back()'" />
+  </attr>
+</thlogic>

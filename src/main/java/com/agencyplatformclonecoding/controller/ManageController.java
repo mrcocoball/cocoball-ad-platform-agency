@@ -28,7 +28,7 @@ public class ManageController {
     private final CreativeService creativeService;
     private final PaginationService paginationService;
 
-    @GetMapping
+    @GetMapping()
     public String manage(
 				@RequestParam(required = false) SearchType searchType,
 				@RequestParam(required = false) String searchValue,
@@ -54,15 +54,6 @@ public class ManageController {
         map.addAttribute("totalCount", manageService.getClientUserCount());
 
         return "manage/client";
-    }
-
-    @GetMapping("/{clientId}/campaigns/{campaignId}")
-    public String manageCampaign(@PathVariable String clientId, Long campaignId, ModelMap map) {
-        map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
-        map.addAttribute("campaignId", "campaignId");
-        map.addAttribute("creatives", List.of());
-
-        return "manage/campaign";
     }
 
     @GetMapping("/{clientId}/campaigns/{campaignId}/creatives/{creativeId}")

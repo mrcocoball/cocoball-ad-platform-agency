@@ -30,20 +30,20 @@ public class Creative extends AuditingFields {
     @JoinColumn(name = "CAMPAIGN_ID") private Campaign campaign; // 에이전시 정보 (ID)
 
     @Setter @Column private String keyword;
-    @Setter @Column private long bidingPrice;
-    @Setter @Column private long view;
-    @Setter @Column private long click;
-    @Setter @Column private long conversion;
+    @Setter @Column private Long bidingPrice;
+    @Setter @Column private Long view;
+    @Setter @Column private Long click;
+    @Setter @Column private Long conversion;
 
     protected Creative() {}
 
-    private Creative(Campaign campaign, String keyword, long bidingPrice) {
+    private Creative(Campaign campaign, String keyword, Long bidingPrice) {
         this.campaign = campaign;
         this.keyword = keyword;
         this.bidingPrice = bidingPrice;
     }
 
-    public static Creative of(Campaign campaign, String keyword, long bidingPrice) {
+    public static Creative of(Campaign campaign, String keyword, Long bidingPrice) {
         return new Creative(campaign, keyword, bidingPrice);
     }
 

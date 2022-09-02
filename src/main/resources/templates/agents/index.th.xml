@@ -37,7 +37,7 @@
           <attr sel="td.agent-group" th:text="${agent.agentGroupName}" />
           <attr sel="td.created-at/time" th:datetime="${agent.createdAt}" th:text="${#temporals.format(agent.createdAt, 'yyyy-MM-dd')}" />
           <attr sel="#agent-info" th:href="@{'/agents/' + ${agent.userId}}" />
-          <attr sel="#agent-delete" th:action="'/agents/' + ${agent.userId} + '/delete'" th:method="post" />
+          <attr sel="#delete-agent-form" th:action="'/agents/' + ${agent.userId} + '/delete'" th:method="post" />
         </attr>
       </attr>
     </attr>
