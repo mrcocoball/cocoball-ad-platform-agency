@@ -53,7 +53,7 @@ public class AgentController {
     }
     @GetMapping("/{agentId}/{clientId}")
     public String mappingClient(@PathVariable String agentId, String clientId) {
-         return "forward:/manage/{clientId}";
+         return "forward:/manage/{clientId}/campaigns";
      }
 
     @PostMapping ("/{agentId}/delete")

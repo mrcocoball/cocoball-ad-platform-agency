@@ -16,7 +16,7 @@
         <attr sel="tr[0]" th:each="client : ${clients}">
           <attr sel="td.client-id" th:text="${client.userId}" />
           <attr sel="td.nickname" th:text="${client.nickname}" />
-          <attr sel="#client-manage" th:href="@{'/manage/' + ${client.userId}}" />
+          <attr sel="#client-manage" th:href="@{'/manage/' + ${client.userId} + '/campaigns'}" />
         </attr>
       </attr>
     </attr>
