@@ -53,7 +53,7 @@ class JpaRepositoryTest {
         List<Creative> creatives = creativeRepository.findAll();
 
         // Then
-        assertThat(agentGroups).isNotNull().hasSize(5);
+        assertThat(agentGroups).isNotNull().hasSize(6);
         assertThat(agents).isNotNull().hasSize(21);
         assertThat(clientUsers).isNotNull().hasSize(100);
         assertThat(campaigns).isNotNull().hasSize(200);
@@ -114,7 +114,7 @@ class JpaRepositoryTest {
         Agent agent = agentRepository.findById("agent1").orElseThrow();
         ClientUser clientUser = ClientUser.of(agency, agent, "testclient", "pw", "email@mail.com", "김봉식");
         clientUserRepository.save(clientUser);
-        Campaign campaign = Campaign.of(clientUser, "testxxx", 22222);
+        Campaign campaign = Campaign.of(clientUser, "testxxx", 22222L);
 
         // When
         campaignRepository.save(campaign);
@@ -132,9 +132,9 @@ class JpaRepositoryTest {
         Agent agent = agentRepository.findById("agent1").orElseThrow();
         ClientUser clientUser = ClientUser.of(agency, agent, "testclient", "pw", "email@mail.com", "김봉식");
         clientUserRepository.save(clientUser);
-        Campaign campaign = Campaign.of(clientUser, "testxxx", 22222);
+        Campaign campaign = Campaign.of(clientUser, "testxxx", 22222L);
         campaignRepository.save(campaign);
-        Creative creative = Creative.of(campaign, "초특가할인", 10000);
+        Creative creative = Creative.of(campaign, "초특가할인", 10000L);
 
         // When
         creativeRepository.save(creative);

@@ -161,46 +161,6 @@ class AgentServiceTest {
         then(agentRepository).should().deleteByUserId(agentId);
     }
 
-    @Disabled("에이전트-광고주 매핑 관계를 테스트에 넣는 방법 확인 필요")
-    @DisplayName("DELETE - 에이전트 ID 입력 시 에이전트를 삭제 - 예외 처리 (매핑된 광고주가 있을 경우)")
-    @Test
-    void givenMappingClientsAgentId_whenDeletingAgent_thenThrowsException() {
-        // Given
-        Agent agent = createAgent();
-        String agentId = agent.getUserId();
-        List<ClientUser> clientUsers = clientUsers();
-        given(clientUserRepository.findByAgent_UserId(agentId)).willReturn(clientUsers);
-        willDoNothing().given(agentRepository).deleteByUserId(agentId);
-
-        // When
-        Throwable t = catchThrowable(() -> sut.deleteAgent(agentId));
-
-        // Then
-        assertThat(t)
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("매핑된 광고주가 있어 삭제가 불가능합니다 - agentId : " + agentId);
-        then(agentRepository).should().deleteByUserId(agentId);
-    }
-
-    @Disabled("에이전트-광고주 매핑 관계를 테스트에 넣는 방법 확인 필요")
-    @DisplayName("DELETE - 에이전트 ID 입력 시 에이전트를 삭제 - 예외 처리 (존재하지 않는 에이전트 ID)")
-    @Test
-    void givenWrongClientsAgentId_whenDeletingAgent_thenThrowsException() {
-        // Given
-        String agentId = "none-agent";
-        given(agentRepository.findById(agentId)).willReturn(Optional.empty());
-        willDoNothing().given(agentRepository).deleteByUserId(agentId);
-
-        // When
-        Throwable t= catchThrowable(() -> sut.deleteAgent(agentId));
-
-        // Then
-        assertThat(t)
-                .isInstanceOf(EntityNotFoundException.class)
-                .hasMessage("에이전트가 존재하지 않습니다 - agentId : " + agentId);
-        then(agentRepository).should().deleteByUserId(agentId);
-    }
-
     @DisplayName("READ - 에이전트 수를 조회하면, 에이전트트 수를반환한다")
     @Test
     void givenNothing_whenCountingAgents_thenReturnsAgentsCount() {

@@ -90,7 +90,7 @@ public class AgentGroupService {
 			List<Agent> agents = agentRepository.findByAgentGroup_Id(agentGroupId);
 
 			if (agents.size() == 0) {
-				agentGroupRepository.deleteAgentGroupById(agentGroupId);
+				agentGroupRepository.deleteById(agentGroupId);
 			} else {
 				throw new IllegalArgumentException();
 			}
