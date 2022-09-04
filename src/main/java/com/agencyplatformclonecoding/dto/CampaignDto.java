@@ -19,6 +19,11 @@ public record CampaignDto(
     public static CampaignDto of(ClientUserDto clientUserDto, String name, Long budget) {
         return new CampaignDto(clientUserDto, null, name, budget, null, null, null, null);
     }
+
+    public static CampaignDto of(Long id) {
+        return new CampaignDto(null, id, null, null, null, null, null, null);
+    }
+
     public static CampaignDto of(ClientUserDto clientUserDto, Long id, String name, Long budget, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         return new CampaignDto(clientUserDto, id, name, budget, createdAt, createdBy, modifiedAt, modifiedBy);
     }
