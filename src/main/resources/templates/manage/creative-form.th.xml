@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="#header" th:replace="header :: header" />
+  <attr sel="#footer" th:replace="footer :: footer" />
+
+  <attr sel="#creative-form-header/h1" th:text="${formStatus} ? '소재 ' + ${formStatus.description} : _" />
+
+  <attr sel="#creative-form" th:action="${formStatus?.update} ? '/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/form' : '/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/form'" th:method="post">
+    <attr sel="#keyword" th:value="${creative?.keyword} ?: _" />
+    <attr sel="#biding-price" th:text="${creative?.bidingPrice} ?: _" />
+    <attr sel="#submit-button" th:text="${formStatus?.description} ?: _" />
+    <attr sel="#cancel-button" th:onclick="'history.back()'" />
+  </attr>
+</thlogic>

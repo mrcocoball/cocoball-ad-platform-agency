@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="#header" th:replace="header :: header" />
+  <attr sel="#footer" th:replace="footer :: footer" />
+
+    <attr sel="#create-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/form'" />
+
+      <attr sel="tbody" th:remove="all-but-first">
+        <attr sel="tr[0]" th:each="creative : ${creatives}">
+          <attr sel="td.id" th:text="${creative.id}" />
+          <attr sel="td.keyword" th:text="${creative.keyword}" />
+          <attr sel="td.biding-price" th:text="${creative.bidingPrice}" />
+          <attr sel="td.view" th:text="${creative.view}" />
+          <attr sel="td.click" th:text="${creative.click}" />
+          <attr sel="td.conversion" th:text="${creative.conversion}" />
+          <attr sel="#manage-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/form'" />
+          <attr sel="#delete-creative-form" th:action="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/delete'" th:method="post" />
+        </attr>
+      </attr>
+    </attr>
+  </attr>
+</thlogic>
