@@ -37,19 +37,4 @@ class CreativeControllerTest {
     ) {
         this.mvc = mvc;
     }
-
-    @DisplayName("[VIEW][GET] 소재 리스트 - 정상 호출")
-    @Test
-    public void givenNothing_whenRequestingCreativesView_thenReturnsCreativesView() throws Exception {
-        // Given
-
-        // When & Then
-        Long campaignId = 1L;
-        mvc.perform(get("/manage/clientId/campaigns/"+ campaignId +"/creatives"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("manage/creative"))
-                .andExpect(model().attributeExists("creatives"));
-    }
-
 }

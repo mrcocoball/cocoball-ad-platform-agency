@@ -53,16 +53,7 @@ public class ManageController {
         map.addAttribute("campaigns", clientUserWithCampaigns.campaignResponses());
         map.addAttribute("totalCount", manageService.getClientUserCount());
 
-        return "manage/client";
-    }
-
-    @GetMapping("/{clientId}/campaigns/{campaignId}/creatives/{creativeId}")
-    public String manageCreative(@PathVariable String clientId, Long campaignId, Long creativeId, ModelMap map) {
-        map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
-        map.addAttribute("campaignId", "campaignId");
-        map.addAttribute("creativeId", "creativeId");
-
-        return "manage/creative";
+        return "manage/campaign";
     }
 
 }

@@ -2,6 +2,7 @@ package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
 import com.agencyplatformclonecoding.dto.AgencyDto;
+import com.agencyplatformclonecoding.dto.CampaignWithCreativesDto;
 import com.agencyplatformclonecoding.dto.ClientUserDto;
 import com.agencyplatformclonecoding.dto.ClientUserWithCampaignsDto;
 import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
@@ -80,7 +81,7 @@ public class CampaignController {
    	}
 
    	@PostMapping ("/{campaignId}/delete")
-   	public String deleteCampaignId(
+   	public String deleteCampaign(
 			   @PathVariable("clientId") String clientId,
 			   @PathVariable Long campaignId
 	) {
@@ -89,16 +90,21 @@ public class CampaignController {
    		return "redirect:/manage/{clientId}/campaigns";
    	}
 
-    @GetMapping("/{campaignId}")
-    public String manageCampaign(
+    @GetMapping("/{campaignId}/creatives")
+    public String creatives(
             @PathVariable("clientId") String clientId,
             @PathVariable Long campaignId,
-            ModelMap map) {
-        map.addAttribute("clientId", "clientId"); // TODO : 실제 데이터 구현 시 여기에 넣어야 함
-        map.addAttribute("campaignId", "campaignId");
-        map.addAttribute("creatives", List.of());
+            ModelMap map
+	) {
+		CampaignWithCreativesResponse campaignWithCreatives = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
+		ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
-        return "manage/campaign";
+		map.addAttribute("clientUser", clientUserWithCampaignsResponse);
+		map.addAttribute("campaign", campaignWithCreatives);
+		map.addAttribute("creatives", campaignWithCreatives.creativeResponses());
+		map.addAttribute("totalCount", campaignService.getCampaignCount());
+
+		return "manage/creative";
     }
 
 }

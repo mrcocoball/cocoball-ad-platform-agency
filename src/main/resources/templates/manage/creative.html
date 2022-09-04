@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="mrcocoball">
-  <title>소재 세부 관리</title>
+  <title>소재 관리</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   <link href="/css/search-bar.css" rel="stylesheet">
@@ -27,25 +27,25 @@
       </a>
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-          <a href="#" class="nav-link text-white">
+          <a href="/agents" class="nav-link text-white">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
             에이전트 관리
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
+          <a href="/agentGroups" class="nav-link text-white">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
             에이전트 그룹 관리
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-white">
+          <a href="/clients" class="nav-link text-white">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
             광고주 관리
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link active" aria-current="page">
+          <a href="/manage" class="nav-link active" aria-current="page">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
             광고 관리
           </a>
@@ -59,121 +59,68 @@
     </div>
 
    <div class="container">
-   <h1> 광고 관리 페이지 </h1>
-    <div class="row">
-      <div class="card card-margin search-form">
-        <div class="card-body p-0">
-          <form action="/agents" method="get">
-            <div class="row">
-              <div class="col-12">
-                <div class="row no-gutters">
-                  <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <label for="search-type" hidden>검색 유형</label>
-                    <select class="form-control" id="search-type" name="searchType">
-                      <option>광고주 ID</option>
-                      <option>광고주명</option>
-                    </select>
-                  </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 p-0">
-                    <label for="search-value" hidden>검색어</label>
-                    <input type="text" placeholder="검색어..." class="form-control" id="search-value" name="searchValue">
-                  </div>
-                  <div class="col-lg-1 col-md-3 col-sm-12 p-0">
-                    <button type="submit" class="btn btn-base">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+   <h1> 소재 관리 페이지 </h1>
+
+     <div class="row">
+       <div class="d-grid gap-2 d-md-flex justify-content-md">
+         <a class="btn btn-primary me-md-2" role="button" id="create-creative">소재 생성</a>
+       </div>
+     </div>
 
     <div class="row">
-      <table class="table" id="client-table">
+      <table class="table" id="creative-table">
         <thead>
         <tr>
-          <th class="user-id col-2"><a>광고주 ID</a></th>
-          <th class="nickname col-2"><a>광고주명</a></th>
-          <th class="agent col-2"><a>담당 에이전트</a></th>
-          <th class="manage col-2" colspan="2"><a></a></th>
+          <th class="id"><a>소재 번호</a></th>
+          <th class="keyword"><a>소재 키워드</a></th>
+          <th class="biding-price"><a>입찰가(원)</a></th>
+          <th class="view"><a>노출수</a></th>
+          <th class="click"><a>클릭수</a></th>
+          <th class="conversion"><a>전환수</a></th>
+          <th class="manage" colspan="2"><a></a></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="user-id"><a>client1</a></td>
-          <td class="nickname">코코볼자동차</td>
-          <td class="agent">김코코볼</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
+          <td class="id">1</td>
+          <td class="keyword">코코볼추천</td>
+          <td class="biding-price">30000</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="button"><a class="btn btn-primary" role="button" id="manage-creative">소재 관리</a></td>
+          <td>
+            <form id="delete-creative-form">
+              <button class="btn btn-danger me-md-2" role="button" id="delete-creative">소재 삭제</button>
+            </form>
+          </td>
         </tr>
         <tr>
-          <td class="user-id"><a>client2</a></td>
-          <td class="nickname">코코볼전자</td>
-          <td class="agent">김코코볼</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
-        </tr>
+          <td class="id">2</td>
+          <td class="keyword">코코볼구매</td>
+          <td class="biding-price">30000</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="button"><a class="btn btn-primary" role="button" id="manage-creative">소재 관리</a></td>
+          <td>
+            <form id="delete-creative-form">
+              <button class="btn btn-danger me-md-2" role="button" id="delete-creative">소재 삭제</button>
+            </form>
+          </td>
         <tr>
-          <td class="user-id"><a>client3</a></td>
-          <td class="nickname">코코볼물산</td>
-          <td class="agent">김지오</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client4</a></td>
-          <td class="nickname">코코볼식품</td>
-          <td class="agent">김지오</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client5</a></td>
-          <td class="nickname">코코볼생명보험</td>
-          <td class="agent">김지오</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client6</a></td>
-          <td class="nickname">코코볼뱅크</td>
-          <td class="agent">김호빵</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client7</a></td>
-          <td class="nickname">코코볼의집</td>
-          <td class="agent">김호빵</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client8</a></td>
-          <td class="nickname">코코볼리</td>
-          <td class="agent">김호떡</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client9</a></td>
-          <td class="nickname">코코볼마켓</td>
-          <td class="agent">김호떡</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client10</a></td>
-          <td class="nickname">코코볼의민족</td>
-          <td class="agent">김모찌</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-          <td class="button"><a class="btn btn-info" role="button" id="client-mapping">담당자 변경</a></td>
+          <td class="id">3</td>
+          <td class="keyword">코코볼관리</td>
+          <td class="biding-price">30000</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="button"><a class="btn btn-primary" role="button" id="manage-creative">소재 관리</a></td>
+          <td>
+            <form id="delete-creative-form">
+              <button class="btn btn-danger me-md-2" role="button" id="delete-creative">소재 삭제</button>
+            </form>
+          </td>
         </tr>
       </tbody>
     </table>
