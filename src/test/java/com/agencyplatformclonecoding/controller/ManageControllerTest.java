@@ -112,7 +112,7 @@ class ManageControllerTest {
         mvc.perform(get("/manage/" + clientId + "/campaigns"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("manage/client"))
+                .andExpect(view().name("manage/campaign"))
                 .andExpect(model().attributeExists("clientUser"))
                 .andExpect(model().attributeExists("campaigns"))
 				.andExpect(model().attribute("totalCount", totalCount));
@@ -145,21 +145,6 @@ class ManageControllerTest {
                    .andExpect(model().attribute("paginationBarNumbers", barNumbers));
         then(manageService).should().searchClientUsers(null, null, pageable);
         then(paginationService).should().getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages());
-    }
-
-    @DisplayName("[VIEW][GET] 특정 광고주의 특정 캠페인의 단일 소재 조회 - 정상 호출")
-    @Test
-    public void givenClientAndCampaignAndCreativeInfo_whenRequestingManageDetailView_thenReturnsManageDetailView() throws Exception {
-        // Given : 추후 구현
-
-        // When & Then
-        mvc.perform(get("/manage/clientId/campaigns/campaignId/creatives/creativeId"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("manage/creative"))
-                .andExpect(model().attributeExists("clientId"))
-                .andExpect(model().attributeExists("campaignId"))
-                .andExpect(model().attributeExists("creativeId"));
     }
 
     // fixture
