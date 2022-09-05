@@ -170,6 +170,7 @@ class ManageServiceTest {
     private Agency createAgency() {
         Agency agency = Agency.of(
                 "t-agency",
+                "pw",
                 "테스트용"
         );
 
@@ -221,6 +222,7 @@ class ManageServiceTest {
     private AgencyDto createAgencyDto() {
         return AgencyDto.of(
                 "t-agency",
+                "pw",
                 "테스트용"
         );
     }

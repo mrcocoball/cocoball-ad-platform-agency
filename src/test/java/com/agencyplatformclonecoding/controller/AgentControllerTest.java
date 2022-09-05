@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.config.SecurityConfig;
+import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.*;
 import com.agencyplatformclonecoding.service.AgentService;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
@@ -31,7 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("VIEW 컨트롤러 - 에이전트 관리")
-@Import(SecurityConfig.class)
+@Import(TestSecurityConfig.class)
 @WebMvcTest(AgentController.class)
 class AgentControllerTest {
 
@@ -49,12 +51,13 @@ class AgentControllerTest {
         this.mvc = mvc;
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 리스트 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingAgentsView_thenReturnsAgentsView() throws Exception {
         // Given
-		given(agentService.searchAgents(eq(null), eq(null), any(Pageable.class))).willReturn(Page.empty());
-        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0,1,2,3,4));
+        given(agentService.searchAgents(eq(null), eq(null), any(Pageable.class))).willReturn(Page.empty());
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0, 1, 2, 3, 4));
 
         // When & Then
         mvc.perform(get("/agents"))
@@ -62,43 +65,45 @@ class AgentControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("agents/index"))
                 .andExpect(model().attributeExists("agents"))
-				.andExpect(model().attributeExists("paginationBarNumbers"));
-		then(agentService).should().searchAgents(eq(null), eq(null), any(Pageable.class));
-		then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
+                .andExpect(model().attributeExists("paginationBarNumbers"));
+        then(agentService).should().searchAgents(eq(null), eq(null), any(Pageable.class));
+        then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 리스트 - 검색어와 함께 호출")
     @Test
     public void givenSearchKeyword_whenSearchingAgentsView_thenReturnsAgentsView() throws Exception {
         // Given
-		SearchType searchType = SearchType.NICKNAME;
-		String searchValue = "name";
-		given(agentService.searchAgents(eq(searchType), eq(searchValue), any(Pageable.class))).willReturn(Page.empty());
-        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0,1,2,3,4));
+        SearchType searchType = SearchType.NICKNAME;
+        String searchValue = "name";
+        given(agentService.searchAgents(eq(searchType), eq(searchValue), any(Pageable.class))).willReturn(Page.empty());
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0, 1, 2, 3, 4));
 
         // When & Then
         mvc.perform(
-				get("/agents")
-						.queryParam("searchType", searchType.name())
-						.queryParam("searchValue", searchValue)
-				)
+                        get("/agents")
+                                .queryParam("searchType", searchType.name())
+                                .queryParam("searchValue", searchValue)
+                )
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("agents/index"))
                 .andExpect(model().attributeExists("agents"))
-				.andExpect(model().attributeExists("searchTypes"));
-		then(agentService).should().searchAgents(eq(searchType), eq(searchValue), any(Pageable.class));
-		then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
+                .andExpect(model().attributeExists("searchTypes"));
+        then(agentService).should().searchAgents(eq(searchType), eq(searchValue), any(Pageable.class));
+        then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 상세 정보 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingAgentDetailView_thenReturnsAgentDetailView() throws Exception {
         // Given
-		String agentId = "agent";
-		Long totalCount = 1L;
-		given(agentService.getAgentWithClients(agentId)).willReturn(createAgentWithClientsDto());
-		given(agentService.getAgentCount()).willReturn(totalCount);
+        String agentId = "agent";
+        Long totalCount = 1L;
+        given(agentService.getAgentWithClients(agentId)).willReturn(createAgentWithClientsDto());
+        given(agentService.getAgentCount()).willReturn(totalCount);
 
         // When & Then
         mvc.perform(get("/agents/" + agentId))
@@ -107,11 +112,12 @@ class AgentControllerTest {
                 .andExpect(view().name("agents/detail"))
                 .andExpect(model().attributeExists("agent"))
                 .andExpect(model().attributeExists("clients"))
-				.andExpect(model().attribute("totalCount", totalCount));
-		then(agentService).should().getAgentWithClients(agentId);
-		then(agentService).should().getAgentCount();
+                .andExpect(model().attribute("totalCount", totalCount));
+        then(agentService).should().getAgentWithClients(agentId);
+        then(agentService).should().getAgentCount();
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 상세 정보 -> 담당 광고주의 캠페인 관리 페이지로 리다이렉션")
     @Test
     void givenNothing_whenRequestingRootPage_thenRedirectsToClientsView() throws Exception {
@@ -125,8 +131,8 @@ class AgentControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
-    //0824 추가
-   	@DisplayName("[VIEW][GET] 에이전트 페이지 - 페이징, 정렬 기능")
+    @WithMockUser
+    @DisplayName("[VIEW][GET] 에이전트 페이지 - 페이징, 정렬 기능")
     @Test
     void givenPagingAndSortingParams_whenSearchingAgentsPage_thenReturnsAgentsView() throws Exception {
         // Given
@@ -141,21 +147,21 @@ class AgentControllerTest {
 
         // When & Then
         mvc.perform(
-                get("/agents")
-                        .queryParam("page", String.valueOf(pageNumber))
-                        .queryParam("size", String.valueOf(pageSize))
-                        .queryParam("sort", sortName + "," + direction)
-                   )
-                   .andExpect(status().isOk())
-                   .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                   .andExpect(view().name("agents/index"))
-                   .andExpect(model().attributeExists("agents"))
-                   .andExpect(model().attribute("paginationBarNumbers", barNumbers));
+                        get("/agents")
+                                .queryParam("page", String.valueOf(pageNumber))
+                                .queryParam("size", String.valueOf(pageSize))
+                                .queryParam("sort", sortName + "," + direction)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("agents/index"))
+                .andExpect(model().attributeExists("agents"))
+                .andExpect(model().attribute("paginationBarNumbers", barNumbers));
         then(agentService).should().searchAgents(null, null, pageable);
         then(paginationService).should().getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages());
     }
 
-   	//0824 추가
+    //0824 추가
    	/* @DisplayName("[VIEW][POST] 에이전트 삭제 - 정상 호출")
    	@Test
    	void givenAgentIdToDelete_whenRequesting_thenDeletesAgent() throws Exception {
@@ -180,6 +186,7 @@ class AgentControllerTest {
     private AgencyDto createAgencyDto() {
         return AgencyDto.of(
                 "t-agency",
+                "pw",
                 "테스트용"
         );
     }
@@ -195,6 +202,7 @@ class AgentControllerTest {
                 "테스트"
         );
     }
+
     private AgentDto createAgentDto() {
         return AgentDto.of(
                 createAgencyDto(),

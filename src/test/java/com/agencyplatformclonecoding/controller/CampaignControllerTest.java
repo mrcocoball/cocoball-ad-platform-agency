@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.config.SecurityConfig;
+import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
 import com.agencyplatformclonecoding.dto.*;
 import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
@@ -22,6 +23,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.TestExecutionEvent;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
@@ -41,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @DisplayName("VIEW 컨트롤러 - 캠페인 관리")
-@Import({SecurityConfig.class, FormDataEncoder.class})
+@Import({TestSecurityConfig.class, FormDataEncoder.class})
 @WebMvcTest(CampaignController.class)
 class CampaignControllerTest {
 
@@ -101,6 +104,7 @@ class CampaignControllerTest {
                 .andExpect(model().attribute("formStatus", FormStatus.CREATE));
     }
 
+    @WithUserDetails(value = "TestAgency", setupBefore = TestExecutionEvent.TEST_EXECUTION)
    	@DisplayName("[VIEW][POST] 새 캠페인 생성 - 정상 호출")
     @Test
     void givenNewCampaignInfo_whenRequesting_thenSavesNewCampaign() throws Exception {
@@ -144,6 +148,7 @@ class CampaignControllerTest {
         then(campaignService).should().getCampaign(campaignId);
     }
 
+    @WithUserDetails(value = "TestAgency", setupBefore = TestExecutionEvent.TEST_EXECUTION)
    	@DisplayName("[VIEW][POST] 캠페인 수정 - 정상 호출")
     @Test
     void givenUpdatedCampaignInfo_whenRequesting_thenUpdatesNewCampaign() throws Exception {
@@ -171,6 +176,7 @@ class CampaignControllerTest {
     private AgencyDto createAgencyDto() {
          return AgencyDto.of(
                     "t-agency",
+                    "pw",
                     "테스트용"
          );
     }

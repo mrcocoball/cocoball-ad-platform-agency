@@ -228,6 +228,7 @@ public class CampaignServiceTest {
 	private Agency createAgency() {
 		Agency agency = Agency.of(
             "t-agency",
+			"pw",
             "테스트용"
 		);
 
@@ -283,6 +284,7 @@ public class CampaignServiceTest {
 	private AgencyDto createAgencyDto() {
         return AgencyDto.of(
                 "t-agency",
+				"pw",
                 "테스트용"
         );
     }
