@@ -3,6 +3,7 @@ package com.agencyplatformclonecoding.controller;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.response.AgentResponse;
 import com.agencyplatformclonecoding.dto.response.AgentWithClientsResponse;
+import com.agencyplatformclonecoding.dto.security.PlatformPrincipal;
 import com.agencyplatformclonecoding.service.AgentService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -57,8 +59,10 @@ public class AgentController {
      }
 
     @PostMapping ("/{agentId}/delete")
-   	public String deleteAgent(@PathVariable String agentId) {
-   		agentService.deleteAgent(agentId);
+   	public String deleteAgent(
+            @PathVariable String agentId,
+            @AuthenticationPrincipal PlatformPrincipal platformPrincipal) {
+   		agentService.deleteAgent(agentId, platformPrincipal.getUsername());
 
    		return "redirect:/agents";
 

@@ -25,7 +25,7 @@ public interface AgentGroupRepository extends
     Page<AgentGroup> findByIdContaining(String id, Pageable pageable);
     Page<AgentGroup> findByNameContaining(String nickname, Pageable pageable);
 
-    void deleteById(String agentGroupId);
+    void deleteByIdAndAgency_AgencyId(String agentGroupId, String agencyId);
 
     @Override
     default void customize(QuerydslBindings bindings, QAgentGroup root) {
