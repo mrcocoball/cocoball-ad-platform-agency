@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.config.SecurityConfig;
+import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.AgencyDto;
@@ -25,6 +26,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.TestExecutionEvent;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
@@ -42,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @DisplayName("VIEW 컨트롤러 - 에이전트 그룹 관리")
-@Import({SecurityConfig.class, FormDataEncoder.class})
+@Import({TestSecurityConfig.class, FormDataEncoder.class})
 @WebMvcTest(AgentGroupController.class)
 class AgentGroupControllerTest {
 
@@ -63,55 +67,58 @@ class AgentGroupControllerTest {
         this.formDataEncoder = formDataEncoder;
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 그룹 리스트 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingAgentGroupsView_thenReturnsAgentGroupsView() throws Exception {
         // Given
-		given(agentGroupService.searchAgentGroups(eq(null), eq(null), any(Pageable.class))).willReturn(Page.empty());
-		given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0,1,2,3,4));
+        given(agentGroupService.searchAgentGroups(eq(null), eq(null), any(Pageable.class))).willReturn(Page.empty());
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0, 1, 2, 3, 4));
 
         // When & Then
         mvc.perform(get("/agentGroups"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("agentgroups/index"))
-				.andExpect(model().attributeExists("agentGroups"))
-				.andExpect(model().attributeExists("paginationBarNumbers"));
-		then(agentGroupService).should().searchAgentGroups(eq(null), eq(null), any(Pageable.class));
+                .andExpect(model().attributeExists("agentGroups"))
+                .andExpect(model().attributeExists("paginationBarNumbers"));
+        then(agentGroupService).should().searchAgentGroups(eq(null), eq(null), any(Pageable.class));
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 그룹 리스트 - 검색어와 함께 호출")
     @Test
     public void givenSearchKeyword_whenSearchingAgentGroupsView_thenReturnsAgentGroupsView() throws Exception {
         // Given
-   		SearchType searchType = SearchType.NICKNAME;
-   		String searchValue = "name";
-   		given(agentGroupService.searchAgentGroups(eq(searchType), eq(searchValue), any(Pageable.class))).willReturn(Page.empty());
-        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0,1,2,3,4));
+        SearchType searchType = SearchType.NICKNAME;
+        String searchValue = "name";
+        given(agentGroupService.searchAgentGroups(eq(searchType), eq(searchValue), any(Pageable.class))).willReturn(Page.empty());
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0, 1, 2, 3, 4));
 
         // When & Then
         mvc.perform(
-                get("/agentGroups")
-                        .queryParam("searchType", searchType.name())
-                        .queryParam("searchValue", searchValue)
-   				)
-                   .andExpect(status().isOk())
-                   .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                   .andExpect(view().name("agentgroups/index"))
-                   .andExpect(model().attributeExists("agentGroups"))
-   				.andExpect(model().attributeExists("searchTypes"));
-   		then(agentGroupService).should().searchAgentGroups(eq(searchType), eq(searchValue), any(Pageable.class));
-   		then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
-       }
+                        get("/agentGroups")
+                                .queryParam("searchType", searchType.name())
+                                .queryParam("searchValue", searchValue)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("agentgroups/index"))
+                .andExpect(model().attributeExists("agentGroups"))
+                .andExpect(model().attributeExists("searchTypes"));
+        then(agentGroupService).should().searchAgentGroups(eq(searchType), eq(searchValue), any(Pageable.class));
+        then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
+    }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 그룹 상세 정보 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingAgentGroupDetailView_thenReturnsAgentGroupDetailView() throws Exception {
         // Given
-		String agentGroupId = "t-group";
-		Long totalCount = 1L;
-		given(agentGroupService.getAgentGroupWithAgents(agentGroupId)).willReturn(createAgentGroupWithAgentsDto());
-		given(agentGroupService.getAgentGroupCount()).willReturn(totalCount);
+        String agentGroupId = "t-group";
+        Long totalCount = 1L;
+        given(agentGroupService.getAgentGroupWithAgents(agentGroupId)).willReturn(createAgentGroupWithAgentsDto());
+        given(agentGroupService.getAgentGroupCount()).willReturn(totalCount);
 
         // When & Then
         mvc.perform(get("/agentGroups/" + agentGroupId))
@@ -122,6 +129,7 @@ class AgentGroupControllerTest {
                 .andExpect(model().attributeExists("agents"));
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 그룹 상세 정보 -> 해당 에이전트 관리 페이지로 리다이렉션")
     @Test
     void givenNothing_whenRequestingAgentView_thenRedirectsToAgentView() throws Exception {
@@ -135,7 +143,7 @@ class AgentGroupControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
-    //0829 추가
+    @WithMockUser
     @DisplayName("[VIEW][GET] 에이전트 그룹 페이지 - 페이징, 정렬 기능")
     @Test
     void givenPagingAndSortingParams_whenSearchingAgentsPage_thenReturnsAgentsView() throws Exception {
@@ -151,10 +159,10 @@ class AgentGroupControllerTest {
 
         // When & Then
         mvc.perform(
-                get("/agentGroups")
-                        .queryParam("page", String.valueOf(pageNumber))
-                        .queryParam("size", String.valueOf(pageSize))
-                        .queryParam("sort", sortName + "," + direction)
+                        get("/agentGroups")
+                                .queryParam("page", String.valueOf(pageNumber))
+                                .queryParam("size", String.valueOf(pageSize))
+                                .queryParam("sort", sortName + "," + direction)
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
@@ -165,8 +173,8 @@ class AgentGroupControllerTest {
         then(paginationService).should().getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages());
     }
 
-   	// 이하 0829 추가
-   	@DisplayName("[VIEW][GET] 새 에이전트 그룹 생성 페이지")
+    @WithMockUser
+    @DisplayName("[VIEW][GET] 새 에이전트 그룹 생성 페이지")
     @Test
     void givenNothing_whenRequesting_thenReturnsNewAgentGroupPage() throws Exception {
         // Given
@@ -179,7 +187,8 @@ class AgentGroupControllerTest {
                 .andExpect(model().attribute("formStatus", FormStatus.CREATE));
     }
 
-   	@DisplayName("[VIEW][POST] 새 에이전트 그룹 생성 - 정상 호출")
+    @WithUserDetails(value = "TestAgency", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("[VIEW][POST] 새 에이전트 그룹 생성 - 정상 호출")
     @Test
     void givenNewAgentGroupInfo_whenRequesting_thenSavesNewAgentGroup() throws Exception {
         // Given
@@ -188,10 +197,10 @@ class AgentGroupControllerTest {
 
         // When & Then
         mvc.perform(
-                post("/agentGroups/form") // post : MockMvcRequestBuilders.post
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .content(formDataEncoder.encode(agentGroupRequest))
-                        .with(csrf()) // csrf : SecurityMockMvcRequestPostProcessors.csrf
+                        post("/agentGroups/form") // post : MockMvcRequestBuilders.post
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(formDataEncoder.encode(agentGroupRequest))
+                                .with(csrf()) // csrf : SecurityMockMvcRequestPostProcessors.csrf
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/agentGroups"))
@@ -199,7 +208,8 @@ class AgentGroupControllerTest {
         then(agentGroupService).should().saveAgentGroup(any(AgentGroupDto.class));
     }
 
-   	@DisplayName("[VIEW][GET] 에이전트 그룹 수정 페이지")
+    @WithMockUser
+    @DisplayName("[VIEW][GET] 에이전트 그룹 수정 페이지")
     @Test
     void givenNothing_whenRequesting_thenReturnsUpdatedAgentGroupPage() throws Exception {
         // Given
@@ -217,7 +227,8 @@ class AgentGroupControllerTest {
         then(agentGroupService).should().getAgentGroup(agentGroupId);
     }
 
-   	@DisplayName("[VIEW][POST] 에이전트 그룹 수정 - 정상 호출")
+    @WithUserDetails(value = "TestAgency", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @DisplayName("[VIEW][POST] 에이전트 그룹 수정 - 정상 호출")
     @Test
     void givenUpdatedAgentGroupInfo_whenRequesting_thenUpdatesNewAgentGroup() throws Exception {
         // Given
@@ -227,50 +238,51 @@ class AgentGroupControllerTest {
 
         // When & Then
         mvc.perform(
-                post("/agentGroups/" + agentGroupId + "/form")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .content(formDataEncoder.encode(agentGroupRequest))
-                        .with(csrf())
+                        post("/agentGroups/" + agentGroupId + "/form")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content(formDataEncoder.encode(agentGroupRequest))
+                                .with(csrf())
                 )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/agentGroups/" + agentGroupId))
-                .andExpect(redirectedUrl("/agentGroups/" + agentGroupId));
+                .andExpect(view().name("redirect:/agentGroups/"))
+                .andExpect(redirectedUrl("/agentGroups/"));
         then(agentGroupService).should().updateAgentGroup(eq(agentGroupId), any(AgentGroupDto.class));
     }
 
 
     // fixture
 
-       private AgencyDto createAgencyDto() {
-           return AgencyDto.of(
-                   "t-agency",
-                   "테스트용"
-           );
-       }
+    private AgencyDto createAgencyDto() {
+        return AgencyDto.of(
+                "t-agency",
+                "pw",
+                "테스트용"
+        );
+    }
 
-       private AgentGroupDto createAgentGroupDto() {
-           return AgentGroupDto.of(
-                   createAgencyDto(),
-                   "t-group",
-                   "테스트용",
-                   LocalDateTime.now(),
-                   "테스트",
-                   LocalDateTime.now(),
-                   "테스트"
-           );
-       }
+    private AgentGroupDto createAgentGroupDto() {
+        return AgentGroupDto.of(
+                createAgencyDto(),
+                "t-group",
+                "테스트용",
+                LocalDateTime.now(),
+                "테스트",
+                LocalDateTime.now(),
+                "테스트"
+        );
+    }
 
-   	    private AgentGroupWithAgentsDto createAgentGroupWithAgentsDto() {
-           return AgentGroupWithAgentsDto.of(
-                   createAgencyDto(),
-                   Set.of(),
-                   "t-client",
-                   "김테스트",
-                   LocalDateTime.now(),
-                   "김테스트",
-                   LocalDateTime.now(),
-                   "테스트"
-           );
-       }
+    private AgentGroupWithAgentsDto createAgentGroupWithAgentsDto() {
+        return AgentGroupWithAgentsDto.of(
+                createAgencyDto(),
+                Set.of(),
+                "t-client",
+                "김테스트",
+                LocalDateTime.now(),
+                "김테스트",
+                LocalDateTime.now(),
+                "테스트"
+        );
+    }
 
 }

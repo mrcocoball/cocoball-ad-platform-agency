@@ -6,6 +6,7 @@ import com.agencyplatformclonecoding.dto.AgencyDto;
 import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
 import com.agencyplatformclonecoding.dto.response.AgentGroupResponse;
 import com.agencyplatformclonecoding.dto.response.AgentGroupWithAgentsResponse;
+import com.agencyplatformclonecoding.dto.security.PlatformPrincipal;
 import com.agencyplatformclonecoding.service.AgentGroupService;
 import com.agencyplatformclonecoding.service.AgentService;
 import com.agencyplatformclonecoding.service.PaginationService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -70,8 +72,10 @@ public class AgentGroupController {
    	}
 
    	@PostMapping("/form")
-   	public String createNewAgentGroup(AgentGroupRequest agentGroupRequest) {
-   		agentGroupService.saveAgentGroup(agentGroupRequest.toDto(AgencyDto.of("TestAgency", "쾅쾅마케팅"))); // TODO : 추후 에이전시 인증 기능 부여
+   	public String createNewAgentGroup(
+			   @AuthenticationPrincipal PlatformPrincipal platformPrincipal,
+			   AgentGroupRequest agentGroupRequest) {
+   		agentGroupService.saveAgentGroup(agentGroupRequest.toDto(platformPrincipal.toDto()));
 
    		return "redirect:/agentGroups";
    	}
@@ -87,15 +91,20 @@ public class AgentGroupController {
    	}
 
    	@PostMapping("/{agentGroupId}/form")
-   	public String updateAgentGroup(@PathVariable String agentGroupId, AgentGroupRequest agentGroupRequest) {
-   		agentGroupService.updateAgentGroup(agentGroupId, agentGroupRequest.toDto(AgencyDto.of("TestAgency", "쾅쾅마케팅")));  // TODO : 추후 에이전시 인증 기능 부여
+   	public String updateAgentGroup(
+			   @PathVariable String agentGroupId,
+			   @AuthenticationPrincipal PlatformPrincipal platformPrincipal,
+			   AgentGroupRequest agentGroupRequest) {
+   		agentGroupService.updateAgentGroup(agentGroupId, agentGroupRequest.toDto(platformPrincipal.toDto()));  // TODO : 추후 에이전시 인증 기능 부여
 
-   		return "redirect:/agentGroups/" + agentGroupId;
+   		return "redirect:/agentGroups/";
    	}
 
    	@PostMapping ("/{agentGroupId}/delete")
-   	public String deleteAgentGroup(@PathVariable String agentGroupId) {
-   		agentGroupService.deleteAgentGroup(agentGroupId);
+   	public String deleteAgentGroup(
+			   @PathVariable String agentGroupId,
+			   @AuthenticationPrincipal PlatformPrincipal platformPrincipal) {
+   		agentGroupService.deleteAgentGroup(agentGroupId, platformPrincipal.getUsername());
 
    		return "redirect:/agentGroups";
    	}

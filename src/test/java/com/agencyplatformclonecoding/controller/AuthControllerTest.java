@@ -1,10 +1,12 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.config.SecurityConfig;
+import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -14,8 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("VIEW 컨트롤러 - 인증")
-@Import(SecurityConfig.class)
-@WebMvcTest(Void.class)
+@Import(TestSecurityConfig.class)
+@WebMvcTest(AuthControllerTest.EmptyController.class)
 public class AuthControllerTest {
 
     private final MockMvc mvc;
@@ -34,5 +36,8 @@ public class AuthControllerTest {
                 .andExpect(status().isOk()) // 정상 호출인지
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML)); // HTML 파일의 컨텐츠인지 (호환되는 컨텐츠 포함)
     }
+
+    @TestComponent
+    static class EmptyController {}
 
 }

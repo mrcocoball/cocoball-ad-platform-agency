@@ -83,14 +83,14 @@ public class AgentGroupService {
 		}
 	}
 
-	public void deleteAgentGroup(String agentGroupId) {
+	public void deleteAgentGroup(String agentGroupId, String agencyId) {
 
 		try {
 			AgentGroup agentGroup = agentGroupRepository.getReferenceById(agentGroupId);
 			List<Agent> agents = agentRepository.findByAgentGroup_Id(agentGroupId);
 
 			if (agents.size() == 0) {
-				agentGroupRepository.deleteById(agentGroupId);
+				agentGroupRepository.deleteByIdAndAgency_AgencyId(agentGroupId, agencyId);
 			} else {
 				throw new IllegalArgumentException();
 			}

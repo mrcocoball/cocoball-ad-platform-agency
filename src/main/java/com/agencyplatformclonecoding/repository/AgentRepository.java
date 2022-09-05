@@ -25,7 +25,7 @@ public interface AgentRepository extends
 
     List<Agent> findByAgentGroup_Id(String agentGroupId);
 
-    void deleteByUserId(String agentId);
+    void deleteByUserIdAndAgency_AgencyId(String agentId, String agencyId);
 
     @Override
     default void customize(QuerydslBindings bindings, QAgent root) {

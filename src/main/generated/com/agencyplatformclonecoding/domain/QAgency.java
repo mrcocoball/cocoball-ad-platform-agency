@@ -42,6 +42,8 @@ public class QAgency extends EntityPathBase<Agency> {
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
 
+    public final StringPath password = createString("password");
+
     public QAgency(String variable) {
         super(Agency.class, forVariable(variable));
     }

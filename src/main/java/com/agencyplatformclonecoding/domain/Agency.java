@@ -26,6 +26,9 @@ public class Agency extends AuditingFields {
     @Column(name = "AGENCY_NAME", length = 50)
     private String agencyName;
 
+    @Column(name = "AGENCY_PASSWORD", length = 50)
+    private String password;
+
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
@@ -38,13 +41,14 @@ public class Agency extends AuditingFields {
 
     protected Agency() {}
 
-    private Agency(String agencyId, String agencyName) {
+    private Agency(String agencyId, String password, String agencyName) {
         this.agencyId = agencyId;
+        this.password = password;
         this.agencyName = agencyName;
     }
 
-    public static Agency of(String agencyId, String agencyName) {
-        return new Agency(agencyId, agencyName);
+    public static Agency of(String agencyId, String password, String agencyName) {
+        return new Agency(agencyId, password, agencyName);
     }
 
     @Override

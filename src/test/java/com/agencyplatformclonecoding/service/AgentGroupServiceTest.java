@@ -210,13 +210,14 @@ class AgentGroupServiceTest {
     void givenAgentGroupId_whenDeletingAgentGroup_thenDeleteAgentGroup() {
 		// Given
         String agentGroupId = "t-group";
-        willDoNothing().given(agentGroupRepository).deleteById(agentGroupId);
+        String agencyId = "t-agency";
+        willDoNothing().given(agentGroupRepository).deleteByIdAndAgency_AgencyId(agentGroupId, agencyId);
 
         // When
-        sut.deleteAgentGroup(agentGroupId);
+        sut.deleteAgentGroup(agentGroupId, agencyId);
 
         // Then
-        then(agentGroupRepository).should().deleteById(agentGroupId);
+        then(agentGroupRepository).should().deleteByIdAndAgency_AgencyId(agentGroupId, agencyId);
     }
 
 	@DisplayName("READ - 에이전트 그룹 수를 조회하면, 에이전트 그룹 수를 반환한다")
@@ -255,6 +256,7 @@ class AgentGroupServiceTest {
  private Agency createAgency() {
      Agency agency = Agency.of(
              "t-agency",
+             "pw",
              "테스트용"
      );
 
@@ -306,6 +308,7 @@ class AgentGroupServiceTest {
  private AgencyDto createAgencyDto() {
      return AgencyDto.of(
              "t-agency",
+             "pw",
              "테스트용"
      );
  }

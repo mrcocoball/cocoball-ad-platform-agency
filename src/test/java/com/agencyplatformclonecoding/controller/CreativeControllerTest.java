@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.config.SecurityConfig;
+import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.service.CampaignService;
 import com.agencyplatformclonecoding.service.CreativeService;
 import com.agencyplatformclonecoding.service.PaginationService;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @DisplayName("VIEW 컨트롤러 - 소재 관리")
-@Import(SecurityConfig.class)
+@Import(TestSecurityConfig.class)
 @WebMvcTest(CreativeController.class)
 class CreativeControllerTest {
 

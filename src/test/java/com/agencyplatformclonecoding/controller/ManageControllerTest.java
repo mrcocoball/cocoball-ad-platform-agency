@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.config.SecurityConfig;
+import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.*;
 import com.agencyplatformclonecoding.service.CampaignService;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -33,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @DisplayName("VIEW 컨트롤러 - 광고주 관리")
-@Import(SecurityConfig.class)
+@Import(TestSecurityConfig.class)
 @WebMvcTest(ManageController.class)
 class ManageControllerTest {
 
@@ -57,6 +59,7 @@ class ManageControllerTest {
         this.mvc = mvc;
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 광고 관리 리스트 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingManageView_thenReturnsManageView() throws Exception {
@@ -75,6 +78,7 @@ class ManageControllerTest {
 		then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
+    @WithMockUser
 	@DisplayName("[VIEW][GET] 광고 관리 리스트 - 검색어와 함께 호출")
     @Test
     public void givenSearchKeyword_whenSearchingManageView_thenReturnsManageView() throws Exception {
@@ -99,6 +103,7 @@ class ManageControllerTest {
 		then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 단일 광고주 관리 - 캠페인 리스트 정상 호출")
     @Test
     public void givenClientInfo_whenRequestingManageDetailView_thenReturnsManageDetailView() throws Exception {
@@ -118,6 +123,7 @@ class ManageControllerTest {
 				.andExpect(model().attribute("totalCount", totalCount));
     }
 
+    @WithMockUser
 	@DisplayName("[VIEW][GET] 광고 관리 페이지 - 페이징, 정렬 기능")
     @Test
     void givenPagingAndSortingParams_whenSearchingManagePage_thenReturnsManageView() throws Exception {
@@ -152,6 +158,7 @@ class ManageControllerTest {
    	private AgencyDto createAgencyDto() {
         return AgencyDto.of(
                    "t-agency",
+                   "pw",
                    "테스트용"
         );
     }

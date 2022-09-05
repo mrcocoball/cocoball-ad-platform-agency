@@ -152,16 +152,17 @@ class AgentServiceTest {
     void givenNotMappingClientsAgentId_whenDeletingAgent_thenDeleteAgent() {
         // Given
         String agentId = "test";
-        willDoNothing().given(agentRepository).deleteByUserId(agentId);
+        String agencyId = "t-agency";
+        willDoNothing().given(agentRepository).deleteByUserIdAndAgency_AgencyId(agentId, agencyId);
 
         // When
-        sut.deleteAgent(agentId);
+        sut.deleteAgent(agentId, agencyId);
 
         // Then
-        then(agentRepository).should().deleteByUserId(agentId);
+        then(agentRepository).should().deleteByUserIdAndAgency_AgencyId(agentId, agencyId);
     }
 
-    @DisplayName("READ - 에이전트 수를 조회하면, 에이전트트 수를반환한다")
+    @DisplayName("READ - 에이전트 수를 조회하면, 에이전트트 수를 반환한다")
     @Test
     void givenNothing_whenCountingAgents_thenReturnsAgentsCount() {
         // Given
@@ -182,6 +183,7 @@ class AgentServiceTest {
     private Agency createAgency() {
         Agency agency = Agency.of(
                 "t-agency",
+                "pw",
                 "테스트용"
         );
 
@@ -233,6 +235,7 @@ class AgentServiceTest {
     private AgencyDto createAgencyDto() {
         return AgencyDto.of(
                 "t-agency",
+                "pw",
                 "테스트용"
         );
     }

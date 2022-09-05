@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.config.SecurityConfig;
+import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.AgencyDto;
 import com.agencyplatformclonecoding.dto.AgentDto;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
@@ -32,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("VIEW 컨트롤러 - 광고주 리스트")
-@Import(SecurityConfig.class)
+@Import(TestSecurityConfig.class)
 @WebMvcTest(ClientUserController.class)
 class ClientUserControllerTest {
 
@@ -50,6 +52,7 @@ class ClientUserControllerTest {
         this.mvc = mvc;
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 광고주 리스트 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingClientUsersView_thenReturnsClientUsersView() throws Exception {
@@ -68,6 +71,7 @@ class ClientUserControllerTest {
 		then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
+    @WithMockUser
 	@DisplayName("[VIEW][GET] 광고주 리스트 - 검색어와 함께 호출")
     @Test
     public void givenSearchKeyword_whenSearchingClientUsersView_thenReturnsClientUsersView() throws Exception {
@@ -92,6 +96,7 @@ class ClientUserControllerTest {
 		then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
+    @WithMockUser
 	@DisplayName("[VIEW][GET] 광고주 상세 정보 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingClientUserDetailView_thenReturnsClientUserDetailView() throws Exception {
@@ -112,6 +117,7 @@ class ClientUserControllerTest {
 		then(clientUserService).should().getClientUserCount();
     }
 
+    @WithMockUser
     @DisplayName("[VIEW][GET] 광고주 캠페인 관리 -> 광고주 캠페인 관리 페이지로 리다이렉션")
     @Test
     public void givenClientInfo_whenRequestingClientDetailView_thenRedirectsToManageClientCampaignView() throws Exception {
@@ -125,6 +131,7 @@ class ClientUserControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    @WithMockUser
 	@DisplayName("[VIEW][GET] 광고주 페이지 - 페이징, 정렬 기능")
     @Test
     void givenPagingAndSortingParams_whenSearchingClientUsersPage_thenReturnsClientUsersView() throws Exception {
@@ -160,6 +167,7 @@ class ClientUserControllerTest {
 	private AgencyDto createAgencyDto() {
         return AgencyDto.of(
                 "t-agency",
+                "pw",
                 "테스트용"
         );
     }

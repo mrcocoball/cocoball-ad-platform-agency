@@ -55,12 +55,12 @@ public class AgentService {
                 .orElseThrow(() -> new EntityNotFoundException("에이전트가 존재하지 않습니다 - agentId : " + agentId));
     }
 
-    public void deleteAgent(String agentId) {
+    public void deleteAgent(String agentId, String agencyId) {
         try {
             List<ClientUser> clientUsers = clientUserRepository.findByAgent_UserId(agentId);
 
             if (clientUsers.isEmpty()) {
-                agentRepository.deleteByUserId(agentId);
+                agentRepository.deleteByUserIdAndAgency_AgencyId(agentId, agencyId);
             } else {
                 throw new IllegalArgumentException();
             }
