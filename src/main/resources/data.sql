@@ -2,8 +2,8 @@
 -- TODO : 아직 넣지 않는다
 
 -- 에이전시 계정 관련
-insert into agency (agency_id, created_at, created_by, modified_at, modified_by, agency_name) values
-                                                                                                  ('TestAgency', now(), '김쾅쾅', now(), '김쾅쾅', '쾅쾅마케팅');
+insert into agency (agency_id, agency_password, created_at, created_by, modified_at, modified_by, agency_name) values
+                                                                                                  ('TestAgency', '{noop}test1234', now(), '김쾅쾅', now(), '김쾅쾅', '쾅쾅마케팅');
 
 -- 에이전트 그룹 관련 (3개)
 insert into agent_group (agent_group_id, created_at, created_by, modified_at, modified_by, name, agency_id) values
