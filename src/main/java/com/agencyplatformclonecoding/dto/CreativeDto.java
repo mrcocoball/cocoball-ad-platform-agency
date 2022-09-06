@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 
 public record CreativeDto(
         CampaignDto campaignDto,
-		Long campaignId,
+        Long campaignId,
         Long id,
         String keyword,
         Long bidingPrice,
-		Long view,
-		Long click,
-		Long conversion,
+        Long view,
+        Long click,
+        Long conversion,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
@@ -23,6 +23,7 @@ public record CreativeDto(
     public static CreativeDto of(CampaignDto campaignDto, Long campaignId, String keyword, Long bidingPrice) {
         return new CreativeDto(campaignDto, campaignId, null, keyword, bidingPrice, null, null, null, null, null, null, null);
     }
+
     public static CreativeDto of(CampaignDto campaignDto, Long campaignId, Long id, String keyword, Long bidingPrice, Long view, Long click, Long conversion, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         return new CreativeDto(campaignDto, campaignId, id, keyword, bidingPrice, view, click, conversion, createdAt, createdBy, modifiedAt, modifiedBy);
     }
@@ -31,13 +32,13 @@ public record CreativeDto(
     public static CreativeDto from(Creative entity) {
         return new CreativeDto(
                 CampaignDto.from(entity.getCampaign()),
-				entity.getCampaign().getId(),
-				entity.getId(),
+                entity.getCampaign().getId(),
+                entity.getId(),
                 entity.getKeyword(),
                 entity.getBidingPrice(),
-				entity.getView(),
-				entity.getClick(),
-				entity.getConversion(),
+                entity.getView(),
+                entity.getClick(),
+                entity.getConversion(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
@@ -49,7 +50,7 @@ public record CreativeDto(
     public Creative toEntity(Campaign campaign) {
         return Creative.of(
                 campaign,
-				keyword,
+                keyword,
                 bidingPrice
         );
     }

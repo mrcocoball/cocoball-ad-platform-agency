@@ -15,7 +15,7 @@ public record ClientUserWithCampaignsResponse(
         Set<CampaignResponse> campaignResponses
 ) implements Serializable {
 
-    public static ClientUserWithCampaignsResponse of (String userId, LocalDateTime createdAt, String nickname, Set<CampaignResponse> campaignResponses) {
+    public static ClientUserWithCampaignsResponse of(String userId, LocalDateTime createdAt, String nickname, Set<CampaignResponse> campaignResponses) {
         return new ClientUserWithCampaignsResponse(userId, createdAt, nickname, campaignResponses);
     }
 

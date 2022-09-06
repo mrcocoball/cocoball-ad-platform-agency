@@ -73,7 +73,7 @@ class JpaRepositoryTest {
         Agency agency = agencyRepository.findById("TestAgency").orElseThrow();
 
         // When
-        AgentGroup savedAgentGroup = agentGroupRepository.save(AgentGroup.of(agency, "testgroup","testgroup"));
+        AgentGroup savedAgentGroup = agentGroupRepository.save(AgentGroup.of(agency, "testgroup"));
 
         // Then
         assertThat(agentGroupRepository.count()).isEqualTo(previousCount + 1);
@@ -84,7 +84,7 @@ class JpaRepositoryTest {
         // Given
         long previousCount = agentRepository.count();
         Agency agency = agencyRepository.findById("TestAgency").orElseThrow();
-        AgentGroup agentGroup = agentGroupRepository.findById("mkt1").orElseThrow();
+        AgentGroup agentGroup = agentGroupRepository.findById(1L).orElseThrow();
         Agent agent = Agent.of(agency, agentGroup, "test", "pw", "email@mail.com", "테스트");
 
         // When

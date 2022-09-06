@@ -23,7 +23,7 @@ public interface AgentRepository extends
     Page<Agent> findByUserIdContaining(String userId, Pageable pageable);
     Page<Agent> findByNicknameContaining(String nickname, Pageable pageable);
 
-    List<Agent> findByAgentGroup_Id(String agentGroupId);
+    List<Agent> findByAgentGroup_Id(Long agentGroupId);
 
     void deleteByUserIdAndAgency_AgencyId(String agentId, String agencyId);
 

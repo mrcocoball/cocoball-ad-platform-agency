@@ -221,7 +221,7 @@ public class CreativeServiceTest {
 	private AgentGroup createAgentGroup() {
 		AgentGroup agentGroup = AgentGroup.of(
             createAgency(),
-            "t-group",
+            1L,
             "테스트용그룹"
 		);
 
@@ -285,7 +285,7 @@ public class CreativeServiceTest {
     private AgentGroupDto createAgentGroupDto() {
         return AgentGroupDto.of(
                 createAgencyDto(),
-                "t-group",
+                1L,
                 "테스트용",
                 LocalDateTime.now(),
                 "테스트",

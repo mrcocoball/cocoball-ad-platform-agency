@@ -184,7 +184,7 @@ class CampaignControllerTest {
     private AgentGroupDto createAgentGroupDto() {
         return AgentGroupDto.of(
                     createAgencyDto(),
-                    "t-group",
+                    1L,
                     "테스트용",
                     LocalDateTime.now(),
                     "테스트",

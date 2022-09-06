@@ -30,13 +30,13 @@ public class ManageController {
 
     @GetMapping()
     public String manage(
-				@RequestParam(required = false) SearchType searchType,
-				@RequestParam(required = false) String searchValue,
-				@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-				ModelMap map
-		) {
-		Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)
-    				.map(ClientUserResponse::from);
+            @RequestParam(required = false) SearchType searchType,
+            @RequestParam(required = false) String searchValue,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            ModelMap map
+    ) {
+        Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)
+                .map(ClientUserResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), clientUsers.getTotalPages());
         map.addAttribute("clientUsers", clientUsers);
         map.addAttribute("paginationBarNumbers", barNumbers);
@@ -47,9 +47,9 @@ public class ManageController {
 
     @GetMapping("/{clientId}/campaigns")
     public String campaigns(@PathVariable String clientId, ModelMap map) {
-		ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+        ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
-		map.addAttribute("clientUser", clientUserWithCampaigns);
+        map.addAttribute("clientUser", clientUserWithCampaigns);
         map.addAttribute("campaigns", clientUserWithCampaigns.campaignResponses());
         map.addAttribute("totalCount", manageService.getClientUserCount());
 

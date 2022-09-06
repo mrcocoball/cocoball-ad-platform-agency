@@ -7,12 +7,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record AgentGroupResponse (
-        String id,
+        Long id,
         LocalDateTime createdAt,
         String name
 ) implements Serializable {
 
-    public static AgentGroupResponse of(String id, LocalDateTime createdAt, String name) {
+    public static AgentGroupResponse of(Long id, LocalDateTime createdAt, String name) {
         return new AgentGroupResponse(id, createdAt, name);
     }
 

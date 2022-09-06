@@ -115,7 +115,7 @@ class AgentGroupControllerTest {
     @Test
     public void givenNothing_whenRequestingAgentGroupDetailView_thenReturnsAgentGroupDetailView() throws Exception {
         // Given
-        String agentGroupId = "t-group";
+        Long agentGroupId = 1L;
         Long totalCount = 1L;
         given(agentGroupService.getAgentGroupWithAgents(agentGroupId)).willReturn(createAgentGroupWithAgentsDto());
         given(agentGroupService.getAgentGroupCount()).willReturn(totalCount);
@@ -213,7 +213,7 @@ class AgentGroupControllerTest {
     @Test
     void givenNothing_whenRequesting_thenReturnsUpdatedAgentGroupPage() throws Exception {
         // Given
-        String agentGroupId = "t-group";
+        Long agentGroupId = 1L;
         AgentGroupDto dto = createAgentGroupDto();
         given(agentGroupService.getAgentGroup(agentGroupId)).willReturn(dto);
 
@@ -232,7 +232,7 @@ class AgentGroupControllerTest {
     @Test
     void givenUpdatedAgentGroupInfo_whenRequesting_thenUpdatesNewAgentGroup() throws Exception {
         // Given
-        String agentGroupId = "t-group";
+        Long agentGroupId = 1L;
         AgentGroupRequest agentGroupRequest = AgentGroupRequest.of("새 그룹 이름");
         willDoNothing().given(agentGroupService).updateAgentGroup(eq(agentGroupId), any(AgentGroupDto.class));
 
@@ -263,7 +263,7 @@ class AgentGroupControllerTest {
     private AgentGroupDto createAgentGroupDto() {
         return AgentGroupDto.of(
                 createAgencyDto(),
-                "t-group",
+                1L,
                 "테스트용",
                 LocalDateTime.now(),
                 "테스트",
@@ -276,7 +276,7 @@ class AgentGroupControllerTest {
         return AgentGroupWithAgentsDto.of(
                 createAgencyDto(),
                 Set.of(),
-                "t-client",
+                1l,
                 "김테스트",
                 LocalDateTime.now(),
                 "김테스트",

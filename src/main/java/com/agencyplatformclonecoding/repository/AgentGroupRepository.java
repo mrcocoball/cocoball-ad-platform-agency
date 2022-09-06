@@ -18,14 +18,14 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface AgentGroupRepository extends
-        JpaRepository<AgentGroup, String>,
+        JpaRepository<AgentGroup, Long>,
         QuerydslPredicateExecutor<AgentGroup>,
         QuerydslBinderCustomizer<QAgentGroup> {
 
     Page<AgentGroup> findByIdContaining(String id, Pageable pageable);
     Page<AgentGroup> findByNameContaining(String nickname, Pageable pageable);
 
-    void deleteByIdAndAgency_AgencyId(String agentGroupId, String agencyId);
+    void deleteByIdAndAgency_AgencyId(Long agentGroupId, String agencyId);
 
     @Override
     default void customize(QuerydslBindings bindings, QAgentGroup root) {

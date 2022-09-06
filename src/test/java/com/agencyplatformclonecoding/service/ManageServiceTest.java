@@ -41,8 +41,7 @@ class ManageServiceTest {
     @InjectMocks
     private ManageService sut;
 
-    @Mock
-    private AgentRepository agentRepository;
+    @Mock private AgentRepository agentRepository;
     @Mock private AgentGroupRepository agentGroupRepository;
     @Mock private AgencyRepository agencyRepository;
     @Mock private ClientUserRepository clientUserRepository;
@@ -180,7 +179,7 @@ class ManageServiceTest {
     private AgentGroup createAgentGroup() {
         AgentGroup agentGroup = AgentGroup.of(
                 createAgency(),
-                "t-group",
+                1L,
                 "테스트용그룹"
         );
 
@@ -230,7 +229,7 @@ class ManageServiceTest {
     private AgentGroupDto createAgentGroupDto() {
         return AgentGroupDto.of(
                 createAgencyDto(),
-                "t-group",
+                1L,
                 "테스트용",
                 LocalDateTime.now(),
                 "테스트",
@@ -239,7 +238,7 @@ class ManageServiceTest {
         );
     }
 
-    private AgentGroupDto createModifiedAgentGroupDto(String agentGroupId) {
+    private AgentGroupDto createModifiedAgentGroupDto(Long agentGroupId) {
         return AgentGroupDto.of(
                 createAgencyDto(),
                 agentGroupId,
@@ -265,7 +264,7 @@ class ManageServiceTest {
         );
     }
 
-    private AgentDto createAgentDto(String agentGroupId) {
+    private AgentDto createAgentDto(Long agentGroupId) {
         return AgentDto.of(
                 createAgencyDto(),
                 createModifiedAgentGroupDto(agentGroupId),

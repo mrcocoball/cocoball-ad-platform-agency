@@ -19,12 +19,6 @@
 
     <attr sel="#agentgroup-table">
       <attr sel="thead/tr">
-        <attr sel="th.id/a" th:text="'그룹 ID'" th:href="@{/agentGroups(
-            page=${agentGroups.number},
-            sort='id' + (*{sort.getOrderFor('id')} != null ? (*{sort.getOrderFor('id').direction.name} != 'DESC' ? ',desc' : '') : ''),
-            searchType=${param.searchType},
-            searchValue=${param.searchValue}
-        )}"/>
         <attr sel="th.name/a" th:text="'그룹명'" th:href="@{/agentGroups(
             page=${agentGroups.number},
             sort='name' + (*{sort.getOrderFor('name')} != null ? (*{sort.getOrderFor('name').direction.name} != 'DESC' ? ',desc' : '') : ''),
@@ -35,7 +29,6 @@
 
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="tr[0]" th:each="agentGroup : ${agentGroups}">
-          <attr sel="td.id" th:text="${agentGroup.id}" th:href="@{'/agentGroups/' + ${agentGroup.id}}" />
           <attr sel="td.name" th:text="${agentGroup.name}" />
           <attr sel="#agents-list" th:href="@{'/agentGroups/' + ${agentGroup.id}}" />
           <attr sel="#update-agentgroup" th:href="'/agentGroups/' + ${agentGroup.id} + '/form'" />

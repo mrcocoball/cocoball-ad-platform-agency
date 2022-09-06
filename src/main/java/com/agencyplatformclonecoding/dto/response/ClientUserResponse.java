@@ -14,11 +14,11 @@ public record ClientUserResponse(
         String agentName
 ) implements Serializable {
 
-    public static ClientUserResponse of (String userId, LocalDateTime createdAt, String nickname, String email, String agentId, String agentName) {
+    public static ClientUserResponse of(String userId, LocalDateTime createdAt, String nickname, String email, String agentId, String agentName) {
         return new ClientUserResponse(userId, createdAt, nickname, email, agentId, agentName);
     }
 
-    public static ClientUserResponse from (ClientUserDto dto) {
+    public static ClientUserResponse from(ClientUserDto dto) {
         String agentName = dto.agentDto().nickname();
         if (agentName == null || agentName.isBlank()) {
             agentName = dto.agentDto().userId();

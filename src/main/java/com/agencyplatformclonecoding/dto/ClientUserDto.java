@@ -28,6 +28,7 @@ public record ClientUserDto(
     public static ClientUserDto of(String userId) {
         return new ClientUserDto(null, null, userId, null, null, null, null, null, null, null);
     }
+
     public static ClientUserDto of(AgencyDto agencyDto, AgentDto agentDto, String userId, String password, String nickname, String email, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         return new ClientUserDto(agencyDto, agentDto, userId, password, nickname, email, createdAt, createdBy, modifiedAt, modifiedBy);
     }
@@ -36,8 +37,8 @@ public record ClientUserDto(
     public static ClientUserDto from(ClientUser entity) {
         return new ClientUserDto(
                 AgencyDto.from(entity.getAgency()),
-				AgentDto.from(entity.getAgent()),
-				entity.getUserId(),
+                AgentDto.from(entity.getAgent()),
+                entity.getUserId(),
                 entity.getUserPassword(),
                 entity.getNickname(),
                 entity.getEmail(),
@@ -54,7 +55,7 @@ public record ClientUserDto(
                 agency,
                 agent,
                 userId,
-				userPassword,
+                userPassword,
                 nickname,
                 email
         );

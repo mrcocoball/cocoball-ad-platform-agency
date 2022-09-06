@@ -28,13 +28,13 @@ public class ClientUserController {
 
     @GetMapping
     public String clientUsers(
-				@RequestParam(required = false) SearchType searchType,
-				@RequestParam(required = false) String searchValue,
-                @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-				ModelMap map
-		) {
+            @RequestParam(required = false) SearchType searchType,
+            @RequestParam(required = false) String searchValue,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            ModelMap map
+    ) {
         Page<ClientUserResponse> clientUsers = clientUserService.searchClientUsers(searchType, searchValue, pageable)
-    				.map(ClientUserResponse::from);
+                .map(ClientUserResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), clientUsers.getTotalPages());
         map.addAttribute("clientUsers", clientUsers);
         map.addAttribute("paginationBarNumbers", barNumbers);
@@ -43,7 +43,7 @@ public class ClientUserController {
         return "clients/index";
     }
 
-	@GetMapping("/{clientId}")
+    @GetMapping("/{clientId}")
     public String clientUser(@PathVariable String clientId, ModelMap map) {
         ClientUserResponse clientUser = ClientUserResponse.from(clientUserService.getClientUser(clientId));
 
@@ -55,6 +55,6 @@ public class ClientUserController {
 
     @GetMapping("/{clientId}/manage")
     public String manageClientUser(@PathVariable String clientId) {
-         return "forward:/manage/{clientId}/campaigns";
-     }
+        return "forward:/manage/{clientId}/campaigns";
+    }
 }
