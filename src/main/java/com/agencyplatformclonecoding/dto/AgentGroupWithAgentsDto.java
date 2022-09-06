@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public record AgentGroupWithAgentsDto(
         AgencyDto agencyDto,
         Set<AgentDto> agentDtos,
-        String id,
+        Long id,
         String name,
         LocalDateTime createdAt,
         String createdBy,
@@ -19,7 +19,7 @@ public record AgentGroupWithAgentsDto(
         String modifiedBy
 ) {
 
-    public static AgentGroupWithAgentsDto of(AgencyDto agencyDto, Set<AgentDto> agentDtos, String id, String name, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+    public static AgentGroupWithAgentsDto of(AgencyDto agencyDto, Set<AgentDto> agentDtos, Long id, String name, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         return new AgentGroupWithAgentsDto(agencyDto, agentDtos, id, name, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 

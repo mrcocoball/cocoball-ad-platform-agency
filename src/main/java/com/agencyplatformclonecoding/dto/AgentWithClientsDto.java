@@ -29,11 +29,11 @@ public record AgentWithClientsDto(
     public static AgentWithClientsDto from(Agent entity) {
         return new AgentWithClientsDto(
                 AgencyDto.from(entity.getAgency()),
-				AgentGroupDto.from(entity.getAgentGroup()),
-				entity.getClientUsers().stream()
-						.map(ClientUserDto::from)
-						.collect(Collectors.toCollection(LinkedHashSet::new)),
-				entity.getUserId(),
+                AgentGroupDto.from(entity.getAgentGroup()),
+                entity.getClientUsers().stream()
+                        .map(ClientUserDto::from)
+                        .collect(Collectors.toCollection(LinkedHashSet::new)),
+                entity.getUserId(),
                 entity.getUserPassword(),
                 entity.getNickname(),
                 entity.getEmail(),

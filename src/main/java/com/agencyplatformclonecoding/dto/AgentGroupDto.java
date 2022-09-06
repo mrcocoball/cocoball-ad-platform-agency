@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public record AgentGroupDto(
 		AgencyDto agencyDto,
-        String id,
+        Long id,
         String name,
         LocalDateTime createdAt,
         String createdBy,
@@ -18,7 +18,7 @@ public record AgentGroupDto(
     public static AgentGroupDto of(AgencyDto agencyDto, String name) {
         return new AgentGroupDto(agencyDto, null, name, null, null, null, null);
     }
-    public static AgentGroupDto of(AgencyDto agencyDto, String id, String name, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+    public static AgentGroupDto of(AgencyDto agencyDto, Long id, String name, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         return new AgentGroupDto(agencyDto, id, name, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 

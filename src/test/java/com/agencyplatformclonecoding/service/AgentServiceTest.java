@@ -38,12 +38,17 @@ import static org.mockito.BDDMockito.*;
 @ExtendWith(MockitoExtension.class)
 class AgentServiceTest {
 
-    @InjectMocks private AgentService sut;
+    @InjectMocks
+    private AgentService sut;
 
-    @Mock private AgentRepository agentRepository;
-    @Mock private AgentGroupRepository agentGroupRepository;
-    @Mock private AgencyRepository agencyRepository;
-    @Mock private ClientUserRepository clientUserRepository;
+    @Mock
+    private AgentRepository agentRepository;
+    @Mock
+    private AgentGroupRepository agentGroupRepository;
+    @Mock
+    private AgencyRepository agencyRepository;
+    @Mock
+    private ClientUserRepository clientUserRepository;
 
     @DisplayName("READ - 에이전트 조회 시 에이전트 반환")
     @Test
@@ -121,7 +126,7 @@ class AgentServiceTest {
         given(agentRepository.findById(agentId)).willReturn(Optional.empty());
 
         // When
-        Throwable t= catchThrowable(() -> sut.getAgentWithClients(agentId));
+        Throwable t = catchThrowable(() -> sut.getAgentWithClients(agentId));
 
         // Then
         assertThat(t)
@@ -138,7 +143,7 @@ class AgentServiceTest {
         given(agentRepository.findById(agentId)).willReturn(Optional.empty());
 
         // When
-        Throwable t= catchThrowable(() -> sut.getAgent(agentId));
+        Throwable t = catchThrowable(() -> sut.getAgent(agentId));
 
         // Then
         assertThat(t)
@@ -193,7 +198,7 @@ class AgentServiceTest {
     private AgentGroup createAgentGroup() {
         AgentGroup agentGroup = AgentGroup.of(
                 createAgency(),
-                "t-group",
+                1L,
                 "테스트용그룹"
         );
 
@@ -243,7 +248,7 @@ class AgentServiceTest {
     private AgentGroupDto createAgentGroupDto() {
         return AgentGroupDto.of(
                 createAgencyDto(),
-                "t-group",
+                1L,
                 "테스트용",
                 LocalDateTime.now(),
                 "테스트",
@@ -252,7 +257,7 @@ class AgentServiceTest {
         );
     }
 
-    private AgentGroupDto createModifiedAgentGroupDto(String agentGroupId) {
+    private AgentGroupDto createModifiedAgentGroupDto(Long agentGroupId) {
         return AgentGroupDto.of(
                 createAgencyDto(),
                 agentGroupId,
@@ -263,6 +268,7 @@ class AgentServiceTest {
                 "테스트"
         );
     }
+
     private AgentDto createAgentDto() {
         return AgentDto.of(
                 createAgencyDto(),
@@ -278,7 +284,7 @@ class AgentServiceTest {
         );
     }
 
-    private AgentDto createAgentDto(String agentGroupId) {
+    private AgentDto createAgentDto(Long agentGroupId) {
         return AgentDto.of(
                 createAgencyDto(),
                 createModifiedAgentGroupDto(agentGroupId),

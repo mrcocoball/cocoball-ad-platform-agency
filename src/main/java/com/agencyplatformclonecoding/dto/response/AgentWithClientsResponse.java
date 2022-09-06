@@ -16,15 +16,12 @@ public record AgentWithClientsResponse(
         String agentGroupName
 ) implements Serializable {
 
-    public static AgentWithClientsResponse of (String userId, LocalDateTime createdAt, String nickname, Set<ClientUserResponse> clientUserResponses, String agentGroupName) {
+    public static AgentWithClientsResponse of(String userId, LocalDateTime createdAt, String nickname, Set<ClientUserResponse> clientUserResponses, String agentGroupName) {
         return new AgentWithClientsResponse(userId, createdAt, nickname, clientUserResponses, agentGroupName);
     }
 
     public static AgentWithClientsResponse from(AgentWithClientsDto dto) {
         String agentGroupName = dto.agentGroupDto().name();
-        if (agentGroupName == null || agentGroupName.isBlank()) {
-            agentGroupName = dto.agentGroupDto().id();
-        }
 
         return new AgentWithClientsResponse(
                 dto.userId(),

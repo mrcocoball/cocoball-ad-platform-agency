@@ -23,7 +23,8 @@ public class AgentGroup extends AuditingFields {
 
     @Id
     @Column(name = "AGENT_GROUP_ID")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     // 다대일 양방향
     @Setter
@@ -43,7 +44,7 @@ public class AgentGroup extends AuditingFields {
         this.name = name;
     }
 
-    private AgentGroup(Agency agency, String id, String name) {
+    private AgentGroup(Agency agency, Long id, String name) {
         this.agency = agency;
         this.id = id;
         this.name = name;
@@ -53,7 +54,7 @@ public class AgentGroup extends AuditingFields {
         return new AgentGroup(agency, name);
     }
 
-    public static AgentGroup of (Agency agency, String id, String name) {
+    public static AgentGroup of (Agency agency, Long id, String name) {
         return new AgentGroup(agency, id, name);
     }
 

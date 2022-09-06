@@ -34,7 +34,7 @@ public class QAgentGroup extends EntityPathBase<AgentGroup> {
     //inherited
     public final StringPath createdBy = _super.createdBy;
 
-    public final StringPath id = createString("id");
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;

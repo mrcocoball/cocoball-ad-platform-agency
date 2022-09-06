@@ -48,7 +48,7 @@ public class AgentGroupController {
         }
 
     @GetMapping("/{agentGroupId}")
-    public String agentGroup(@PathVariable String agentGroupId, ModelMap map) {
+    public String agentGroup(@PathVariable Long agentGroupId, ModelMap map) {
 
 		AgentGroupWithAgentsResponse agentGroup = AgentGroupWithAgentsResponse.from(agentGroupService.getAgentGroupWithAgents(agentGroupId));
 
@@ -81,7 +81,7 @@ public class AgentGroupController {
    	}
 
    	@GetMapping("/{agentGroupId}/form")
-   	public String updateAgentGroupForm(@PathVariable String agentGroupId, ModelMap map) {
+   	public String updateAgentGroupForm(@PathVariable Long agentGroupId, ModelMap map) {
    		AgentGroupResponse agentGroup = AgentGroupResponse.from(agentGroupService.getAgentGroup(agentGroupId));
 
    		map.addAttribute("agentGroup", agentGroup);
@@ -92,7 +92,7 @@ public class AgentGroupController {
 
    	@PostMapping("/{agentGroupId}/form")
    	public String updateAgentGroup(
-			   @PathVariable String agentGroupId,
+			   @PathVariable Long agentGroupId,
 			   @AuthenticationPrincipal PlatformPrincipal platformPrincipal,
 			   AgentGroupRequest agentGroupRequest) {
    		agentGroupService.updateAgentGroup(agentGroupId, agentGroupRequest.toDto(platformPrincipal.toDto()));  // TODO : 추후 에이전시 인증 기능 부여
@@ -102,7 +102,7 @@ public class AgentGroupController {
 
    	@PostMapping ("/{agentGroupId}/delete")
    	public String deleteAgentGroup(
-			   @PathVariable String agentGroupId,
+			   @PathVariable Long agentGroupId,
 			   @AuthenticationPrincipal PlatformPrincipal platformPrincipal) {
    		agentGroupService.deleteAgentGroup(agentGroupId, platformPrincipal.getUsername());
 

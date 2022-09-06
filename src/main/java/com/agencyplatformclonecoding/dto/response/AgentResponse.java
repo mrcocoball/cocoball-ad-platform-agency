@@ -5,7 +5,7 @@ import com.agencyplatformclonecoding.dto.AgentDto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public record AgentResponse (
+public record AgentResponse(
         String userId,
         LocalDateTime createdAt,
         String nickname,
@@ -19,9 +19,7 @@ public record AgentResponse (
 
     public static AgentResponse from(AgentDto dto) {
         String agentGroupName = dto.agentGroupDto().name();
-        if (agentGroupName == null || agentGroupName.isBlank()) {
-            agentGroupName = dto.agentGroupDto().id();
-        }
+
         return new AgentResponse(
                 dto.userId(),
                 dto.createdAt(),

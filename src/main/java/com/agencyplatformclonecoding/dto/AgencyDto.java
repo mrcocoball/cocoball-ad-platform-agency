@@ -15,7 +15,7 @@ public record AgencyDto(
     // Entity -> dto로 변환
     public static AgencyDto from(Agency entity) {
         return new AgencyDto(
-				entity.getAgencyId(),
+                entity.getAgencyId(),
                 entity.getPassword(),
                 entity.getAgencyName()
         );
@@ -26,7 +26,7 @@ public record AgencyDto(
         return Agency.of(
                 agencyId,
                 password,
-				agencyName
+                agencyName
         );
     }
 }

@@ -10,14 +10,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public record AgentGroupWithAgentsResponse(
-        String id,
+        Long id,
         LocalDateTime createdAt,
         String name,
         Set<AgentResponse> agentResponses
 ) implements Serializable {
 
-    public static AgentGroupWithAgentsResponse of (String Id, LocalDateTime createdAt, String name, Set<AgentResponse> agentResponses) {
-        return new AgentGroupWithAgentsResponse(Id, createdAt, name, agentResponses);
+    public static AgentGroupWithAgentsResponse of(Long id, LocalDateTime createdAt, String name, Set<AgentResponse> agentResponses) {
+        return new AgentGroupWithAgentsResponse(id, createdAt, name, agentResponses);
     }
 
     public static AgentGroupWithAgentsResponse from(AgentGroupWithAgentsDto dto) {
