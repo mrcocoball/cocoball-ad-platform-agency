@@ -30,81 +30,81 @@ public class CampaignController {
     private final ManageService manageService;
     private final CampaignService campaignService;
 
-	@GetMapping("/form")
-   	public String campaignForm(
-               @PathVariable("clientId") String clientId,
-               ModelMap map
+    @GetMapping("/form")
+    public String campaignForm(
+            @PathVariable("clientId") String clientId,
+            ModelMap map
     ) {
-		ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+        ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
-		map.addAttribute("clientUser", clientUser);
-   		map.addAttribute("formStatus", FormStatus.CREATE);
+        map.addAttribute("clientUser", clientUser);
+        map.addAttribute("formStatus", FormStatus.CREATE);
 
-   		return "manage/campaign-form";
-   	}
+        return "manage/campaign-form";
+    }
 
-   	@PostMapping("/form")
-   	public String createNewCampaign(
-               @PathVariable("clientId") String clientId,
-               CampaignRequest campaignRequest
+    @PostMapping("/form")
+    public String createNewCampaign(
+            @PathVariable("clientId") String clientId,
+            CampaignRequest campaignRequest
     ) {
-   		campaignService.saveCampaign(campaignRequest.toDto(ClientUserDto.of(clientId)));
+        campaignService.saveCampaign(campaignRequest.toDto(ClientUserDto.of(clientId)));
 
-   		return "redirect:/manage/{clientId}/campaigns";
-   	}
+        return "redirect:/manage/{clientId}/campaigns";
+    }
 
-   	@GetMapping("/{campaignId}/form")
-   	public String updateCampaignForm(
-               @PathVariable("clientId") String clientId,
-               @PathVariable Long campaignId,
-               ModelMap map
+    @GetMapping("/{campaignId}/form")
+    public String updateCampaignForm(
+            @PathVariable("clientId") String clientId,
+            @PathVariable Long campaignId,
+            ModelMap map
     ) {
-   		CampaignResponse campaign = CampaignResponse.from(campaignService.getCampaign(campaignId));
-		ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+        CampaignResponse campaign = CampaignResponse.from(campaignService.getCampaign(campaignId));
+        ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
-		map.addAttribute("clientUser", clientUser);
-   		map.addAttribute("campaign", campaign);
-   		map.addAttribute("formStatus", FormStatus.UPDATE);
+        map.addAttribute("clientUser", clientUser);
+        map.addAttribute("campaign", campaign);
+        map.addAttribute("formStatus", FormStatus.UPDATE);
 
-   		return "manage/campaign-form";
-   	}
+        return "manage/campaign-form";
+    }
 
-   	@PostMapping("/{campaignId}/form")
-   	public String updateCampaign(
-			   @PathVariable("clientId") String clientId,
-			   @PathVariable Long campaignId,
-			   CampaignRequest campaignRequest
-	) {
-   		campaignService.updateCampaign(campaignId, campaignRequest.toDto(ClientUserDto.of(clientId)));  // TODO : 추후 에이전시 인증 기능 부여
+    @PostMapping("/{campaignId}/form")
+    public String updateCampaign(
+            @PathVariable("clientId") String clientId,
+            @PathVariable Long campaignId,
+            CampaignRequest campaignRequest
+    ) {
+        campaignService.updateCampaign(campaignId, campaignRequest.toDto(ClientUserDto.of(clientId)));  // TODO : 추후 에이전시 인증 기능 부여
 
-   		return "redirect:/manage/{clientId}/campaigns";
-   	}
+        return "redirect:/manage/{clientId}/campaigns";
+    }
 
-   	@PostMapping ("/{campaignId}/delete")
-   	public String deleteCampaign(
-			   @PathVariable("clientId") String clientId,
-			   @PathVariable Long campaignId
-	) {
-   		campaignService.deleteCampaign(campaignId);
+    @PostMapping("/{campaignId}/delete")
+    public String deleteCampaign(
+            @PathVariable("clientId") String clientId,
+            @PathVariable Long campaignId
+    ) {
+        campaignService.deleteCampaign(campaignId);
 
-   		return "redirect:/manage/{clientId}/campaigns";
-   	}
+        return "redirect:/manage/{clientId}/campaigns";
+    }
 
     @GetMapping("/{campaignId}/creatives")
     public String creatives(
             @PathVariable("clientId") String clientId,
             @PathVariable Long campaignId,
             ModelMap map
-	) {
-		CampaignWithCreativesResponse campaignWithCreatives = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
-		ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+    ) {
+        CampaignWithCreativesResponse campaignWithCreatives = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
+        ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
-		map.addAttribute("clientUser", clientUserWithCampaignsResponse);
-		map.addAttribute("campaign", campaignWithCreatives);
-		map.addAttribute("creatives", campaignWithCreatives.creativeResponses());
-		map.addAttribute("totalCount", campaignService.getCampaignCount());
+        map.addAttribute("clientUser", clientUserWithCampaignsResponse);
+        map.addAttribute("campaign", campaignWithCreatives);
+        map.addAttribute("creatives", campaignWithCreatives.creativeResponses());
+        map.addAttribute("totalCount", campaignService.getCampaignCount());
 
-		return "manage/creative";
+        return "manage/creative";
     }
 
 }

@@ -29,72 +29,72 @@ public class CreativeController {
     private final CampaignService campaignService;
     private final CreativeService creativeService;
 
-	@GetMapping("/form")
-   	public String creativeForm(
-               @PathVariable("clientId") String clientId,
-               @PathVariable("campaignId") Long campaignId,
-               ModelMap map
+    @GetMapping("/form")
+    public String creativeForm(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("campaignId") Long campaignId,
+            ModelMap map
     ) {
-		CampaignWithCreativesResponse campaign = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
-		ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+        CampaignWithCreativesResponse campaign = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
+        ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
-		map.addAttribute("clientUser", clientUser);
-		map.addAttribute("campaign", campaign);
-   		map.addAttribute("formStatus", FormStatus.CREATE);
+        map.addAttribute("clientUser", clientUser);
+        map.addAttribute("campaign", campaign);
+        map.addAttribute("formStatus", FormStatus.CREATE);
 
-   		return "manage/creative-form";
-   	}
+        return "manage/creative-form";
+    }
 
-   	@PostMapping("/form")
-   	public String createNewCreative(
-               @PathVariable("clientId") String clientId,
-               @PathVariable("campaignId") Long campaignId,
-               CreativeRequest creativeRequest
+    @PostMapping("/form")
+    public String createNewCreative(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("campaignId") Long campaignId,
+            CreativeRequest creativeRequest
     ) {
-   		creativeService.saveCreative(creativeRequest.toDto(CampaignDto.of(campaignId)));
-
-   		return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
-   	}
-
-   	@GetMapping("/{creativeId}/form")
-   	public String updateCreativeForm(
-               @PathVariable("clientId") String clientId,
-               @PathVariable("campaignId") Long campaignId,
-               @PathVariable Long creativeId,
-               ModelMap map
-    ) {
-   		CreativeResponse creative = CreativeResponse.from(creativeService.getCreative(creativeId));
-		CampaignWithCreativesResponse campaign = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
-		ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
-
-		map.addAttribute("clientUser", clientUser);
-		map.addAttribute("campaign", campaign);
-   		map.addAttribute("creative", creative);
-   		map.addAttribute("formStatus", FormStatus.UPDATE);
-
-   		return "manage/creative-form";
-   	}
-
-   	@PostMapping("/{creativeId}/form")
-   	public String updateCreative(
-			   @PathVariable("clientId") String clientId,
-               @PathVariable("campaignId") Long campaignId,
-			   @PathVariable Long creativeId,
-			   CreativeRequest creativeRequest
-	) {
-   		creativeService.updateCreative(creativeId, creativeRequest.toDto(CampaignDto.of(campaignId)));  // TODO : 추후 에이전시 인증 기능 부여
+        creativeService.saveCreative(creativeRequest.toDto(CampaignDto.of(campaignId)));
 
         return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
-   	}
+    }
 
-   	@PostMapping ("/{creativeId}/delete")
-   	public String deleteCampaignId(
-			   @PathVariable("clientId") String clientId,
-               @PathVariable("campaignId") Long campaignId,
-               @PathVariable Long creativeId
-	) {
-   		creativeService.deleteCreative(creativeId);
+    @GetMapping("/{creativeId}/form")
+    public String updateCreativeForm(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("campaignId") Long campaignId,
+            @PathVariable Long creativeId,
+            ModelMap map
+    ) {
+        CreativeResponse creative = CreativeResponse.from(creativeService.getCreative(creativeId));
+        CampaignWithCreativesResponse campaign = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
+        ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
-   		return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
-   	}
+        map.addAttribute("clientUser", clientUser);
+        map.addAttribute("campaign", campaign);
+        map.addAttribute("creative", creative);
+        map.addAttribute("formStatus", FormStatus.UPDATE);
+
+        return "manage/creative-form";
+    }
+
+    @PostMapping("/{creativeId}/form")
+    public String updateCreative(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("campaignId") Long campaignId,
+            @PathVariable Long creativeId,
+            CreativeRequest creativeRequest
+    ) {
+        creativeService.updateCreative(creativeId, creativeRequest.toDto(CampaignDto.of(campaignId)));  // TODO : 추후 에이전시 인증 기능 부여
+
+        return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
+    }
+
+    @PostMapping("/{creativeId}/delete")
+    public String deleteCampaignId(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("campaignId") Long campaignId,
+            @PathVariable Long creativeId
+    ) {
+        creativeService.deleteCreative(creativeId);
+
+        return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
+    }
 }

@@ -18,7 +18,7 @@ public record ClientUserWithCampaignsDto(
         String createdBy,
         LocalDateTime modifiedAt,
         String modifiedBy,
-		Set<CampaignDto> campaignDtos
+        Set<CampaignDto> campaignDtos
 ) {
 
     public static ClientUserWithCampaignsDto of(AgencyDto agencyDto, AgentDto agentDto, String userId, String password, String nickname, String email, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Set<CampaignDto> campaignDtos) {
@@ -29,8 +29,8 @@ public record ClientUserWithCampaignsDto(
     public static ClientUserWithCampaignsDto from(ClientUser entity) {
         return new ClientUserWithCampaignsDto(
                 AgencyDto.from(entity.getAgency()),
-				AgentDto.from(entity.getAgent()),
-				entity.getUserId(),
+                AgentDto.from(entity.getAgent()),
+                entity.getUserId(),
                 entity.getUserPassword(),
                 entity.getNickname(),
                 entity.getEmail(),
@@ -38,9 +38,9 @@ public record ClientUserWithCampaignsDto(
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
                 entity.getModifiedBy(),
-				entity.getCampaigns().stream()
-								.map(CampaignDto::from)
-								.collect(Collectors.toCollection(LinkedHashSet::new))
+                entity.getCampaigns().stream()
+                        .map(CampaignDto::from)
+                        .collect(Collectors.toCollection(LinkedHashSet::new))
         );
     }
 }

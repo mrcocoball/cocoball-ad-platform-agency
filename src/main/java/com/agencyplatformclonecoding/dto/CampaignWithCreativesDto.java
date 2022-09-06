@@ -16,7 +16,7 @@ public record CampaignWithCreativesDto(
         String createdBy,
         LocalDateTime modifiedAt,
         String modifiedBy,
-		Set<CreativeDto> creativeDtos
+        Set<CreativeDto> creativeDtos
 ) {
 
     public static CampaignWithCreativesDto of(ClientUserDto clientUserDto, Long id, String name, Long budget, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Set<CreativeDto> creativeDtos) {
@@ -27,16 +27,16 @@ public record CampaignWithCreativesDto(
     public static CampaignWithCreativesDto from(Campaign entity) {
         return new CampaignWithCreativesDto(
                 ClientUserDto.from(entity.getClientUser()),
-				entity.getId(),
+                entity.getId(),
                 entity.getName(),
                 entity.getBudget(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
                 entity.getModifiedBy(),
-				entity.getCreatives().stream()
-								.map(CreativeDto::from)
-								.collect(Collectors.toCollection(LinkedHashSet::new))
+                entity.getCreatives().stream()
+                        .map(CreativeDto::from)
+                        .collect(Collectors.toCollection(LinkedHashSet::new))
         );
     }
 }

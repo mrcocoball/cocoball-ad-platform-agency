@@ -31,8 +31,8 @@ public record CampaignDto(
     // Entity -> dto로 변환
     public static CampaignDto from(Campaign entity) {
         return new CampaignDto(
-				ClientUserDto.from(entity.getClientUser()),
-				entity.getId(),
+                ClientUserDto.from(entity.getClientUser()),
+                entity.getId(),
                 entity.getName(),
                 entity.getBudget(),
                 entity.getCreatedAt(),
@@ -46,7 +46,7 @@ public record CampaignDto(
     public Campaign toEntity(ClientUser clientUser) {
         return Campaign.of(
                 clientUser,
-				name,
+                name,
                 budget
         );
     }
