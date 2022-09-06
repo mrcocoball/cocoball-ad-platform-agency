@@ -3,8 +3,18 @@
   <attr sel="#header" th:replace="header :: header" />
   <attr sel="#footer" th:replace="footer :: footer" />
 
-    <attr sel="#create-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/form'" />
+  <attr sel="#creative-header/h1" th:text="'캠페인명 : ' + ${campaign.name}" />
 
+  <attr sel="#create-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/form'" />
+
+  <attr sel="#client-info">
+    <attr sel="tbody" th:remove="all-but-first">
+      <attr sel="td.user-id" th:text="${clientUser.userId}" />
+      <attr sel="td.nickname" th:text="${clientUser.nickname}" />
+    </attr>
+  </attr>
+
+    <attr sel="#creative-table">
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="tr[0]" th:each="creative : ${creatives}">
           <attr sel="td.id" th:text="${creative.id}" />
