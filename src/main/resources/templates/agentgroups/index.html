@@ -2,14 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="mrcocoball">
   <title>에이전트 그룹 리스트</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  <link href="/css/search-bar.css" rel="stylesheet">
-  <link href="/css/articles/table-header.css" rel="stylesheet">
 </head>
 
 <body>
@@ -20,8 +17,8 @@
   </header>
 
   <main class="d-flex flex-nowrap">
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;, height: 100%;">
-      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 865px; width: 280px;">
+      <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
         <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
         <span class="fs-4"></span>
       </a>
@@ -61,39 +58,6 @@
    <div class="container">
    <h1> 에이전트 그룹 관리 페이지 </h1>
     <div class="row">
-      <div class="card card-margin search-form">
-        <div class="card-body p-0">
-          <form action="/agentGroups" method="get">
-            <div class="row">
-              <div class="col-12">
-                <div class="row no-gutters">
-                  <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                    <label for="search-type" hidden>검색 유형</label>
-                    <select class="form-control" id="search-type" name="searchType">
-                      <option>에이전트 그룹 이름</option>
-                    </select>
-                  </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 p-0">
-                    <label for="search-value" hidden>검색어</label>
-                    <input type="text" placeholder="검색어..." class="form-control" id="search-value" name="searchValue">
-                  </div>
-                  <div class="col-lg-1 col-md-3 col-sm-12 p-0">
-                    <button type="submit" class="btn btn-base">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="d-grid gap-2 d-md-flex justify-content-md">
         <a class="btn btn-primary me-md-2" role="button" id="create-agentgroup">에이전트 그룹 생성</a>
       </div>
@@ -103,8 +67,8 @@
       <table class="table" id="agentgroup-table">
         <thead>
         <tr>
-          <th class="name col-2"><a>그룹명</a></th>
-          <th class="agents-list col-2"><a>소속 에이전트 확인</a></th>
+          <th class="name col-xs-2" style="width: 600px"><a>그룹명</a></th>
+          <th class="agents-list col-xs-2"><a>소속 에이전트 확인</a></th>
           <th class="button"><a></a></th>
           <th class="button"><a></a></th>
         </tr>
