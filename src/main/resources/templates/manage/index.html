@@ -2,14 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="mrcocoball">
   <title>광고 관리 페이지</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  <link href="/css/search-bar.css" rel="stylesheet">
-  <link href="/css/articles/table-header.css" rel="stylesheet">
 </head>
 
 <body>
@@ -20,8 +17,8 @@
   </header>
 
   <main class="d-flex flex-nowrap">
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;, height: 100%;">
-      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 865px; width: 280px;">
+      <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
         <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
         <span class="fs-4"></span>
       </a>
@@ -67,18 +64,18 @@
             <div class="row">
               <div class="col-12">
                 <div class="row no-gutters">
-                  <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                  <div class="col-lg-3 col-xs-3 col-xs-12 p-0">
                     <label for="search-type" hidden>검색 유형</label>
                     <select class="form-control" id="search-type" name="searchType">
                       <option>광고주 ID</option>
                       <option>광고주명</option>
                     </select>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 p-0">
+                  <div class="col-lg-8 col-xs-6 col-xs-12 p-0">
                     <label for="search-value" hidden>검색어</label>
                     <input type="text" placeholder="검색어..." class="form-control" id="search-value" name="searchValue">
                   </div>
-                  <div class="col-lg-1 col-md-3 col-sm-12 p-0">
+                  <div class="col-lg-1 col-xs-3 col-xs-12 p-0">
                     <button type="submit" class="btn btn-base">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -98,10 +95,10 @@
       <table class="table" id="client-table">
         <thead>
         <tr>
-          <th class="user-id col-2"><a>광고주 ID</a></th>
-          <th class="nickname col-2"><a>광고주명</a></th>
-          <th class="agent-name col-2"><a>담당 에이전트</a></th>
-          <th class="client-manage col-2"><a></a></th>
+          <th class="user-id col-xs-2" style="width: 300px;"><a>광고주 ID</a></th>
+          <th class="nickname col-xs-2" style="width: 300px;"><a>광고주명</a></th>
+          <th class="agent-name col-xs-2" style="width: 300px;"><a>담당 에이전트</a></th>
+          <th class="client-manage col-xs-2"><a></a></th>
         </tr>
         </thead>
         <tbody>
