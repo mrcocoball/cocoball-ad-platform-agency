@@ -22,6 +22,7 @@
 * Heroku </br></br>
 
 ## 1.0.0 릴리즈 구현 기능 (2022-09-11)
+- URL : https://cocoball-ad-agency-platform.herokuapp.com/
 - 최초 로그인이 필요 (ID : TestAgency / PW : test1234)
 - 대행사 어드민 기능이 구현되었음
 
