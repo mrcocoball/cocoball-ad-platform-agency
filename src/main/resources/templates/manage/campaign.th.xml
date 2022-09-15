@@ -10,12 +10,14 @@
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="td.user-id" th:text="${clientUser.userId}" />
         <attr sel="td.nickname" th:text="${clientUser.nickname}" />
+        <attr sel="td.category" th:text="${clientUser.categoryName}"/>
       </attr>
     </attr>
 
     <attr sel="#campaign-table">
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="tr[0]" th:each="campaign : ${campaigns}">
+          <attr sel="#activate-button" th:text="${campaign.statusDescription}"/>
           <attr sel="td.id" th:text="${campaign.id}"/>
           <attr sel="td.name" th:text="${campaign.name}"/>
           <attr sel="td.budget" th:text="${campaign.budget}"/>
@@ -26,4 +28,4 @@
       </attr>
     </attr>
 </attr>
-        </thlogic>
+</thlogic>

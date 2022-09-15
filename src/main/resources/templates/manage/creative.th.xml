@@ -12,18 +12,21 @@
     <attr sel="tbody" th:remove="all-but-first">
       <attr sel="td.user-id" th:text="${clientUser.userId}" />
       <attr sel="td.nickname" th:text="${clientUser.nickname}" />
+      <attr sel="td.category" th:text="${clientUser.categoryName}"/>
     </attr>
   </attr>
 
     <attr sel="#creative-table">
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="tr[0]" th:each="creative : ${creatives}">
+          <attr sel="#activate-button" th:text="${creative.statusDescription}"/>
           <attr sel="td.id" th:text="${creative.id}" />
           <attr sel="td.keyword" th:text="${creative.keyword}" />
           <attr sel="td.biding-price" th:text="${creative.bidingPrice}" />
           <attr sel="td.view" th:text="${creative.view}" />
           <attr sel="td.click" th:text="${creative.click}" />
           <attr sel="td.conversion" th:text="${creative.conversion}" />
+          <attr sel="td.purchase" th:text="${creative.purchase}"/>
           <attr sel="#manage-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/form'" />
           <attr sel="#delete-creative-form" th:action="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/delete'" th:method="post" />
         </attr>

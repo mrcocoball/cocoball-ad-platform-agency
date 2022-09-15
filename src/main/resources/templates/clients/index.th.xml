@@ -30,16 +30,23 @@
             searchType=${param.searchType},
             searchValue=${param.searchValue}
         )}"/>
+        <attr sel="th.category/a" th:text="'업종'" th:href="@{/clients(
+            page=${clientUsers.number},
+            sort='categoryName' + (*{sort.getOrderFor('categoryName')} != null ? (*{sort.getOrderFor('categoryName').direction.name} != 'DESC' ? ',desc' : '') : ''),
+            searchType=${param.searchType},
+            searchValue=${param.searchValue}
+        )}"/>
       </attr>
 
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="tr[0]" th:each="clientUser : ${clientUsers}">
-          <attr sel="td.user-id" th:text="${clientUser.userId}" />
-          <attr sel="td.nickname" th:text="${clientUser.nickname}" />
-		  <attr sel="td.agent-name" th:text="${clientUser.agentName}" />
-          <attr sel="#client-info" th:href="@{'/clients/' + ${clientUser.userId}}" />
-          <attr sel="#client-manage" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'}" />
-          <attr sel="#client-mapping" th:href="@{'/clients/' + ${clientUser.userId}}" />
+          <attr sel="td.user-id" th:text="${clientUser.userId}"/>
+          <attr sel="td.nickname" th:text="${clientUser.nickname}"/>
+          <attr sel="td.category" th:text="${clientUser.categoryName}"/>
+          <attr sel="td.agent-name" th:text="${clientUser.agentName}"/>
+          <attr sel="#client-info" th:href="@{'/clients/' + ${clientUser.userId}}"/>
+          <attr sel="#client-manage" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'}"/>
+          <attr sel="#client-mapping" th:href="@{'/clients/' + ${clientUser.userId}}"/>
         </attr>
       </attr>
     </attr>
