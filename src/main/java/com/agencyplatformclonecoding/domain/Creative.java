@@ -1,5 +1,7 @@
 package com.agencyplatformclonecoding.domain;
 
+import com.agencyplatformclonecoding.converter.CreativeStatusConverter;
+import com.agencyplatformclonecoding.domain.constrant.CreativeStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -35,13 +37,24 @@ public class Creative extends AuditingFields {
     @Setter @Column private Long click;
     @Setter @Column private Long conversion;
 
+    @Convert(converter = CreativeStatusConverter.class)
+   	@Setter @Column private CreativeStatus status;
+
+   	@Setter @Column private Long purchase;
+
     protected Creative() {}
 
     private Creative(Campaign campaign, String keyword, Long bidingPrice) {
         this.campaign = campaign;
         this.keyword = keyword;
         this.bidingPrice = bidingPrice;
+		this.status = initiaizeStatus();
     }
+
+	public CreativeStatus initiaizeStatus() {
+		CreativeStatus status = new CreativeStatus(200);
+		return status;
+	}
 
     public static Creative of(Campaign campaign, String keyword, Long bidingPrice) {
         return new Creative(campaign, keyword, bidingPrice);

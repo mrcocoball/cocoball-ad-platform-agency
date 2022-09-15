@@ -25,6 +25,7 @@ class JpaRepositoryTest {
     private final AgencyRepository agencyRepository;
     private final AgentGroupRepository agentGroupRepository;
     private final AgentRepository agentRepository;
+    private final CategoryRepository categoryRepository;
     private final ClientUserRepository clientUserRepository;
     private final CampaignRepository campaignRepository;
     private final CreativeRepository creativeRepository;
@@ -33,6 +34,7 @@ class JpaRepositoryTest {
             @Autowired AgencyRepository agencyRepository,
             @Autowired AgentGroupRepository agentGroupRepository,
             @Autowired AgentRepository agentRepository,
+            @Autowired CategoryRepository categoryRepository,
             @Autowired ClientUserRepository clientUserRepository,
             @Autowired CampaignRepository campaignRepository,
             @Autowired CreativeRepository creativeRepository
@@ -40,6 +42,7 @@ class JpaRepositoryTest {
         this.agencyRepository = agencyRepository;
         this.agentGroupRepository = agentGroupRepository;
         this.agentRepository = agentRepository;
+        this.categoryRepository = categoryRepository;
         this.clientUserRepository = clientUserRepository;
         this.campaignRepository = campaignRepository;
         this.creativeRepository = creativeRepository;
@@ -53,6 +56,7 @@ class JpaRepositoryTest {
         // When
         List<AgentGroup> agentGroups = agentGroupRepository.findAll();
         List<Agent> agents = agentRepository.findAll();
+        List<Category> categories = categoryRepository.findAll();
         List<ClientUser> clientUsers = clientUserRepository.findAll();
         List<Campaign> campaigns = campaignRepository.findAll();
         List<Creative> creatives = creativeRepository.findAll();
@@ -60,6 +64,7 @@ class JpaRepositoryTest {
         // Then
         assertThat(agentGroups).isNotNull().hasSize(6);
         assertThat(agents).isNotNull().hasSize(21);
+        assertThat(categories).isNotNull().hasSize(26);
         assertThat(clientUsers).isNotNull().hasSize(100);
         assertThat(campaigns).isNotNull().hasSize(200);
         assertThat(creatives).isNotNull().hasSize(1000);
@@ -94,6 +99,20 @@ class JpaRepositoryTest {
         assertThat(agentRepository.count()).isEqualTo(previousCount + 1);
     }
 
+    @DisplayName("INSERT 테스트 - 카테고리")
+    @Test
+    void givenTestCategoryData_whenCategoryInserting_thenWorksFine() {
+        // Given
+        long previousCount = categoryRepository.count();
+        Category category = Category.of("t-category");
+
+        // When
+        categoryRepository.save(category);
+
+        // Then
+        assertThat(categoryRepository.count()).isEqualTo(previousCount + 1);
+    }
+
     @DisplayName("INSERT 테스트 - 광고주")
     @Test
     void givenTestClientData_whenClientInserting_thenWorksFine() {
@@ -101,7 +120,8 @@ class JpaRepositoryTest {
         long previousCount = clientUserRepository.count();
         Agency agency = agencyRepository.findById("TestAgency").orElseThrow();
         Agent agent = agentRepository.findById("agent1").orElseThrow();
-        ClientUser clientUser = ClientUser.of(agency, agent, "testclient", "pw", "email@mail.com", "김봉식");
+        Category category = categoryRepository.findById(1L).orElseThrow();
+        ClientUser clientUser = ClientUser.of(agency, agent, category,"testclient", "pw", "email@mail.com", "김봉식");
 
         // When
         clientUserRepository.save(clientUser);
@@ -117,7 +137,8 @@ class JpaRepositoryTest {
         long previousCount = campaignRepository.count();
         Agency agency = agencyRepository.findById("TestAgency").orElseThrow();
         Agent agent = agentRepository.findById("agent1").orElseThrow();
-        ClientUser clientUser = ClientUser.of(agency, agent, "testclient", "pw", "email@mail.com", "김봉식");
+        Category category = categoryRepository.findById(1L).orElseThrow();
+        ClientUser clientUser = ClientUser.of(agency, agent, category, "testclient", "pw", "email@mail.com", "김봉식");
         clientUserRepository.save(clientUser);
         Campaign campaign = Campaign.of(clientUser, "testxxx", 22222L);
 
@@ -135,7 +156,8 @@ class JpaRepositoryTest {
         long previousCount = creativeRepository.count();
         Agency agency = agencyRepository.findById("TestAgency").orElseThrow();
         Agent agent = agentRepository.findById("agent1").orElseThrow();
-        ClientUser clientUser = ClientUser.of(agency, agent, "testclient", "pw", "email@mail.com", "김봉식");
+        Category category = categoryRepository.findById(1L).orElseThrow();
+        ClientUser clientUser = ClientUser.of(agency, agent, category, "testclient", "pw", "email@mail.com", "김봉식");
         clientUserRepository.save(clientUser);
         Campaign campaign = Campaign.of(clientUser, "testxxx", 22222L);
         campaignRepository.save(campaign);

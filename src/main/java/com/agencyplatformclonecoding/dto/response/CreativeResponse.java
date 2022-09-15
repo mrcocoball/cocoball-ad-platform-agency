@@ -9,15 +9,18 @@ public record CreativeResponse(
         Long view,
         Long click,
         Long conversion,
-        Long campaignId
+        Long purchase,
+        Long campaignId,
+        String statusDescription
 ) {
 
-    public static CreativeResponse of(Long id, String keyword, Long bidingPrice, Long view, Long click, Long conversion, Long campaignId) {
-        return new CreativeResponse(id, keyword, bidingPrice, view, click, conversion, campaignId);
+    public static CreativeResponse of(Long id, String keyword, Long bidingPrice, Long view, Long click, Long conversion, Long purchase, Long campaignId, String statusDescription) {
+        return new CreativeResponse(id, keyword, bidingPrice, view, click, conversion, purchase, campaignId, statusDescription);
     }
 
     public static CreativeResponse from(CreativeDto dto) {
         Long campaignId = dto.campaignId();
+        String statusDescription = dto.status().getDescription();
 
         return new CreativeResponse(
                 dto.id(),
@@ -26,7 +29,9 @@ public record CreativeResponse(
                 dto.view(),
                 dto.click(),
                 dto.conversion(),
-                campaignId
+                dto.purchase(),
+                campaignId,
+                statusDescription
         );
     }
 }

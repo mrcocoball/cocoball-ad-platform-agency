@@ -3,10 +3,7 @@ package com.agencyplatformclonecoding.controller;
 import com.agencyplatformclonecoding.config.SecurityConfig;
 import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.AgencyDto;
-import com.agencyplatformclonecoding.dto.AgentDto;
-import com.agencyplatformclonecoding.dto.AgentGroupDto;
-import com.agencyplatformclonecoding.dto.ClientUserDto;
+import com.agencyplatformclonecoding.dto.*;
 import com.agencyplatformclonecoding.service.ClientUserService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import org.junit.jupiter.api.DisplayName;
@@ -203,6 +200,7 @@ class ClientUserControllerTest {
 		return ClientUserDto.of(
 				createAgencyDto(),
 				createAgentDto(),
+                createCategoryDto(),
 				"t-client",
 				"pw",
 				"테스트용",
@@ -211,6 +209,17 @@ class ClientUserControllerTest {
                 "테스트",
                 LocalDateTime.now(),
                 "테스트"
+        );
+    }
+
+    private CategoryDto createCategoryDto() {
+        return CategoryDto.of(
+                1L,
+                "t-category",
+                LocalDateTime.now(),
+                "test",
+                LocalDateTime.now(),
+                "test"
         );
     }
 

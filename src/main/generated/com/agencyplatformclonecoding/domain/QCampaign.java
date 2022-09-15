@@ -46,6 +46,8 @@ public class QCampaign extends EntityPathBase<Campaign> {
 
     public final StringPath name = createString("name");
 
+    public final SimplePath<com.agencyplatformclonecoding.domain.constrant.CampaignStatus> status = createSimple("status", com.agencyplatformclonecoding.domain.constrant.CampaignStatus.class);
+
     public QCampaign(String variable) {
         this(Campaign.class, forVariable(variable), INITS);
     }

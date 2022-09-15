@@ -80,20 +80,23 @@
       <table class="table" id="client-info">
         <thead>
         <tr>
-          <th class="user-id col-2"><a>광고주 ID</a></th>
-          <th class="nickname col-2"><a>광고주명</a></th>
+          <th class="user-id col-xs-2"><a>광고주 ID</a></th>
+          <th class="nickname col-xs-2"><a>광고주명</a></th>
+          <th class="category col-xs-2"><a>업종</a></th>
         </tr>
         </thead>
         <tbody>
         <tr>
           <td class="user-id"><a>client1</a></td>
           <td class="nickname">코코볼자동차</td>
+          <td class="category">자동차</td>
         </tr>
         </tbody>
       </table>
       <table class="table" id="campaign-table">
         <thead>
         <tr>
+          <th class="activate-status"><a>상태</a></th>
           <th class="id"><a>캠페인 번호</a></th>
           <th class="name"><a>캠페인명</a></th>
           <th class="budget"><a>예산(원)</a></th>
@@ -102,6 +105,13 @@
         </thead>
         <tbody>
         <tr>
+          <td>
+            <form id="activate-campaign-form">
+              <button type="button" class="btn btn-primary active" data-bs-toggle="button" aria-pressed="true"
+                      id="activate-button">ON
+              </button>
+            </form>
+          </td>
           <td class="id">1</td>
           <td class="name">코코볼 프로모션 1</td>
           <td class="budget">30000</td>

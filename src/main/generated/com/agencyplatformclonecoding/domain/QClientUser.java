@@ -30,6 +30,8 @@ public class QClientUser extends EntityPathBase<ClientUser> {
 
     public final SetPath<Campaign, QCampaign> campaigns = this.<Campaign, QCampaign>createSet("campaigns", Campaign.class, QCampaign.class, PathInits.DIRECT2);
 
+    public final QCategory category;
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -70,6 +72,7 @@ public class QClientUser extends EntityPathBase<ClientUser> {
         super(type, metadata, inits);
         this.agency = inits.isInitialized("agency") ? new QAgency(forProperty("agency")) : null;
         this.agent = inits.isInitialized("agent") ? new QAgent(forProperty("agent"), inits.get("agent")) : null;
+        this.category = inits.isInitialized("category") ? new QCategory(forProperty("category")) : null;
     }
 
 }

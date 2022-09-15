@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public record ClientUserResponse(
         String userId,
+        String categoryName,
         LocalDateTime createdAt,
         String nickname,
         String email,
@@ -14,8 +15,8 @@ public record ClientUserResponse(
         String agentName
 ) implements Serializable {
 
-    public static ClientUserResponse of(String userId, LocalDateTime createdAt, String nickname, String email, String agentId, String agentName) {
-        return new ClientUserResponse(userId, createdAt, nickname, email, agentId, agentName);
+    public static ClientUserResponse of(String userId, String categoryName, LocalDateTime createdAt, String nickname, String email, String agentId, String agentName) {
+        return new ClientUserResponse(userId, categoryName, createdAt, nickname, email, agentId, agentName);
     }
 
     public static ClientUserResponse from(ClientUserDto dto) {
@@ -24,8 +25,11 @@ public record ClientUserResponse(
             agentName = dto.agentDto().userId();
         }
 
+        String categoryName = dto.categoryDto().name();
+
         return new ClientUserResponse(
                 dto.userId(),
+                categoryName,
                 dto.createdAt(),
                 dto.nickname(),
                 dto.email(),

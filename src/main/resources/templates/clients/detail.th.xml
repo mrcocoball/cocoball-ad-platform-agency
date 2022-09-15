@@ -4,13 +4,15 @@
   <attr sel="#header" th:replace="header :: header" />
   <attr sel="#footer" th:replace="footer :: footer" />
 
-    <attr sel="#client-info">
-      <attr sel="tbody" th:remove="all-but-first">
-        <attr sel="td.user-id" th:text="${clientUser.userId}" />
-        <attr sel="td.nickname" th:text="${clientUser.nickname}" />
-        <attr sel="td.email" th:text="${clientUser.email}" />
-        <attr sel="td.agent-id" th:text="${clientUser.agentId}" />
-        <attr sel="td.agent-name" th:text="${clientUser.agentName}" />
-      </attr>
+  <attr sel="#client-info">
+    <attr sel="tbody" th:remove="all-but-first">
+      <attr sel="td.user-id" th:text="${clientUser.userId}"/>
+      <attr sel="td.nickname" th:text="${clientUser.nickname}"/>
+      <attr sel="td.category" th:text="${clientUser.categoryName}"/>
+      <attr sel="td.email" th:text="${clientUser.email}"/>
+      <attr sel="td.agent-id" th:text="${clientUser.agentId}"/>
+      <attr sel="td.agent-name" th:text="${clientUser.agentName}"/>
     </attr>
   </attr>
+ </attr>
+</thlogic>

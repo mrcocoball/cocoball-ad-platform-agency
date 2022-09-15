@@ -1,5 +1,7 @@
 package com.agencyplatformclonecoding.domain;
 
+import com.agencyplatformclonecoding.converter.CampaignStatusConverter;
+import com.agencyplatformclonecoding.domain.constrant.CampaignStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,17 +38,26 @@ public class Campaign extends AuditingFields {
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
     private final Set<Creative> creatives = new LinkedHashSet<>();
 
+    @Convert(converter = CampaignStatusConverter.class)
+   	@Setter @Column private CampaignStatus status;
+
     protected Campaign() {}
 
     private Campaign(ClientUser clientUser, String name, Long budget) {
         this.clientUser = clientUser;
         this.name = name;
         this.budget = budget;
+		this.status = initiaizeStatus();
     }
 
     public static Campaign of(ClientUser clientUser, String name, Long budget) {
         return new Campaign(clientUser, name, budget);
     }
+
+	public CampaignStatus initiaizeStatus() {
+		CampaignStatus status = new CampaignStatus(200);
+		return status;
+	}
 
     @Override
     public boolean equals(Object o) {

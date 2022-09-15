@@ -3,6 +3,7 @@ package com.agencyplatformclonecoding.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.agencyplatformclonecoding.domain.*;
+import com.agencyplatformclonecoding.domain.constrant.CampaignStatus;
 import com.agencyplatformclonecoding.dto.*;
 import com.agencyplatformclonecoding.repository.CampaignRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
@@ -145,8 +146,9 @@ public class CampaignServiceTest {
 		Agency agency = createAgency();
 		Agent agent = createAgent();
 		Campaign campaign = createCampaign();
+		Category category = createCategory();
 		CampaignDto dto = createCampaignDto("update-campaign");
-		given(clientUserRepository.getReferenceById(dto.clientUserDto().userId())).willReturn(dto.clientUserDto().toEntity(agency, agent));
+		given(clientUserRepository.getReferenceById(dto.clientUserDto().userId())).willReturn(dto.clientUserDto().toEntity(agency, agent, category));
 		given(campaignRepository.getReferenceById(dto.id())).willReturn(campaign);
 
 		// When
@@ -166,8 +168,9 @@ public class CampaignServiceTest {
 		Agency agency = createAgency();
 		Agent agent = createAgent();
 		Campaign campaign = createCampaign();
+		Category category = createCategory();
 		CampaignDto dto = createCampaignDto(30000L);
-		given(clientUserRepository.getReferenceById(dto.clientUserDto().userId())).willReturn(dto.clientUserDto().toEntity(agency, agent));
+		given(clientUserRepository.getReferenceById(dto.clientUserDto().userId())).willReturn(dto.clientUserDto().toEntity(agency, agent, category));
 		given(campaignRepository.getReferenceById(dto.id())).willReturn(campaign);
 
 		// When
@@ -258,10 +261,19 @@ public class CampaignServiceTest {
 		return agent;
 	}
 
+	private Category createCategory() {
+     Category category = Category.of(
+             "t-category"
+     );
+
+     return category;
+ }
+
 	private ClientUser createClientUser() {
 		ClientUser clientUser = ClientUser.of(
 			createAgency(),
 			createAgent(),
+			createCategory(),
 			"t-client",
 			"pw",
 			"email",
@@ -316,10 +328,22 @@ public class CampaignServiceTest {
         );
     }
 
+	private CategoryDto createCategoryDto() {
+     return CategoryDto.of(
+             1L,
+             "t-category",
+             LocalDateTime.now(),
+             "test",
+             LocalDateTime.now(),
+             "test"
+        );
+     }
+
 	private ClientUserDto createClientUserDto() {
 		return ClientUserDto.of(
 			createAgencyDto(),
 			createAgentDto(),
+			createCategoryDto(),
 			"t-client",
 			"pw",
 			"테스트용",
@@ -344,7 +368,8 @@ public class CampaignServiceTest {
 			LocalDateTime.now(),
 			"테스트용",
 			LocalDateTime.now(),
-			"테스트용"
+			"테스트용",
+			createCampaignStatus()
 		);
 	}
 
@@ -357,8 +382,15 @@ public class CampaignServiceTest {
 			LocalDateTime.now(),
 			"테스트용",
 			LocalDateTime.now(),
-			"테스트용"
+			"테스트용",
+			createCampaignStatus()
 		);
+	}
+
+	private CampaignStatus createCampaignStatus() {
+		CampaignStatus status = new CampaignStatus(100);
+
+		return status;
 	}
 
 }
