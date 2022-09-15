@@ -189,10 +189,22 @@ class ManageControllerTest {
         );
     }
 
+    private CategoryDto createCategoryDto() {
+        return CategoryDto.of(
+                1L,
+                "t-category",
+                LocalDateTime.now(),
+                "test",
+                LocalDateTime.now(),
+                "test"
+        );
+    }
+
    	private ClientUserDto createClientUserDto() {
    		return ClientUserDto.of(
    				createAgencyDto(),
    				createAgentDto(),
+                createCategoryDto(),
    				"t-client",
    				"pw",
    				"테스트용",
@@ -208,6 +220,7 @@ class ManageControllerTest {
         return ClientUserWithCampaignsDto.of(
                 createAgencyDto(),
                 createAgentDto(),
+                createCategoryDto(),
                 "t-client",
                 "pw",
                 "테스트용",
@@ -217,7 +230,7 @@ class ManageControllerTest {
                 LocalDateTime.now(),
                 "테스트",
                 Set.of()
-              );
+        );
     }
 
 }

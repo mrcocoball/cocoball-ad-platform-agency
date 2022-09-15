@@ -1,6 +1,8 @@
 package com.agencyplatformclonecoding.service;
 
 import com.agencyplatformclonecoding.domain.*;
+import com.agencyplatformclonecoding.domain.constrant.CampaignStatus;
+import com.agencyplatformclonecoding.domain.constrant.CreativeStatus;
 import com.agencyplatformclonecoding.dto.*;
 import com.agencyplatformclonecoding.repository.CampaignRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
@@ -241,10 +243,19 @@ public class CreativeServiceTest {
 		return agent;
 	}
 
+	private Category createCategory() {
+     Category category = Category.of(
+             "t-category"
+     );
+
+     return category;
+ }
+
 	private ClientUser createClientUser() {
 		ClientUser clientUser = ClientUser.of(
 			createAgency(),
 			createAgent(),
+			createCategory(),
 			"t-client",
 			"pw",
 			"email",
@@ -309,10 +320,22 @@ public class CreativeServiceTest {
         );
     }
 
+	private CategoryDto createCategoryDto() {
+     return CategoryDto.of(
+             1L,
+             "t-category",
+             LocalDateTime.now(),
+             "test",
+             LocalDateTime.now(),
+             "test"
+        );
+     }
+
 	private ClientUserDto createClientUserDto() {
 		return ClientUserDto.of(
 			createAgencyDto(),
 			createAgentDto(),
+			createCategoryDto(),
 			"t-client",
 			"pw",
 			"테스트용",
@@ -337,7 +360,8 @@ public class CreativeServiceTest {
 			LocalDateTime.now(),
 			"테스트용",
 			LocalDateTime.now(),
-			"테스트용"
+			"테스트용",
+			createCampaignStatus()
 		);
 	}
 
@@ -350,7 +374,8 @@ public class CreativeServiceTest {
 			LocalDateTime.now(),
 			"테스트용",
 			LocalDateTime.now(),
-			"테스트용"
+			"테스트용",
+			createCampaignStatus()
 		);
 	}
 
@@ -374,6 +399,18 @@ public class CreativeServiceTest {
 			"t-creative",
 			bidingPrice
 		);
+	}
+
+	private CampaignStatus createCampaignStatus() {
+		CampaignStatus status = new CampaignStatus(100);
+
+		return status;
+	}
+
+	private CreativeStatus createCreativeStatus() {
+		CreativeStatus status = new CreativeStatus(100);
+
+		return status;
 	}
 
 }

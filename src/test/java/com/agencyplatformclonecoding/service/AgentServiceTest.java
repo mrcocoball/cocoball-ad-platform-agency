@@ -1,9 +1,6 @@
 package com.agencyplatformclonecoding.service;
 
-import com.agencyplatformclonecoding.domain.Agency;
-import com.agencyplatformclonecoding.domain.Agent;
-import com.agencyplatformclonecoding.domain.AgentGroup;
-import com.agencyplatformclonecoding.domain.ClientUser;
+import com.agencyplatformclonecoding.domain.*;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.AgencyDto;
 import com.agencyplatformclonecoding.dto.AgentDto;
@@ -218,10 +215,19 @@ class AgentServiceTest {
         return agent;
     }
 
+    private Category createCategory() {
+        Category category = Category.of(
+                "t-category"
+        );
+
+        return category;
+    }
+
     private ClientUser createClientUser() {
         ClientUser clientUser = ClientUser.of(
                 createAgency(),
                 createAgent(),
+                createCategory(),
                 "t-client",
                 "pw",
                 "email",
