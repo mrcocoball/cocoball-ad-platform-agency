@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.dto;
 
 import com.agencyplatformclonecoding.domain.Campaign;
+import com.agencyplatformclonecoding.domain.constrant.CampaignStatus;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -16,11 +17,12 @@ public record CampaignWithCreativesDto(
         String createdBy,
         LocalDateTime modifiedAt,
         String modifiedBy,
-        Set<CreativeDto> creativeDtos
+        Set<CreativeDto> creativeDtos,
+        CampaignStatus status
 ) {
 
-    public static CampaignWithCreativesDto of(ClientUserDto clientUserDto, Long id, String name, Long budget, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Set<CreativeDto> creativeDtos) {
-        return new CampaignWithCreativesDto(clientUserDto, id, name, budget, createdAt, createdBy, modifiedAt, modifiedBy, creativeDtos);
+    public static CampaignWithCreativesDto of(ClientUserDto clientUserDto, Long id, String name, Long budget, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Set<CreativeDto> creativeDtos, CampaignStatus status) {
+        return new CampaignWithCreativesDto(clientUserDto, id, name, budget, createdAt, createdBy, modifiedAt, modifiedBy, creativeDtos, status);
     }
 
     // Entity -> dto로 변환
@@ -36,7 +38,8 @@ public record CampaignWithCreativesDto(
                 entity.getModifiedBy(),
                 entity.getCreatives().stream()
                         .map(CreativeDto::from)
-                        .collect(Collectors.toCollection(LinkedHashSet::new))
+                        .collect(Collectors.toCollection(LinkedHashSet::new)),
+				entity.getStatus()
         );
     }
 }
