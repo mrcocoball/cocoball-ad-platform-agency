@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 public record ClientUserWithCampaignsDto(
         AgencyDto agencyDto,
         AgentDto agentDto,
+        CategoryDto categoryDto,
         String userId,
         String userPassword,
         String nickname,
@@ -21,8 +22,8 @@ public record ClientUserWithCampaignsDto(
         Set<CampaignDto> campaignDtos
 ) {
 
-    public static ClientUserWithCampaignsDto of(AgencyDto agencyDto, AgentDto agentDto, String userId, String password, String nickname, String email, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Set<CampaignDto> campaignDtos) {
-        return new ClientUserWithCampaignsDto(agencyDto, agentDto, userId, password, nickname, email, createdAt, createdBy, modifiedAt, modifiedBy, campaignDtos);
+    public static ClientUserWithCampaignsDto of(AgencyDto agencyDto, AgentDto agentDto, CategoryDto categoryDto, String userId, String password, String nickname, String email, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Set<CampaignDto> campaignDtos) {
+        return new ClientUserWithCampaignsDto(agencyDto, agentDto, categoryDto, userId, password, nickname, email, createdAt, createdBy, modifiedAt, modifiedBy, campaignDtos);
     }
 
     // Entity -> dto로 변환
@@ -30,6 +31,7 @@ public record ClientUserWithCampaignsDto(
         return new ClientUserWithCampaignsDto(
                 AgencyDto.from(entity.getAgency()),
                 AgentDto.from(entity.getAgent()),
+                CategoryDto.from(entity.getCategory()),
                 entity.getUserId(),
                 entity.getUserPassword(),
                 entity.getNickname(),

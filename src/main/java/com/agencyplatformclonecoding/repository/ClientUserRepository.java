@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.repository;
 
 import com.agencyplatformclonecoding.domain.Agent;
+import com.agencyplatformclonecoding.domain.Category;
 import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.QClientUser;
 import com.querydsl.core.types.dsl.DateTimeExpression;
@@ -25,6 +26,7 @@ public interface ClientUserRepository extends
 
     Page<ClientUser> findByUserIdContaining(String userId, Pageable pageable);
     Page<ClientUser> findByNicknameContaining(String nickname, Pageable pageable);
+    Page<ClientUser> findByCategoryContaining(Category category, Pageable pageable);
     List<ClientUser> findByAgent_UserId(String userId);
 
     @Override

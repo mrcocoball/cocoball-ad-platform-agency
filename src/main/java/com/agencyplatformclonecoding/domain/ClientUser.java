@@ -26,8 +26,9 @@ public class ClientUser extends AuditingFields {
     @Setter @ManyToOne @JoinColumn(name = "AGENCY_ID") private Agency agency; // 에이전트 정보 (ID)
     @Setter @ManyToOne @JoinColumn(name = "AGENT_ID") private Agent agent; // 에이전트 정보 (ID)
 
-    @Setter @Column(nullable = false) private String userPassword;
+    @Setter @ManyToOne @JoinColumn(name = "CATEGORY_ID") private Category category; // 카테고리 정보 (ID)
 
+    @Setter @Column(nullable = false) private String userPassword;
     @Setter @Column(length = 50, nullable = false) private String email;
     @Setter @Column(length = 50, nullable = false) private String nickname;
 
@@ -37,17 +38,18 @@ public class ClientUser extends AuditingFields {
 
     protected ClientUser() {}
 
-    private ClientUser(Agency agency, Agent agent, String userId, String userPassword, String email, String nickname) {
+    private ClientUser(Agency agency, Agent agent, Category category, String userId, String userPassword, String email, String nickname) {
         this.agency = agency;
         this.agent = agent;
+        this.category = category;
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
         this.nickname = nickname;
     }
 
-    public static ClientUser of(Agency agency, Agent agent, String userId, String userPassword, String email, String nickname) {
-        return new ClientUser(agency, agent, userId, userPassword, email, nickname);
+    public static ClientUser of(Agency agency, Agent agent, Category category, String userId, String userPassword, String email, String nickname) {
+        return new ClientUser(agency, agent, category, userId, userPassword, email, nickname);
     }
 
     @Override
