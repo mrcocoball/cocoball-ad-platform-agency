@@ -25,7 +25,7 @@ public interface AgentRepository extends
         QuerydslPredicateExecutor<Agent>,
         QuerydslBinderCustomizer<QAgent> {
 
-    List<Agent> findByAgentGroup_Id(Long agentGroupId);
+    List<Agent> findByAgentGroup_IdAndDeletedFalse(Long agentGroupId);
 
    	Page<Agent> findByDeletedFalse(Pageable pageable);
 
