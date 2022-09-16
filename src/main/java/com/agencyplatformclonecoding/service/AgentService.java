@@ -31,7 +31,7 @@ public class AgentService {
 
     @Transactional(readOnly = true)
     public AgentDto getAgent(String agentId) {
-        return agentRepository.findById(agentId)
+        return agentRepository.findByUserIdAndDeletedFalse(agentId)
                 .map(AgentDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("에이전트가 존재하지 않습니다 - agentId : " + agentId));
     }
@@ -39,18 +39,18 @@ public class AgentService {
     @Transactional(readOnly = true)
     public Page<AgentDto> searchAgents(SearchType searchType, String searchKeyword, Pageable pageable) {
         if (searchKeyword == null || searchKeyword.isBlank()) {
-            return agentRepository.findAll(pageable).map(AgentDto::from);
+            return agentRepository.findByDeletedFalse(pageable).map(AgentDto::from);
         }
 
-        return switch(searchType) {
-            case ID -> agentRepository.findByUserIdContaining(searchKeyword, pageable).map(AgentDto::from);
-            case NICKNAME -> agentRepository.findByNicknameContaining(searchKeyword, pageable).map(AgentDto::from);
+        return switch (searchType) {
+            case ID -> agentRepository.findByUserIdContainingAndDeletedFalse(searchKeyword, pageable).map(AgentDto::from);
+            case NICKNAME -> agentRepository.findByNicknameContainingAndDeletedFalse(searchKeyword, pageable).map(AgentDto::from);
         };
     }
 
     @Transactional(readOnly = true)
     public AgentWithClientsDto getAgentWithClients(String agentId) {
-        return agentRepository.findById(agentId)
+        return agentRepository.findByUserIdAndDeletedFalse(agentId)
                 .map(AgentWithClientsDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("에이전트가 존재하지 않습니다 - agentId : " + agentId));
     }
@@ -60,18 +60,18 @@ public class AgentService {
             List<ClientUser> clientUsers = clientUserRepository.findByAgent_UserId(agentId);
 
             if (clientUsers.isEmpty()) {
-                agentRepository.deleteByUserIdAndAgency_AgencyId(agentId, agencyId);
+                agentRepository.setAgentDeletedTrue(agentId, agencyId);
             } else {
                 throw new IllegalArgumentException();
             }
         } catch (EntityNotFoundException e) {
             log.warn("에이전트를 삭제하지 못하였습니다. 에이전트가 존재하지 않습니다.", e.getLocalizedMessage());
         } catch (IllegalArgumentException e) {
-      			log.warn("매핑된 광고주가 남아 있어 에이전트을 삭제할 수 없습니다. - agentGroupId : {}", e.getLocalizedMessage());
+            log.warn("매핑된 광고주가 남아 있어 에이전트을 삭제할 수 없습니다. - agentGroupId : {}", e.getLocalizedMessage());
         }
     }
 
     public long getAgentCount() {
-        return agentRepository.count();
+        return agentRepository.countByDeletedTrue();
     }
 }

@@ -7,12 +7,17 @@ import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RepositoryRestResource
 public interface AgentRepository extends
@@ -20,12 +25,23 @@ public interface AgentRepository extends
         QuerydslPredicateExecutor<Agent>,
         QuerydslBinderCustomizer<QAgent> {
 
-    Page<Agent> findByUserIdContaining(String userId, Pageable pageable);
-    Page<Agent> findByNicknameContaining(String nickname, Pageable pageable);
-
     List<Agent> findByAgentGroup_Id(Long agentGroupId);
 
-    void deleteByUserIdAndAgency_AgencyId(String agentId, String agencyId);
+   	Page<Agent> findByDeletedFalse(Pageable pageable);
+
+   	Optional<Agent> findByUserIdAndDeletedFalse(String agentId);
+
+   	Page<Agent> findByUserIdContainingAndDeletedFalse(String userId, Pageable pageable);
+
+    Page<Agent> findByNicknameContainingAndDeletedFalse(String nickname, Pageable pageable);
+
+    long countByDeletedTrue();
+
+    @Modifying
+   	@Transactional
+   	@Query("UPDATE Agent a SET a.deleted = true where a.userId = :agentId and a.agency.agencyId = :agencyId")
+    void setAgentDeletedTrue(@Param("agentId") String agentId,
+   							 @Param("agencyId") String agencyId);
 
     @Override
     default void customize(QuerydslBindings bindings, QAgent root) {

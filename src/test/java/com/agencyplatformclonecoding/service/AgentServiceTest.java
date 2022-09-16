@@ -53,7 +53,7 @@ class AgentServiceTest {
         // Given
         String agentId = "t-agent";
         Agent agent = createAgent();
-        given(agentRepository.findById(agentId)).willReturn(Optional.of(agent));
+        given(agentRepository.findByUserIdAndDeletedFalse(agentId)).willReturn(Optional.of(agent));
 
         // When
         AgentDto dto = sut.getAgent(agentId);
@@ -62,7 +62,7 @@ class AgentServiceTest {
         assertThat(dto)
                 .hasFieldOrPropertyWithValue("userId", agent.getUserId())
                 .hasFieldOrPropertyWithValue("nickname", agent.getNickname());
-        then(agentRepository).should().findById(agentId);
+        then(agentRepository).should().findByUserIdAndDeletedFalse(agentId);
     }
 
     @DisplayName("READ - 검색어 없이 검색 시 에이전트 리스트를 반환")
@@ -70,14 +70,14 @@ class AgentServiceTest {
     void givenNoSearchingParameter_whenSearchingAgents_thenReturnsAgentPage() {
         // Given
         Pageable pageable = Pageable.ofSize(20);
-        given(agentRepository.findAll(pageable)).willReturn(Page.empty());
+        given(agentRepository.findByDeletedFalse(pageable)).willReturn(Page.empty());
 
         // When
         Page<AgentDto> agents = sut.searchAgents(null, null, pageable);
 
         // Then
         assertThat(agents).isEmpty();
-        then(agentRepository).should().findAll(pageable);
+        then(agentRepository).should().findByDeletedFalse(pageable);
     }
 
     @DisplayName("READ - 검색어를 통해 에이전트 검색 시 에이전트 리스트를 반환")
@@ -87,14 +87,14 @@ class AgentServiceTest {
         SearchType searchType = SearchType.ID;
         String searchKeyword = "t-agent";
         Pageable pageable = Pageable.ofSize(20);
-        given(agentRepository.findByUserIdContaining(searchKeyword, pageable)).willReturn(Page.empty());
+        given(agentRepository.findByUserIdContainingAndDeletedFalse(searchKeyword, pageable)).willReturn(Page.empty());
 
         // When
         Page<AgentDto> agents = sut.searchAgents(searchType, searchKeyword, pageable);
 
         // Then
         assertThat(agents).isEmpty();
-        then(agentRepository).should().findByUserIdContaining(searchKeyword, pageable);
+        then(agentRepository).should().findByUserIdContainingAndDeletedFalse(searchKeyword, pageable);
     }
 
     @DisplayName("READ - 에이전트 조회 시 에이전트에 매핑된 광고주 리스트 반환")
@@ -103,7 +103,7 @@ class AgentServiceTest {
         // Given
         String agentId = "t-agent";
         Agent agent = createAgent();
-        given(agentRepository.findById(agentId)).willReturn(Optional.of(agent));
+        given(agentRepository.findByUserIdAndDeletedFalse(agentId)).willReturn(Optional.of(agent));
 
         // When
         AgentWithClientsDto dto = sut.getAgentWithClients(agentId);
@@ -112,7 +112,7 @@ class AgentServiceTest {
         assertThat(dto)
                 .hasFieldOrPropertyWithValue("userId", agent.getUserId())
                 .hasFieldOrPropertyWithValue("nickname", agent.getNickname());
-        then(agentRepository).should().findById(agentId);
+        then(agentRepository).should().findByUserIdAndDeletedFalse(agentId);
     }
 
     @DisplayName("READ - 광고주를 매핑한 에이전트가 없을 경우 예외 처리")
@@ -120,7 +120,7 @@ class AgentServiceTest {
     void givenNonexistentAgentId_whenSearchingAgentWithClients_thenReturnsAgentWithClients() {
         // Given
         String agentId = "none-agent";
-        given(agentRepository.findById(agentId)).willReturn(Optional.empty());
+        given(agentRepository.findByUserIdAndDeletedFalse(agentId)).willReturn(Optional.empty());
 
         // When
         Throwable t = catchThrowable(() -> sut.getAgentWithClients(agentId));
@@ -129,7 +129,7 @@ class AgentServiceTest {
         assertThat(t)
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("에이전트가 존재하지 않습니다 - agentId : " + agentId);
-        then(agentRepository).should().findById(agentId);
+        then(agentRepository).should().findByUserIdAndDeletedFalse(agentId);
     }
 
     @DisplayName("READ - 에이전트가 없을 경우 예외 처리")
@@ -137,7 +137,7 @@ class AgentServiceTest {
     void givenNonexistentAgentId_whenSearchingAgent_thenThrowsException() {
         // Given
         String agentId = "none-agent";
-        given(agentRepository.findById(agentId)).willReturn(Optional.empty());
+        given(agentRepository.findByUserIdAndDeletedFalse(agentId)).willReturn(Optional.empty());
 
         // When
         Throwable t = catchThrowable(() -> sut.getAgent(agentId));
@@ -146,7 +146,7 @@ class AgentServiceTest {
         assertThat(t)
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("에이전트가 존재하지 않습니다 - agentId : " + agentId);
-        then(agentRepository).should().findById(agentId);
+        then(agentRepository).should().findByUserIdAndDeletedFalse(agentId);
     }
 
     @DisplayName("DELETE - 에이전트 ID 입력 시 에이전트를 삭제 - 정상 (매핑된 광고주가 없을 시)")
@@ -155,28 +155,28 @@ class AgentServiceTest {
         // Given
         String agentId = "test";
         String agencyId = "t-agency";
-        willDoNothing().given(agentRepository).deleteByUserIdAndAgency_AgencyId(agentId, agencyId);
+        willDoNothing().given(agentRepository).setAgentDeletedTrue(agentId, agencyId);
 
         // When
         sut.deleteAgent(agentId, agencyId);
 
         // Then
-        then(agentRepository).should().deleteByUserIdAndAgency_AgencyId(agentId, agencyId);
+        then(agentRepository).should().setAgentDeletedTrue(agentId, agencyId);
     }
 
-    @DisplayName("READ - 에이전트 수를 조회하면, 에이전트트 수를 반환한다")
+    @DisplayName("READ - 에이전트 수를 조회하면, 에이전트 수를 반환한다")
     @Test
     void givenNothing_whenCountingAgents_thenReturnsAgentsCount() {
         // Given
         long expected = 0L;
-        given(agentRepository.count()).willReturn(expected);
+        given(agentRepository.countByDeletedTrue()).willReturn(expected);
 
         // When
         long actual = sut.getAgentCount();
 
         // Then
         assertThat(actual).isEqualTo(expected);
-        then(agentRepository).should().count();
+        then(agentRepository).should().countByDeletedTrue();
     }
 
 
