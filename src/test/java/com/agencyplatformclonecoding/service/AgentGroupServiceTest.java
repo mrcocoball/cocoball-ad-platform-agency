@@ -241,7 +241,7 @@ class AgentGroupServiceTest {
     void givenAgentGroupId_whenCountingAgentsInAgentGroup_thenReturnsAgentCount() {
         // Given
         Long agentGroupId = 1L;
-        given(agentRepository.findByAgentGroup_Id(agentGroupId)).willReturn(Collections.emptyList());
+        given(agentRepository.findByAgentGroup_IdAndDeletedFalse(agentGroupId)).willReturn(Collections.emptyList());
         int expected = 0;
 
         // When
@@ -249,7 +249,7 @@ class AgentGroupServiceTest {
 
         // Then
         assertThat(actual).isEqualTo(expected);
-        then(agentRepository).should().findByAgentGroup_Id(agentGroupId);
+        then(agentRepository).should().findByAgentGroup_IdAndDeletedFalse(agentGroupId);
     }
 
     //fixture

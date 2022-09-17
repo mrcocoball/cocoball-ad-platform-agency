@@ -36,6 +36,8 @@ public class QAgent extends EntityPathBase<Agent> {
     //inherited
     public final StringPath createdBy = _super.createdBy;
 
+    public final BooleanPath deleted = createBoolean("deleted");
+
     public final StringPath email = createString("email");
 
     //inherited

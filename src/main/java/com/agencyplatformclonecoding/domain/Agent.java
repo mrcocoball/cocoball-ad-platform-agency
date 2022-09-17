@@ -38,6 +38,7 @@ public class Agent extends AuditingFields {
 
     @Setter @Column(length = 50, nullable = false) private String email;
     @Setter @Column(length = 50, nullable = false) private String nickname;
+    @Setter @Column private boolean deleted;
 
     protected Agent() {}
 
@@ -48,6 +49,7 @@ public class Agent extends AuditingFields {
         this.userPassword = userPassword;
         this.email = email;
         this.nickname = nickname;
+        this.deleted = false;
     }
 
     public static Agent of(Agency agency, AgentGroup agentGroup, String userId, String userPassword, String email, String nickname) {

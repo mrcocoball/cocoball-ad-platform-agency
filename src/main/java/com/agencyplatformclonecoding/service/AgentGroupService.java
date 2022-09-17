@@ -87,7 +87,7 @@ public class AgentGroupService {
 
         try {
             AgentGroup agentGroup = agentGroupRepository.getReferenceById(agentGroupId);
-            List<Agent> agents = agentRepository.findByAgentGroup_Id(agentGroupId);
+            List<Agent> agents = agentRepository.findByAgentGroup_IdAndDeletedFalse(agentGroupId);
 
             if (agents.size() == 0) {
                 agentGroupRepository.deleteByIdAndAgency_AgencyId(agentGroupId, agencyId);
@@ -106,7 +106,7 @@ public class AgentGroupService {
     }
 
     public int getAgentCount(Long agentGroupId) {
-        List<Agent> agents = agentRepository.findByAgentGroup_Id(agentGroupId);
+        List<Agent> agents = agentRepository.findByAgentGroup_IdAndDeletedFalse(agentGroupId);
         if (agents != null) {
             return agents.size();
         } else {
