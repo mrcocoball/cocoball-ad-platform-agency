@@ -41,6 +41,8 @@ public class Campaign extends AuditingFields {
     @Convert(converter = CampaignStatusConverter.class)
    	@Setter @Column private CampaignStatus status;
 
+    @Setter @Column private boolean deleted;
+
     protected Campaign() {}
 
     private Campaign(ClientUser clientUser, String name, Long budget) {
@@ -48,6 +50,7 @@ public class Campaign extends AuditingFields {
         this.name = name;
         this.budget = budget;
 		this.status = initiaizeStatus();
+        this.deleted = false;
     }
 
     public static Campaign of(ClientUser clientUser, String name, Long budget) {

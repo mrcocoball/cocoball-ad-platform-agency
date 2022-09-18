@@ -23,56 +23,59 @@ import javax.persistence.EntityNotFoundException;
 public class CampaignService {
 
     private final ClientUserRepository clientUserRepository;
-	private final CampaignRepository campaignRepository;
-    private final CreativeRepository creativeRepository;
+    private final CampaignRepository campaignRepository;
 
-	@Transactional(readOnly = true)
-	public CampaignDto getCampaign(Long campaignId) {
-		return campaignRepository.findById(campaignId)
-				.map(CampaignDto::from)
-				.orElseThrow(() -> new EntityNotFoundException("캠페인이 존재하지 않습니다 - campaignId : " + campaignId));
-	}
+    @Transactional(readOnly = true)
+    public CampaignDto getCampaign(Long campaignId) {
+        return campaignRepository.findByIdAndDeletedFalse(campaignId)
+                .map(CampaignDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("캠페인이 존재하지 않습니다 - campaignId : " + campaignId));
+    }
 
-	@Transactional(readOnly = true)
-	public CampaignWithCreativesDto getCampaignWithCreatives(Long campaignId) {
-		return campaignRepository.findById(campaignId)
-				.map(CampaignWithCreativesDto::from)
-				.orElseThrow(() -> new EntityNotFoundException("캠페인이 존재하지 않습니다 - campaignId : " + campaignId));
-	}
+    @Transactional(readOnly = true)
+    public CampaignWithCreativesDto getCampaignWithCreatives(Long campaignId) {
+        return campaignRepository.findByIdAndDeletedFalse(campaignId)
+                .map(CampaignWithCreativesDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("캠페인이 존재하지 않습니다 - campaignId : " + campaignId));
+    }
 
-	@Transactional(readOnly = true)
-	public Page<CampaignDto> searchCampaigns(Pageable pageable) {
-		return campaignRepository.findAll(pageable).map(CampaignDto::from);
-	}
+    @Transactional(readOnly = true)
+    public Page<CampaignDto> searchCampaigns(Pageable pageable) {
+        return campaignRepository.findByDeletedFalse(pageable).map(CampaignDto::from);
+    }
 
-	public void saveCampaign(CampaignDto dto) {
-		ClientUser clientUser = clientUserRepository.getReferenceById(dto.clientUserDto().userId());
-		campaignRepository.save(dto.toEntity(clientUser));
-	}
+    public void saveCampaign(CampaignDto dto) {
+        ClientUser clientUser = clientUserRepository.getReferenceById(dto.clientUserDto().userId());
+        campaignRepository.save(dto.toEntity(clientUser));
+    }
 
-	public void updateCampaign(Long campaignId, CampaignDto dto) {
+    public void updateCampaign(Long campaignId, CampaignDto dto) {
 
-		try {
-				Campaign campaign = campaignRepository.getReferenceById(campaignId);
-				ClientUser clientUser = clientUserRepository.getReferenceById(dto.clientUserDto().userId());
+        try {
+            Campaign campaign = campaignRepository.getReferenceById(campaignId);
+            ClientUser clientUser = clientUserRepository.getReferenceById(dto.clientUserDto().userId());
 
-				if (campaign.getClientUser().equals(clientUser))
-						if (dto.name() != null) {
-							campaign.setName(dto.name());
-						}
-					campaign.setBudget(dto.budget());
-		} catch (EntityNotFoundException e) {
-			log.warn("캠페인을 수정하는데 필요한 정보를 찾을 수 없습니다. - dto : {}", e.getLocalizedMessage());
-		}
-	}
+            if (campaign.isDeleted()) {
+                throw new EntityNotFoundException();
+            }
 
-	public void deleteCampaign(Long campaignId) {
-		campaignRepository.deleteById(campaignId);
-	}
+            if (campaign.getClientUser().equals(clientUser))
+                if (dto.name() != null) {
+                    campaign.setName(dto.name());
+                }
+            campaign.setBudget(dto.budget());
+        } catch (EntityNotFoundException e) {
+            log.warn("캠페인을 수정하는데 필요한 정보를 찾을 수 없습니다. - dto : {}", e.getLocalizedMessage());
+        }
+    }
 
-	public long getCampaignCount() {
-		return campaignRepository.count();
-	}
+    public void deleteCampaign(Long campaignId) {
+        campaignRepository.setCampaignDeletedTrue(campaignId);
+    }
+
+    public long getCampaignCount() {
+        return campaignRepository.countByDeletedFalse();
+    }
 
 
 }

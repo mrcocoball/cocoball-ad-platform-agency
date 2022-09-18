@@ -38,6 +38,8 @@ public class QCreative extends EntityPathBase<Creative> {
     //inherited
     public final StringPath createdBy = _super.createdBy;
 
+    public final BooleanPath deleted = createBoolean("deleted");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath keyword = createString("keyword");

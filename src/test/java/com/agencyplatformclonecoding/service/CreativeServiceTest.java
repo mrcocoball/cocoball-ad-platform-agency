@@ -49,7 +49,7 @@ public class CreativeServiceTest {
 		// Given
 		Long creativeId = 1L;
 		Creative creative = createCreative();
-		given(creativeRepository.findById(creativeId)).willReturn(Optional.of(creative));
+		given(creativeRepository.findByIdAndDeletedFalse(creativeId)).willReturn(Optional.of(creative));
 
 		// When
 		CreativeDto dto = sut.getCreative(creativeId);
@@ -58,7 +58,7 @@ public class CreativeServiceTest {
 		assertThat(dto)
 					.hasFieldOrPropertyWithValue("keyword", creative.getKeyword())
 					.hasFieldOrPropertyWithValue("bidingPrice", creative.getBidingPrice());
-		then(creativeRepository).should().findById(creativeId);
+		then(creativeRepository).should().findByIdAndDeletedFalse(creativeId);
 	}
 
 	@DisplayName("READ - 소재 리스트 조회 시 소재 리스트 반환")
@@ -66,14 +66,14 @@ public class CreativeServiceTest {
 	void givenNothing_whenSearchingCreatives_thenReturnsCreatives() {
 		// Given
 		Pageable pageable = Pageable.ofSize(20);
-		given(creativeRepository.findAll(pageable)).willReturn(Page.empty());
+		given(creativeRepository.findByDeletedFalse(pageable)).willReturn(Page.empty());
 
 		// When
 		Page<CreativeDto> creatives = sut.searchCreatives(pageable);
 
 		// Then
 		assertThat(creatives).isEmpty();
-		then(creativeRepository).should().findAll(pageable);
+		then(creativeRepository).should().findByDeletedFalse(pageable);
 	}
 
 	@DisplayName("READ - 소재가 존재하지 않을 경우 예외 처리")
@@ -81,7 +81,7 @@ public class CreativeServiceTest {
 	void givenNonexistentCreativeId_whenSearchingCreative_thenThrowsException() {
 		// Given
 		Long creativeId = 0L;
-		given(creativeRepository.findById(creativeId)).willReturn(Optional.empty());
+		given(creativeRepository.findByIdAndDeletedFalse(creativeId)).willReturn(Optional.empty());
 
 		// When
 		Throwable t = catchThrowable(() -> sut.getCreative(creativeId));
@@ -90,7 +90,7 @@ public class CreativeServiceTest {
 		assertThat(t)
 				.isInstanceOf(EntityNotFoundException.class)
 				.hasMessage("소재가 존재하지 않습니다 - creativeId : " + creativeId);
-		then(creativeRepository).should().findById(creativeId);
+		then(creativeRepository).should().findByIdAndDeletedFalse(creativeId);
 	}
 
 	@DisplayName("CREATE - 소재 정보 입력 시 소재 생성")
@@ -183,13 +183,13 @@ public class CreativeServiceTest {
 	void givenCreativeId_whenDeletingCreative_thenDeletesCreative() {
 		// Given
 		Long creativeId = 1L;
-		willDoNothing().given(creativeRepository).deleteById(creativeId);
+		willDoNothing().given(creativeRepository).setCreativeDeletedTrue(creativeId);
 
 		// When
 		sut.deleteCreative(creativeId);
 
 		// Then
-		then(creativeRepository).should().deleteById(creativeId);
+		then(creativeRepository).should().setCreativeDeletedTrue(creativeId);
 	}
 
 	@DisplayName("READ - 캠페인 수를 조회할 경우 캠페인 수를 반환")
@@ -197,14 +197,14 @@ public class CreativeServiceTest {
 	void givenNothing_whenCountingCreatives_thenReturnsCreativeCount() {
 		// Given
 		long expected = 0L;
-		given(creativeRepository.count()).willReturn(expected);
+		given(creativeRepository.countByDeletedFalse()).willReturn(expected);
 
 		// When
 		long actual = sut.getCreativeCount();
 
 		// Then
 		assertThat(actual).isEqualTo(expected);
-		then(creativeRepository).should().count();
+		then(creativeRepository).should().countByDeletedFalse();
 	}
 
 

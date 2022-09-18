@@ -169,14 +169,14 @@ class AgentServiceTest {
     void givenNothing_whenCountingAgents_thenReturnsAgentsCount() {
         // Given
         long expected = 0L;
-        given(agentRepository.countByDeletedTrue()).willReturn(expected);
+        given(agentRepository.countByDeletedFalse()).willReturn(expected);
 
         // When
         long actual = sut.getAgentCount();
 
         // Then
         assertThat(actual).isEqualTo(expected);
-        then(agentRepository).should().countByDeletedTrue();
+        then(agentRepository).should().countByDeletedFalse();
     }
 
 

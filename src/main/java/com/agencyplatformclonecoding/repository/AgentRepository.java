@@ -35,7 +35,7 @@ public interface AgentRepository extends
 
     Page<Agent> findByNicknameContainingAndDeletedFalse(String nickname, Pageable pageable);
 
-    long countByDeletedTrue();
+    long countByDeletedFalse();
 
     @Modifying
    	@Transactional
