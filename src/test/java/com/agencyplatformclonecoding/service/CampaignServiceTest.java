@@ -44,7 +44,7 @@ public class CampaignServiceTest {
 		// Given
 		Long campaignId = 1L;
 		Campaign campaign = createCampaign();
-		given(campaignRepository.findById(campaignId)).willReturn(Optional.of(campaign));
+		given(campaignRepository.findByIdAndDeletedFalse(campaignId)).willReturn(Optional.of(campaign));
 
 		// When
 		CampaignDto dto = sut.getCampaign(campaignId);
@@ -53,7 +53,7 @@ public class CampaignServiceTest {
 		assertThat(dto)
 					.hasFieldOrPropertyWithValue("name", campaign.getName())
 					.hasFieldOrPropertyWithValue("budget", campaign.getBudget());
-		then(campaignRepository).should().findById(campaignId);
+		then(campaignRepository).should().findByIdAndDeletedFalse(campaignId);
 	}
 
 	@DisplayName("READ - 캠페인 리스트 조회 시 캠페인 리스트 반환")
@@ -61,14 +61,14 @@ public class CampaignServiceTest {
 	void givenNothing_whenSearchingCampaigns_thenReturnsCmpaigns() {
 		// Given
 		Pageable pageable = Pageable.ofSize(20);
-		given(campaignRepository.findAll(pageable)).willReturn(Page.empty());
+		given(campaignRepository.findByDeletedFalse(pageable)).willReturn(Page.empty());
 
 		// When
 		Page<CampaignDto> campaigns = sut.searchCampaigns(pageable);
 
 		// Then
 		assertThat(campaigns).isEmpty();
-		then(campaignRepository).should().findAll(pageable);
+		then(campaignRepository).should().findByDeletedFalse(pageable);
 	}
 
 	@DisplayName("READ - 캠페인 ID 조회 시 캠페인과 편성된 내부 소재 리스트 반환")
@@ -77,7 +77,7 @@ public class CampaignServiceTest {
 		// Given
 		Long campaignId = 1L;
 		Campaign campaign = createCampaign();
-		given(campaignRepository.findById(campaignId)).willReturn(Optional.of(campaign));
+		given(campaignRepository.findByIdAndDeletedFalse(campaignId)).willReturn(Optional.of(campaign));
 
 		// When
 		CampaignWithCreativesDto dto = sut.getCampaignWithCreatives(campaignId);
@@ -86,7 +86,7 @@ public class CampaignServiceTest {
 		assertThat(dto)
 					.hasFieldOrPropertyWithValue("name", campaign.getName())
 					.hasFieldOrPropertyWithValue("budget", campaign.getBudget());
-		then(campaignRepository).should().findById(campaignId);
+		then(campaignRepository).should().findByIdAndDeletedFalse(campaignId);
 	}
 
 	@DisplayName("READ - 캠페인이 존재하지 않을 경우 예외 처리")
@@ -94,7 +94,7 @@ public class CampaignServiceTest {
 	void givenNonexistentCampaignId_whenSearchingCampaign_thenThrowsException() {
 		// Given
 		Long campaignId = 0L;
-		given(campaignRepository.findById(campaignId)).willReturn(Optional.empty());
+		given(campaignRepository.findByIdAndDeletedFalse(campaignId)).willReturn(Optional.empty());
 
 		// When
 		Throwable t = catchThrowable(() -> sut.getCampaign(campaignId));
@@ -103,7 +103,7 @@ public class CampaignServiceTest {
 		assertThat(t)
 				.isInstanceOf(EntityNotFoundException.class)
 				.hasMessage("캠페인이 존재하지 않습니다 - campaignId : " + campaignId);
-		then(campaignRepository).should().findById(campaignId);
+		then(campaignRepository).should().findByIdAndDeletedFalse(campaignId);
 	}
 
 	@DisplayName("READ - 소재가 등록된 캠페인이 존재하지 않을 경우 예외 처리")
@@ -111,7 +111,7 @@ public class CampaignServiceTest {
 	void givenNonexistentCampaignId_whenSearchingCampaignWithCreatives_thenThrowsException() {
 		// Given
 		Long campaignId = 0L;
-		given(campaignRepository.findById(campaignId)).willReturn(Optional.empty());
+		given(campaignRepository.findByIdAndDeletedFalse(campaignId)).willReturn(Optional.empty());
 
 		// When
 		Throwable t = catchThrowable(() -> sut.getCampaignWithCreatives(campaignId));
@@ -120,7 +120,7 @@ public class CampaignServiceTest {
 		assertThat(t)
 				.isInstanceOf(EntityNotFoundException.class)
 				.hasMessage("캠페인이 존재하지 않습니다 - campaignId : " + campaignId);
-		then(campaignRepository).should().findById(campaignId);
+		then(campaignRepository).should().findByIdAndDeletedFalse(campaignId);
 	}
 
 	@DisplayName("CREATE - 캠페인 정보 입력 시 캠페인 생성")
@@ -202,13 +202,13 @@ public class CampaignServiceTest {
 	void givenCampaignId_whenDeletingCampaign_thenDeletesCampaign() {
 		// Given
 		Long campaignId = 1L;
-		willDoNothing().given(campaignRepository).deleteById(campaignId);
+		willDoNothing().given(campaignRepository).setCampaignDeletedTrue(campaignId);
 
 		// When
 		sut.deleteCampaign(campaignId);
 
 		// Then
-		then(campaignRepository).should().deleteById(campaignId);
+		then(campaignRepository).should().setCampaignDeletedTrue(campaignId);
 	}
 
 	@DisplayName("READ - 캠페인 수를 조회할 경우 캠페인 수를 반환")
@@ -216,14 +216,14 @@ public class CampaignServiceTest {
 	void givenNothing_whenCountingCampaigns_thenReturnsCampaignCount() {
 		// Given
 		long expected = 0L;
-		given(campaignRepository.count()).willReturn(expected);
+		given(campaignRepository.countByDeletedFalse()).willReturn(expected);
 
 		// When
 		long actual = sut.getCampaignCount();
 
 		// Then
 		assertThat(actual).isEqualTo(expected);
-		then(campaignRepository).should().count();
+		then(campaignRepository).should().countByDeletedFalse();
 	}
 
 	// fixture

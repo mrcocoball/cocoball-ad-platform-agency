@@ -1,18 +1,19 @@
 package com.agencyplatformclonecoding.repository;
 
-import com.agencyplatformclonecoding.domain.Campaign;
-import com.agencyplatformclonecoding.domain.QAgentGroup;
-import com.agencyplatformclonecoding.domain.QCampaign;
-import com.agencyplatformclonecoding.domain.QClientUser;
+import com.agencyplatformclonecoding.domain.*;
 import com.agencyplatformclonecoding.dto.CampaignDto;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,16 @@ public interface CampaignRepository extends
         QuerydslPredicateExecutor<Campaign>,
         QuerydslBinderCustomizer<QCampaign> {
 
-    void deleteById(Long id);
+    Page<Campaign> findByDeletedFalse(Pageable pageable);
+
+    Optional<Campaign> findByIdAndDeletedFalse(Long campaignId);
+
+    long countByDeletedFalse();
+
+    @Modifying
+   	@Transactional
+   	@Query("UPDATE Campaign c SET c.deleted = true where c.id = :id")
+    void setCampaignDeletedTrue(@Param("id") Long id);
 
     @Override
     default void customize(QuerydslBindings bindings, QCampaign root) {

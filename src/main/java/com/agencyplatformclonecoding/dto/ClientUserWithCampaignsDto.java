@@ -41,6 +41,7 @@ public record ClientUserWithCampaignsDto(
                 entity.getModifiedAt(),
                 entity.getModifiedBy(),
                 entity.getCampaigns().stream()
+                        .filter(c -> !c.isDeleted())
                         .map(CampaignDto::from)
                         .collect(Collectors.toCollection(LinkedHashSet::new))
         );

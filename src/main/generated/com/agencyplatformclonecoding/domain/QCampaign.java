@@ -36,6 +36,8 @@ public class QCampaign extends EntityPathBase<Campaign> {
 
     public final SetPath<Creative, QCreative> creatives = this.<Creative, QCreative>createSet("creatives", Creative.class, QCreative.class, PathInits.DIRECT2);
 
+    public final BooleanPath deleted = createBoolean("deleted");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
