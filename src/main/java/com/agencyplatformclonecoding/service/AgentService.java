@@ -72,6 +72,6 @@ public class AgentService {
     }
 
     public long getAgentCount() {
-        return agentRepository.countByDeletedTrue();
+        return agentRepository.countByDeletedFalse();
     }
 }
