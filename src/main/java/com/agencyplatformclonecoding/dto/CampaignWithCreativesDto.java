@@ -37,6 +37,7 @@ public record CampaignWithCreativesDto(
                 entity.getModifiedAt(),
                 entity.getModifiedBy(),
                 entity.getCreatives().stream()
+                        .filter(c -> !c.isDeleted())
                         .map(CreativeDto::from)
                         .collect(Collectors.toCollection(LinkedHashSet::new)),
 				entity.getStatus()

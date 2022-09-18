@@ -23,53 +23,56 @@ import static com.agencyplatformclonecoding.domain.QCampaign.campaign;
 @Service
 public class CreativeService {
 
-    private final ClientUserRepository clientUserRepository;
-	private final CampaignRepository campaignRepository;
+    private final CampaignRepository campaignRepository;
     private final CreativeRepository creativeRepository;
 
-	@Transactional(readOnly = true)
-	public CreativeDto getCreative(Long creativeId) {
-		return creativeRepository.findById(creativeId)
-				.map(CreativeDto::from)
-				.orElseThrow(() -> new EntityNotFoundException("소재가 존재하지 않습니다 - creativeId : " + creativeId));
-	}
+    @Transactional(readOnly = true)
+    public CreativeDto getCreative(Long creativeId) {
+        return creativeRepository.findByIdAndDeletedFalse(creativeId)
+                .map(CreativeDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("소재가 존재하지 않습니다 - creativeId : " + creativeId));
+    }
 
-	@Transactional(readOnly = true)
-	public Page<CreativeDto> searchCreatives(Pageable pageable) {
-		return creativeRepository.findAll(pageable).map(CreativeDto::from);
-	}
+    @Transactional(readOnly = true)
+    public Page<CreativeDto> searchCreatives(Pageable pageable) {
+        return creativeRepository.findByDeletedFalse(pageable).map(CreativeDto::from);
+    }
 
-	public void saveCreative(CreativeDto dto) {
-		try {
-			Campaign campaign = campaignRepository.getReferenceById(dto.campaignDto().id());
-			creativeRepository.save(dto.toEntity(campaign));
-		} catch (EntityNotFoundException e) {
-			log.warn("소재 저장에 실패하였습니다. 소재 저장에 필요한 정보를 찾을 수 없습니다. - {}", e.getLocalizedMessage());
-		}
-	}
+    public void saveCreative(CreativeDto dto) {
+        try {
+            Campaign campaign = campaignRepository.getReferenceById(dto.campaignDto().id());
+            creativeRepository.save(dto.toEntity(campaign));
+        } catch (EntityNotFoundException e) {
+            log.warn("소재 저장에 실패하였습니다. 소재 저장에 필요한 정보를 찾을 수 없습니다. - {}", e.getLocalizedMessage());
+        }
+    }
 
-	public void updateCreative(Long creativeId, CreativeDto dto) {
+    public void updateCreative(Long creativeId, CreativeDto dto) {
 
-		try {
-				Creative creative = creativeRepository.getReferenceById(creativeId);
-				Campaign campaign = campaignRepository.getReferenceById(dto.campaignDto().id());
+        try {
+            Creative creative = creativeRepository.getReferenceById(creativeId);
+            Campaign campaign = campaignRepository.getReferenceById(dto.campaignDto().id());
 
-				if (creative.getCampaign().equals(campaign))
-						if (dto.keyword() != null) {
-							creative.setKeyword(dto.keyword());
-						}
-						creative.setBidingPrice(dto.bidingPrice());
-		} catch (EntityNotFoundException e) {
-			log.warn("소재를 수정하는데 필요한 정보를 찾을 수 없습니다. - dto : {}", e.getLocalizedMessage());
-		}
-	}
+            if (creative.isDeleted()) {
+                throw new EntityNotFoundException();
+            }
 
-	public void deleteCreative(Long creativeId) {
-		creativeRepository.deleteById(creativeId);
-	}
+            if (creative.getCampaign().equals(campaign))
+                if (dto.keyword() != null) {
+                    creative.setKeyword(dto.keyword());
+                }
+            creative.setBidingPrice(dto.bidingPrice());
+        } catch (EntityNotFoundException e) {
+            log.warn("소재를 수정하는데 필요한 정보를 찾을 수 없습니다. - dto : {}", e.getLocalizedMessage());
+        }
+    }
 
-	public long getCreativeCount() {
-		return creativeRepository.count();
-	}
+    public void deleteCreative(Long creativeId) {
+        creativeRepository.setCreativeDeletedTrue(creativeId);
+    }
+
+    public long getCreativeCount() {
+        return creativeRepository.countByDeletedFalse();
+    }
 
 }

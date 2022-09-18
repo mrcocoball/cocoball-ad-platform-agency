@@ -36,11 +36,12 @@ public class Creative extends AuditingFields {
     @Setter @Column private Long view;
     @Setter @Column private Long click;
     @Setter @Column private Long conversion;
+    @Setter @Column private Long purchase;
 
     @Convert(converter = CreativeStatusConverter.class)
    	@Setter @Column private CreativeStatus status;
 
-   	@Setter @Column private Long purchase;
+    @Setter @Column private boolean deleted;
 
     protected Creative() {}
 
@@ -49,6 +50,7 @@ public class Creative extends AuditingFields {
         this.keyword = keyword;
         this.bidingPrice = bidingPrice;
 		this.status = initiaizeStatus();
+        this.deleted = false;
     }
 
 	public CreativeStatus initiaizeStatus() {
