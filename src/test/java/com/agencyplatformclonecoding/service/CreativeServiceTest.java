@@ -66,14 +66,15 @@ public class CreativeServiceTest {
 	void givenNothing_whenSearchingCreatives_thenReturnsCreatives() {
 		// Given
 		Pageable pageable = Pageable.ofSize(20);
-		given(creativeRepository.findByDeletedFalse(pageable)).willReturn(Page.empty());
+		Long campaignId = 1L;
+		given(creativeRepository.findByDeletedFalseAndCampaign_Id(pageable, campaignId)).willReturn(Page.empty());
 
 		// When
-		Page<CreativeDto> creatives = sut.searchCreatives(pageable);
+		Page<CreativeDto> creatives = sut.searchCreatives(pageable, campaignId);
 
 		// Then
 		assertThat(creatives).isEmpty();
-		then(creativeRepository).should().findByDeletedFalse(pageable);
+		then(creativeRepository).should().findByDeletedFalseAndCampaign_Id(pageable, campaignId);
 	}
 
 	@DisplayName("READ - 소재가 존재하지 않을 경우 예외 처리")

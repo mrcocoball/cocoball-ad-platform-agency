@@ -34,8 +34,8 @@ public class CreativeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CreativeDto> searchCreatives(Pageable pageable) {
-        return creativeRepository.findByDeletedFalse(pageable).map(CreativeDto::from);
+    public Page<CreativeDto> searchCreatives(Pageable pageable, Long campaignId) {
+        return creativeRepository.findByDeletedFalseAndCampaign_Id(pageable, campaignId).map(CreativeDto::from);
     }
 
     public void saveCreative(CreativeDto dto) {
