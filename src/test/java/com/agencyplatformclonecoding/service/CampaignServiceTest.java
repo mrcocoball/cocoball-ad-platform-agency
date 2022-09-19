@@ -61,14 +61,15 @@ public class CampaignServiceTest {
 	void givenNothing_whenSearchingCampaigns_thenReturnsCmpaigns() {
 		// Given
 		Pageable pageable = Pageable.ofSize(20);
-		given(campaignRepository.findByDeletedFalse(pageable)).willReturn(Page.empty());
+		String clientId = "t-client";
+		given(campaignRepository.findByDeletedFalseAndClientUser_UserId(pageable, clientId)).willReturn(Page.empty());
 
 		// When
-		Page<CampaignDto> campaigns = sut.searchCampaigns(pageable);
+		Page<CampaignDto> campaigns = sut.searchCampaigns(pageable, clientId);
 
 		// Then
 		assertThat(campaigns).isEmpty();
-		then(campaignRepository).should().findByDeletedFalse(pageable);
+		then(campaignRepository).should().findByDeletedFalseAndClientUser_UserId(pageable, clientId);
 	}
 
 	@DisplayName("READ - 캠페인 ID 조회 시 캠페인과 편성된 내부 소재 리스트 반환")

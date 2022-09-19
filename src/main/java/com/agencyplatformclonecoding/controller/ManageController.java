@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
+import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
 import com.agencyplatformclonecoding.service.*;
@@ -46,12 +47,19 @@ public class ManageController {
     }
 
     @GetMapping("/{clientId}/campaigns")
-    public String campaigns(@PathVariable String clientId, ModelMap map) {
+    public String campaigns(
+            @PathVariable String clientId,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            ModelMap map
+    ) {
+        Page<CampaignResponse> campaigns = campaignService.searchCampaigns(pageable, clientId).map(CampaignResponse::from);
         ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), campaigns.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaigns);
-        map.addAttribute("campaigns", clientUserWithCampaigns.campaignResponses());
-        map.addAttribute("totalCount", manageService.getClientUserCount());
+        map.addAttribute("campaigns", campaigns);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("totalCount", campaignService.getCampaignCount());
 
         return "manage/campaign";
     }

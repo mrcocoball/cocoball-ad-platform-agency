@@ -24,7 +24,7 @@ public interface CreativeRepository extends
         QuerydslPredicateExecutor<Creative>,
         QuerydslBinderCustomizer<QCreative> {
 
-    Page<Creative> findByDeletedFalse(Pageable pageable);
+    Page<Creative> findByDeletedFalseAndCampaign_Id(Pageable pageable, Long campaignId);
 
     Optional<Creative> findByIdAndDeletedFalse(Long creativeId);
 

@@ -9,6 +9,7 @@ import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
 import com.agencyplatformclonecoding.dto.request.CampaignRequest;
 import com.agencyplatformclonecoding.dto.response.*;
 import com.agencyplatformclonecoding.service.CampaignService;
+import com.agencyplatformclonecoding.service.CreativeService;
 import com.agencyplatformclonecoding.service.ManageService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,8 @@ public class CampaignController {
 
     private final ManageService manageService;
     private final CampaignService campaignService;
+    private final CreativeService creativeService;
+    private final PaginationService paginationService;
 
     @GetMapping("/form")
     public String campaignForm(
@@ -94,15 +97,19 @@ public class CampaignController {
     public String creatives(
             @PathVariable("clientId") String clientId,
             @PathVariable Long campaignId,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
     ) {
-        CampaignWithCreativesResponse campaignWithCreatives = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
+        Page<CreativeResponse> creatives = creativeService.searchCreatives(pageable, campaignId).map(CreativeResponse::from);
+        CampaignResponse campaign = CampaignResponse.from(campaignService.getCampaign(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), creatives.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaignsResponse);
-        map.addAttribute("campaign", campaignWithCreatives);
-        map.addAttribute("creatives", campaignWithCreatives.creativeResponses());
-        map.addAttribute("totalCount", campaignService.getCampaignCount());
+        map.addAttribute("campaign", campaign);
+        map.addAttribute("creatives", creatives);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("totalCount", creativeService.getCreativeCount());
 
         return "manage/creative";
     }
