@@ -40,8 +40,8 @@ public class CampaignService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CampaignDto> searchCampaigns(Pageable pageable) {
-        return campaignRepository.findByDeletedFalse(pageable).map(CampaignDto::from);
+    public Page<CampaignDto> searchCampaigns(Pageable pageable, String clientId) {
+        return campaignRepository.findByDeletedFalseAndClientUser_UserId(pageable, clientId).map(CampaignDto::from);
     }
 
     public void saveCampaign(CampaignDto dto) {

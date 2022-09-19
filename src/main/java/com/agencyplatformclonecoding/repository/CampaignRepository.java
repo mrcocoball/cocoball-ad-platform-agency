@@ -24,7 +24,7 @@ public interface CampaignRepository extends
         QuerydslPredicateExecutor<Campaign>,
         QuerydslBinderCustomizer<QCampaign> {
 
-    Page<Campaign> findByDeletedFalse(Pageable pageable);
+    Page<Campaign> findByDeletedFalseAndClientUser_UserId(Pageable pageable, String clientId);
 
     Optional<Campaign> findByIdAndDeletedFalse(Long campaignId);
 
