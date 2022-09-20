@@ -49,9 +49,10 @@ public class CampaignService {
         campaignRepository.save(dto.toEntity(clientUser));
     }
 
-    public void updateCampaign(Long campaignId, CampaignDto dto) {
+    public void updateCampaign(Long campaignId, String clientId, CampaignDto dto) {
 
         try {
+            validateClientAndCampaign(campaignId, clientId);
             Campaign campaign = campaignRepository.getReferenceById(campaignId);
             ClientUser clientUser = clientUserRepository.getReferenceById(dto.clientUserDto().userId());
 
@@ -66,15 +67,33 @@ public class CampaignService {
             campaign.setBudget(dto.budget());
         } catch (EntityNotFoundException e) {
             log.warn("캠페인을 수정하는데 필요한 정보를 찾을 수 없습니다. - dto : {}", e.getLocalizedMessage());
+        } catch (IllegalArgumentException e) {
+            log.warn("캠페인-광고주가 매칭되어 있지 않습니다. 잘못된 경로로 접근하였습니다.", e.getLocalizedMessage());
         }
     }
 
-    public void deleteCampaign(Long campaignId) {
-        campaignRepository.setCampaignDeletedTrue(campaignId);
+    public void deleteCampaign(Long campaignId, String clientId) {
+
+        try {
+            validateClientAndCampaign(campaignId, clientId);
+            campaignRepository.setCampaignDeletedTrue(campaignId);
+        } catch (IllegalArgumentException e) {
+            log.warn("캠페인-광고주가 매칭되어 있지 않습니다. 잘못된 경로로 접근하였습니다.", e.getLocalizedMessage());
+        }
     }
 
     public long getCampaignCount() {
         return campaignRepository.countByDeletedFalse();
+    }
+
+    public void validateClientAndCampaign(Long campaignId, String clientId) {
+
+        Campaign campaign = campaignRepository.getReferenceById(campaignId);
+        ClientUser clientUser = clientUserRepository.getReferenceById(clientId);
+
+        if (!campaign.getClientUser().equals(clientUser)) {
+            throw new IllegalArgumentException("캠페인-광고주가 매칭되어 있지 않습니다.");
+        }
     }
 
 

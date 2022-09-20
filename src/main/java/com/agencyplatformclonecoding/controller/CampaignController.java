@@ -62,6 +62,7 @@ public class CampaignController {
             @PathVariable Long campaignId,
             ModelMap map
     ) {
+        campaignService.validateClientAndCampaign(campaignId, clientId);
         CampaignResponse campaign = CampaignResponse.from(campaignService.getCampaign(campaignId));
         ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
@@ -78,7 +79,7 @@ public class CampaignController {
             @PathVariable Long campaignId,
             CampaignRequest campaignRequest
     ) {
-        campaignService.updateCampaign(campaignId, campaignRequest.toDto(ClientUserDto.of(clientId)));  // TODO : 추후 에이전시 인증 기능 부여
+        campaignService.updateCampaign(campaignId, clientId, campaignRequest.toDto(ClientUserDto.of(clientId)));
 
         return "redirect:/manage/{clientId}/campaigns";
     }
@@ -88,7 +89,7 @@ public class CampaignController {
             @PathVariable("clientId") String clientId,
             @PathVariable Long campaignId
     ) {
-        campaignService.deleteCampaign(campaignId);
+        campaignService.deleteCampaign(campaignId, clientId);
 
         return "redirect:/manage/{clientId}/campaigns";
     }
@@ -100,7 +101,7 @@ public class CampaignController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
     ) {
-        Page<CreativeResponse> creatives = creativeService.searchCreatives(pageable, campaignId).map(CreativeResponse::from);
+        Page<CreativeResponse> creatives = creativeService.searchCreatives(pageable, campaignId, clientId).map(CreativeResponse::from);
         CampaignResponse campaign = CampaignResponse.from(campaignService.getCampaign(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), creatives.getTotalPages());
@@ -113,6 +114,4 @@ public class CampaignController {
 
         return "manage/creative";
     }
-
 }
-

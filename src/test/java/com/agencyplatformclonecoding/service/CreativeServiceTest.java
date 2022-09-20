@@ -67,10 +67,11 @@ public class CreativeServiceTest {
 		// Given
 		Pageable pageable = Pageable.ofSize(20);
 		Long campaignId = 1L;
+		String clientId = "t-client";
 		given(creativeRepository.findByDeletedFalseAndCampaign_Id(pageable, campaignId)).willReturn(Page.empty());
 
 		// When
-		Page<CreativeDto> creatives = sut.searchCreatives(pageable, campaignId);
+		Page<CreativeDto> creatives = sut.searchCreatives(pageable, campaignId, clientId);
 
 		// Then
 		assertThat(creatives).isEmpty();
@@ -136,7 +137,7 @@ public class CreativeServiceTest {
 		given(creativeRepository.getReferenceById(dto.id())).willReturn(creative);
 
 		// When
-		sut.updateCreative(dto.id(), dto);
+		sut.updateCreative(dto.id(), dto.campaignDto().id(), dto.campaignDto().clientUserDto().userId(), dto);
 
 		// Then
 		assertThat(creative)
@@ -156,7 +157,7 @@ public class CreativeServiceTest {
 		given(creativeRepository.getReferenceById(dto.id())).willReturn(creative);
 
 		// When
-		sut.updateCreative(dto.id(), dto);
+		sut.updateCreative(dto.id(), dto.campaignDto().id(), dto.campaignDto().clientUserDto().userId(), dto);
 
 		// Then
 		assertThat(creative)
@@ -173,7 +174,7 @@ public class CreativeServiceTest {
 		given(creativeRepository.getReferenceById(dto.id())).willThrow(EntityNotFoundException.class);
 
 		// When
-		sut.updateCreative(dto.id(), dto);
+		sut.updateCreative(dto.id(), dto.campaignDto().id(), dto.campaignDto().clientUserDto().userId(), dto);
 
 		// Then
 		then(creativeRepository).should().getReferenceById(dto.id());
@@ -184,10 +185,12 @@ public class CreativeServiceTest {
 	void givenCreativeId_whenDeletingCreative_thenDeletesCreative() {
 		// Given
 		Long creativeId = 1L;
+		Long campaignId = 1L;
+		String clientId = "t-client";
 		willDoNothing().given(creativeRepository).setCreativeDeletedTrue(creativeId);
 
 		// When
-		sut.deleteCreative(creativeId);
+		sut.deleteCreative(creativeId, campaignId, clientId);
 
 		// Then
 		then(creativeRepository).should().setCreativeDeletedTrue(creativeId);
