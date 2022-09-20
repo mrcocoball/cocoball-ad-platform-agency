@@ -156,7 +156,7 @@ class CampaignControllerTest {
         String clientId = "client";
         Long campaignId = 1L;
         CampaignRequest campaignRequest = CampaignRequest.of("새 캠페인", 1000L);
-        willDoNothing().given(campaignService).updateCampaign(eq(campaignId), any(CampaignDto.class));
+        willDoNothing().given(campaignService).updateCampaign(eq(campaignId), eq(clientId), any(CampaignDto.class));
 
         // When & Then
         mvc.perform(
@@ -168,7 +168,7 @@ class CampaignControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/manage/{clientId}/campaigns"))
                 .andExpect(redirectedUrl("/manage/client/campaigns"));
-        then(campaignService).should().updateCampaign(eq(campaignId), any(CampaignDto.class));
+        then(campaignService).should().updateCampaign(eq(campaignId), eq(clientId), any(CampaignDto.class));
     }
 
     // fixture

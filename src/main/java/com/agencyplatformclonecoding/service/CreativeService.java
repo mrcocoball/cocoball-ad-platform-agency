@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.service;
 
 import com.agencyplatformclonecoding.domain.Campaign;
+import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.Creative;
 import com.agencyplatformclonecoding.dto.CreativeDto;
 import com.agencyplatformclonecoding.repository.CampaignRepository;
@@ -25,6 +26,7 @@ public class CreativeService {
 
     private final CampaignRepository campaignRepository;
     private final CreativeRepository creativeRepository;
+    private final ClientUserRepository clientUserRepository;
 
     @Transactional(readOnly = true)
     public CreativeDto getCreative(Long creativeId) {
@@ -34,7 +36,8 @@ public class CreativeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CreativeDto> searchCreatives(Pageable pageable, Long campaignId) {
+    public Page<CreativeDto> searchCreatives(Pageable pageable, Long campaignId, String clientId) {
+        validateClientAndCampaign(campaignId, clientId);
         return creativeRepository.findByDeletedFalseAndCampaign_Id(pageable, campaignId).map(CreativeDto::from);
     }
 
@@ -47,9 +50,10 @@ public class CreativeService {
         }
     }
 
-    public void updateCreative(Long creativeId, CreativeDto dto) {
+    public void updateCreative(Long creativeId, Long campaignId, String clientId, CreativeDto dto) {
 
         try {
+            validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
             Creative creative = creativeRepository.getReferenceById(creativeId);
             Campaign campaign = campaignRepository.getReferenceById(dto.campaignDto().id());
 
@@ -64,15 +68,48 @@ public class CreativeService {
             creative.setBidingPrice(dto.bidingPrice());
         } catch (EntityNotFoundException e) {
             log.warn("소재를 수정하는데 필요한 정보를 찾을 수 없습니다. - dto : {}", e.getLocalizedMessage());
+        } catch (IllegalArgumentException e) {
+            log.warn("캠페인-광고주-소재가 매칭되어 있지 않습니다. 잘못된 경로로 접근하였습니다.", e.getLocalizedMessage());
         }
     }
 
-    public void deleteCreative(Long creativeId) {
-        creativeRepository.setCreativeDeletedTrue(creativeId);
+    public void deleteCreative(Long creativeId, Long campaignId, String clientId) {
+
+        try {
+            validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
+            creativeRepository.setCreativeDeletedTrue(creativeId);
+        } catch (IllegalArgumentException e) {
+            log.warn("캠페인-광고주가 매칭되어 있지 않습니다. 잘못된 경로로 접근하였습니다.", e.getLocalizedMessage());
+        }
     }
 
     public long getCreativeCount() {
         return creativeRepository.countByDeletedFalse();
+    }
+
+    public void validateClientAndCampaign(Long campaignId, String clientId) {
+
+        Campaign campaign = campaignRepository.getReferenceById(campaignId);
+        ClientUser clientUser = clientUserRepository.getReferenceById(clientId);
+
+        if (!campaign.getClientUser().equals(clientUser)) {
+            throw new IllegalArgumentException("캠페인-광고주가 매칭되어 있지 않습니다.");
+        }
+    }
+
+    public void validateClientAndCampaignAndCreative(Long creativeId, Long campaignId, String clientId) {
+
+        Creative creative = creativeRepository.getReferenceById(creativeId);
+        Campaign campaign = campaignRepository.getReferenceById(campaignId);
+        ClientUser clientUser = clientUserRepository.getReferenceById(clientId);
+
+        if (!campaign.getClientUser().equals(clientUser)) {
+            throw new IllegalArgumentException("캠페인-광고주가 매칭되어 있지 않습니다.");
+        }
+
+        if (!creative.getCampaign().equals(campaign)) {
+            throw new IllegalArgumentException("소재-광고주가 매칭되어 있지 않습니다.");
+        }
     }
 
 }

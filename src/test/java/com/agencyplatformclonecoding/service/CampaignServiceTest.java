@@ -153,7 +153,7 @@ public class CampaignServiceTest {
 		given(campaignRepository.getReferenceById(dto.id())).willReturn(campaign);
 
 		// When
-		sut.updateCampaign(dto.id(), dto);
+		sut.updateCampaign(dto.id(), dto.clientUserDto().userId(), dto);
 
 		// Then
 		assertThat(campaign)
@@ -175,7 +175,7 @@ public class CampaignServiceTest {
 		given(campaignRepository.getReferenceById(dto.id())).willReturn(campaign);
 
 		// When
-		sut.updateCampaign(dto.id(), dto);
+		sut.updateCampaign(dto.id(), dto.clientUserDto().userId(), dto);
 
 		// Then
 		assertThat(campaign)
@@ -192,7 +192,7 @@ public class CampaignServiceTest {
 		given(campaignRepository.getReferenceById(dto.id())).willThrow(EntityNotFoundException.class);
 
 		// When
-		sut.updateCampaign(dto.id(), dto);
+		sut.updateCampaign(dto.id(), dto.clientUserDto().userId(), dto);
 
 		// Then
 		then(campaignRepository).should().getReferenceById(dto.id());
@@ -203,10 +203,11 @@ public class CampaignServiceTest {
 	void givenCampaignId_whenDeletingCampaign_thenDeletesCampaign() {
 		// Given
 		Long campaignId = 1L;
+		String clientId = "t-test";
 		willDoNothing().given(campaignRepository).setCampaignDeletedTrue(campaignId);
 
 		// When
-		sut.deleteCampaign(campaignId);
+		sut.deleteCampaign(campaignId, clientId);
 
 		// Then
 		then(campaignRepository).should().setCampaignDeletedTrue(campaignId);

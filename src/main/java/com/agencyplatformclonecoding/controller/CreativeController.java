@@ -35,6 +35,12 @@ public class CreativeController {
             @PathVariable("campaignId") Long campaignId,
             ModelMap map
     ) {
+        try {
+            creativeService.validateClientAndCampaign(campaignId, clientId);
+        } catch(IllegalArgumentException e) {
+            return "잘못된 경로입니다.";
+        }
+
         CampaignWithCreativesResponse campaign = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
         ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
@@ -51,6 +57,7 @@ public class CreativeController {
             @PathVariable("campaignId") Long campaignId,
             CreativeRequest creativeRequest
     ) {
+        creativeService.validateClientAndCampaign(campaignId, clientId);
         creativeService.saveCreative(creativeRequest.toDto(CampaignDto.of(campaignId)));
 
         return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
@@ -63,6 +70,7 @@ public class CreativeController {
             @PathVariable Long creativeId,
             ModelMap map
     ) {
+        creativeService.validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
         CreativeResponse creative = CreativeResponse.from(creativeService.getCreative(creativeId));
         CampaignWithCreativesResponse campaign = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
         ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
@@ -82,7 +90,8 @@ public class CreativeController {
             @PathVariable Long creativeId,
             CreativeRequest creativeRequest
     ) {
-        creativeService.updateCreative(creativeId, creativeRequest.toDto(CampaignDto.of(campaignId)));  // TODO : 추후 에이전시 인증 기능 부여
+        creativeService.validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
+        creativeService.updateCreative(creativeId, campaignId, clientId, creativeRequest.toDto(CampaignDto.of(campaignId)));  // TODO : 추후 에이전시 인증 기능 부여
 
         return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
     }
@@ -93,7 +102,8 @@ public class CreativeController {
             @PathVariable("campaignId") Long campaignId,
             @PathVariable Long creativeId
     ) {
-        creativeService.deleteCreative(creativeId);
+        creativeService.validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
+        creativeService.deleteCreative(creativeId, campaignId, clientId);
 
         return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
     }
