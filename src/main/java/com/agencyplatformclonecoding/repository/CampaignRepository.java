@@ -30,10 +30,18 @@ public interface CampaignRepository extends
 
     long countByDeletedFalse();
 
-    @Modifying
-   	@Transactional
-   	@Query("UPDATE Campaign c SET c.deleted = true where c.id = :id")
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("UPDATE Campaign c SET c.deleted = true where c.id = :id")
     void setCampaignDeletedTrue(@Param("id") Long id);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Campaign c SET c.activated = false where c.id = :id")
+    void setCampaignDisabled(@Param("id") Long id);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Campaign c SET c.activated = true where c.id = :id")
+    void setCampaignActivated(@Param("id") Long id);
 
     @Override
     default void customize(QuerydslBindings bindings, QCampaign root) {

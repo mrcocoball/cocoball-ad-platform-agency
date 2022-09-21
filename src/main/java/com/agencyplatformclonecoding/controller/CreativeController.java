@@ -35,12 +35,6 @@ public class CreativeController {
             @PathVariable("campaignId") Long campaignId,
             ModelMap map
     ) {
-        try {
-            creativeService.validateClientAndCampaign(campaignId, clientId);
-        } catch(IllegalArgumentException e) {
-            return "잘못된 경로입니다.";
-        }
-
         CampaignWithCreativesResponse campaign = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
         ClientUserWithCampaignsResponse clientUser = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 
@@ -104,6 +98,17 @@ public class CreativeController {
     ) {
         creativeService.validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
         creativeService.deleteCreative(creativeId, campaignId, clientId);
+
+        return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
+    }
+
+    @PostMapping("/{creativeId}/activate")
+    public String activateToggle(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("campaignId") Long campaignId,
+            @PathVariable Long creativeId
+    ) {
+        creativeService.toggleCreativeActivate(creativeId, campaignId, clientId);
 
         return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
     }

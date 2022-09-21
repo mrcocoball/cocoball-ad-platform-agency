@@ -4,6 +4,7 @@ import com.agencyplatformclonecoding.domain.Campaign;
 import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.dto.CampaignDto;
 import com.agencyplatformclonecoding.dto.CampaignWithCreativesDto;
+import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.repository.CampaignRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
 import com.agencyplatformclonecoding.repository.CreativeRepository;
@@ -73,12 +74,18 @@ public class CampaignService {
     }
 
     public void deleteCampaign(Long campaignId, String clientId) {
+        campaignRepository.setCampaignDeletedTrue(campaignId);
+    }
 
-        try {
-            validateClientAndCampaign(campaignId, clientId);
-            campaignRepository.setCampaignDeletedTrue(campaignId);
-        } catch (IllegalArgumentException e) {
-            log.warn("캠페인-광고주가 매칭되어 있지 않습니다. 잘못된 경로로 접근하였습니다.", e.getLocalizedMessage());
+    public void toggleCampaignActivate(Long campaignId, String clientId) {
+
+        Campaign campaign = campaignRepository.getReferenceById(campaignId);
+
+        if (campaign.isActivated()) {
+            campaignRepository.setCampaignDisabled(campaignId);
+        }
+        if (!campaign.isActivated()) {
+            campaignRepository.setCampaignActivated(campaignId);
         }
     }
 
