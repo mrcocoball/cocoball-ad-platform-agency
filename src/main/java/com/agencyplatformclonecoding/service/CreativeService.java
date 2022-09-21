@@ -74,12 +74,18 @@ public class CreativeService {
     }
 
     public void deleteCreative(Long creativeId, Long campaignId, String clientId) {
+        creativeRepository.setCreativeDeletedTrue(creativeId);
+    }
 
-        try {
-            validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
-            creativeRepository.setCreativeDeletedTrue(creativeId);
-        } catch (IllegalArgumentException e) {
-            log.warn("캠페인-광고주가 매칭되어 있지 않습니다. 잘못된 경로로 접근하였습니다.", e.getLocalizedMessage());
+    public void toggleCreativeActivate(Long creativeId, Long campaignId, String clientId) {
+
+        Creative creative = creativeRepository.getReferenceById(creativeId);
+
+        if (creative.isActivated()) {
+            creativeRepository.setCreativeDisabled(creativeId);
+        }
+        if (!creative.isActivated()) {
+            creativeRepository.setCreativeActivated(creativeId);
         }
     }
 

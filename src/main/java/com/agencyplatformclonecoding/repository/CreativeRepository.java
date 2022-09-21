@@ -30,10 +30,18 @@ public interface CreativeRepository extends
 
     long countByDeletedFalse();
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
    	@Transactional
    	@Query("UPDATE Creative c SET c.deleted = true where c.id = :id")
     void setCreativeDeletedTrue(@Param("id") Long id);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Creative c SET c.activated = false where c.id = :id")
+    void setCreativeDisabled(@Param("id") Long id);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Creative c SET c.activated = true where c.id = :id")
+    void setCreativeActivated(@Param("id") Long id);
 
     @Override
     default void customize(QuerydslBindings bindings, QCreative root) {

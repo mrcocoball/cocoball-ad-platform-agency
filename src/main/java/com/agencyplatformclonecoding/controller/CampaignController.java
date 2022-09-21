@@ -114,4 +114,14 @@ public class CampaignController {
 
         return "manage/creative";
     }
+
+    @PostMapping("/{campaignId}/activate")
+    public String activateToggle(
+            @PathVariable("clientId") String clientId,
+            @PathVariable Long campaignId
+    ) {
+        campaignService.toggleCampaignActivate(campaignId, clientId);
+
+        return "redirect:/manage/{clientId}/campaigns";
+    }
 }

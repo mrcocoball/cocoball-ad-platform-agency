@@ -48,9 +48,9 @@
 
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="tr[0]" th:each="creative : ${creatives}">
-          <attr sel="#activate-button" th:text="${creative.statusDescription}"/>
-          <attr sel="#activate-button" th:classappend="${creative.statusDescription} ? ON : 'btn btn-primary active'"/>
-          <attr sel="#activate-button" th:classappend="${creative.statusDescription} ? OFF : 'btn btn-danger active'"/>
+          <attr sel="#activate-creative-form" th:action="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/activate'" th:method="post" />
+          <attr sel="#activate-button" th:text="${creative.activated} != true ? 'OFF' : 'ON'"/>
+          <attr sel="#activate-button" th:classappend="${creative.activated} != true ? 'btn btn-danger active' : 'btn btn-primary active'"/>
           <attr sel="td.id" th:text="${creative.id}" />
           <attr sel="td.keyword" th:text="${creative.keyword}" />
           <attr sel="td.biding-price" th:text="${creative.bidingPrice}" />

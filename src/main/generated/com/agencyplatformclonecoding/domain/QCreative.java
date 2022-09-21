@@ -24,6 +24,8 @@ public class QCreative extends EntityPathBase<Creative> {
 
     public final QAuditingFields _super = new QAuditingFields(this);
 
+    public final BooleanPath activated = createBoolean("activated");
+
     public final NumberPath<Long> bidingPrice = createNumber("bidingPrice", Long.class);
 
     public final QCampaign campaign;
@@ -51,8 +53,6 @@ public class QCreative extends EntityPathBase<Creative> {
     public final StringPath modifiedBy = _super.modifiedBy;
 
     public final NumberPath<Long> purchase = createNumber("purchase", Long.class);
-
-    public final SimplePath<com.agencyplatformclonecoding.domain.constrant.CreativeStatus> status = createSimple("status", com.agencyplatformclonecoding.domain.constrant.CreativeStatus.class);
 
     public final NumberPath<Long> view = createNumber("view", Long.class);
 

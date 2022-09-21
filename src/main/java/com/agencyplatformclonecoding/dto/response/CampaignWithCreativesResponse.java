@@ -15,15 +15,15 @@ public record CampaignWithCreativesResponse(
         String name,
         Long budget,
         Set<CreativeResponse> creativeResponses,
-        String statusDescription
+        boolean activated
 ) implements Serializable {
 
-    public static CampaignWithCreativesResponse of(Long id, LocalDateTime createdAt, String name, Long budget, Set<CreativeResponse> creativeResponses, String statusDescription) {
-        return new CampaignWithCreativesResponse(id, createdAt, name, budget, creativeResponses, statusDescription);
+    public static CampaignWithCreativesResponse of(Long id, LocalDateTime createdAt, String name, Long budget, Set<CreativeResponse> creativeResponses, boolean activated) {
+        return new CampaignWithCreativesResponse(id, createdAt, name, budget, creativeResponses, activated);
     }
 
     public static CampaignWithCreativesResponse from(CampaignWithCreativesDto dto) {
-		String statusDescription = dto.status().getDescription();
+		boolean activated = dto.activated();
 
         return new CampaignWithCreativesResponse(
                 dto.id(),
@@ -33,7 +33,7 @@ public record CampaignWithCreativesResponse(
                 dto.creativeDtos().stream()
                         .map(CreativeResponse::from)
                         .collect(Collectors.toCollection(LinkedHashSet::new)),
-				statusDescription
+				activated
         );
     }
 }
