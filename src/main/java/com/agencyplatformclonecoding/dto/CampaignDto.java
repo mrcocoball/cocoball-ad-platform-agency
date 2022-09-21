@@ -2,7 +2,6 @@ package com.agencyplatformclonecoding.dto;
 
 import com.agencyplatformclonecoding.domain.Campaign;
 import com.agencyplatformclonecoding.domain.ClientUser;
-import com.agencyplatformclonecoding.domain.constrant.CampaignStatus;
 
 import java.time.LocalDateTime;
 
@@ -15,21 +14,19 @@ public record CampaignDto(
         String createdBy,
         LocalDateTime modifiedAt,
         String modifiedBy,
-        CampaignStatus status
+        boolean activated
 ) {
 
     public static CampaignDto of(ClientUserDto clientUserDto, String name, Long budget) {
-        CampaignStatus status = new CampaignStatus(200);
-        return new CampaignDto(clientUserDto, null, name, budget, null, null, null, null, status);
+        return new CampaignDto(clientUserDto, null, name, budget, null, null, null, null, false);
     }
 
     public static CampaignDto of(Long id) {
-        CampaignStatus status = new CampaignStatus(200);
-        return new CampaignDto(null, id, null, null, null, null, null, null, status);
+        return new CampaignDto(null, id, null, null, null, null, null, null, false);
     }
 
-    public static CampaignDto of(ClientUserDto clientUserDto, Long id, String name, Long budget, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, CampaignStatus status) {
-        return new CampaignDto(clientUserDto, id, name, budget, createdAt, createdBy, modifiedAt, modifiedBy, status);
+    public static CampaignDto of(ClientUserDto clientUserDto, Long id, String name, Long budget, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, boolean activated) {
+        return new CampaignDto(clientUserDto, id, name, budget, createdAt, createdBy, modifiedAt, modifiedBy, activated);
     }
 
     // Entity -> dto로 변환
@@ -43,7 +40,8 @@ public record CampaignDto(
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
                 entity.getModifiedBy(),
-				entity.getStatus()
+				entity.isActivated()
+
         );
     }
 

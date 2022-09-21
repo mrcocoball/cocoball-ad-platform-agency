@@ -24,6 +24,8 @@ public class QCampaign extends EntityPathBase<Campaign> {
 
     public final QAuditingFields _super = new QAuditingFields(this);
 
+    public final BooleanPath activated = createBoolean("activated");
+
     public final NumberPath<Long> budget = createNumber("budget", Long.class);
 
     public final QClientUser clientUser;
@@ -47,8 +49,6 @@ public class QCampaign extends EntityPathBase<Campaign> {
     public final StringPath modifiedBy = _super.modifiedBy;
 
     public final StringPath name = createString("name");
-
-    public final SimplePath<com.agencyplatformclonecoding.domain.constrant.CampaignStatus> status = createSimple("status", com.agencyplatformclonecoding.domain.constrant.CampaignStatus.class);
 
     public QCampaign(String variable) {
         this(Campaign.class, forVariable(variable), INITS);
