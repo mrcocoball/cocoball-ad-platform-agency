@@ -7,6 +7,8 @@ import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.AgentDto;
 import com.agencyplatformclonecoding.dto.AgentGroupDto;
 import com.agencyplatformclonecoding.dto.AgentGroupWithAgentsDto;
+import com.agencyplatformclonecoding.exception.AdPlatformException;
+import com.agencyplatformclonecoding.exception.ErrorCode;
 import com.agencyplatformclonecoding.repository.AgencyRepository;
 import com.agencyplatformclonecoding.repository.AgentGroupRepository;
 import com.agencyplatformclonecoding.repository.AgentRepository;
@@ -35,14 +37,14 @@ public class AgentGroupService {
     public AgentGroupDto getAgentGroup(Long agentGroupId) {
         return agentGroupRepository.findById(agentGroupId)
                 .map(AgentGroupDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("에이전트 그룹이 존재하지 않습니다 - agentGroupId : " + agentGroupId));
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.AGENT_GROUP_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
     public AgentGroupWithAgentsDto getAgentGroupWithAgents(Long agentGroupId) {
         return agentGroupRepository.findById(agentGroupId)
                 .map(AgentGroupWithAgentsDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("에이전트 그룹이 존재하지 않습니다 - agentGroupId : " + agentGroupId));
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.AGENT_GROUP_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
@@ -92,12 +94,10 @@ public class AgentGroupService {
             if (agents.size() == 0) {
                 agentGroupRepository.deleteByIdAndAgency_AgencyId(agentGroupId, agencyId);
             } else {
-                throw new IllegalArgumentException();
+                throw new AdPlatformException(ErrorCode.AGENT_EXISTS);
             }
         } catch (EntityNotFoundException e) {
             log.warn("에이전트 그룹을 삭제하는데 필요한 정보를 찾을 수 없습니다. - agentGroupId : {}", e.getLocalizedMessage());
-        } catch (IllegalArgumentException e) {
-            log.warn("소속된 에이전트가 남아 있어 에이전트 그룹을 삭제할 수 없습니다. - agentGroupId : {}", e.getLocalizedMessage());
         }
     }
 

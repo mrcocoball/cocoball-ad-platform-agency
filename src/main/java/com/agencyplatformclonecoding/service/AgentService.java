@@ -4,6 +4,8 @@ import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.AgentDto;
 import com.agencyplatformclonecoding.dto.AgentWithClientsDto;
+import com.agencyplatformclonecoding.exception.AdPlatformException;
+import com.agencyplatformclonecoding.exception.ErrorCode;
 import com.agencyplatformclonecoding.repository.AgencyRepository;
 import com.agencyplatformclonecoding.repository.AgentGroupRepository;
 import com.agencyplatformclonecoding.repository.AgentRepository;
@@ -33,7 +35,7 @@ public class AgentService {
     public AgentDto getAgent(String agentId) {
         return agentRepository.findByUserIdAndDeletedFalse(agentId)
                 .map(AgentDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("에이전트가 존재하지 않습니다 - agentId : " + agentId));
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.AGENT_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
@@ -52,7 +54,7 @@ public class AgentService {
     public AgentWithClientsDto getAgentWithClients(String agentId) {
         return agentRepository.findByUserIdAndDeletedFalse(agentId)
                 .map(AgentWithClientsDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("에이전트가 존재하지 않습니다 - agentId : " + agentId));
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.AGENT_NOT_FOUND));
     }
 
     public void deleteAgent(String agentId, String agencyId) {
@@ -62,12 +64,10 @@ public class AgentService {
             if (clientUsers.isEmpty()) {
                 agentRepository.setAgentDeletedTrue(agentId, agencyId);
             } else {
-                throw new IllegalArgumentException();
+                throw new AdPlatformException(ErrorCode.CLIENT_EXISTS);
             }
         } catch (EntityNotFoundException e) {
             log.warn("에이전트를 삭제하지 못하였습니다. 에이전트가 존재하지 않습니다.", e.getLocalizedMessage());
-        } catch (IllegalArgumentException e) {
-            log.warn("매핑된 광고주가 남아 있어 에이전트을 삭제할 수 없습니다. - agentGroupId : {}", e.getLocalizedMessage());
         }
     }
 
