@@ -6,11 +6,10 @@
 </head>
 <body>
 <p>
-  <span th:text="${statusCode} ?: _">???</span> Error 발생
+  <span th:text="${statusCode} ?: _">Error</span>가 발생하였습니다.
 </p>
 <ul>
-  <li>에러 코드: <span th:text="${errorCode} ?: _">?</span></li>
-  <li><span th:text="${message} ?: _">?</span></li>
+  <li>Error 내용 : <span th:text="${message} ?: _">?</span></li>
 </ul>
 </body>
 </html>
