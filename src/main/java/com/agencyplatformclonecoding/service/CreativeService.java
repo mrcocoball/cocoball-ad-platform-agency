@@ -4,6 +4,8 @@ import com.agencyplatformclonecoding.domain.Campaign;
 import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.Creative;
 import com.agencyplatformclonecoding.dto.CreativeDto;
+import com.agencyplatformclonecoding.exception.AdPlatformException;
+import com.agencyplatformclonecoding.exception.ErrorCode;
 import com.agencyplatformclonecoding.repository.CampaignRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
 import com.agencyplatformclonecoding.repository.CreativeRepository;
@@ -32,7 +34,7 @@ public class CreativeService {
     public CreativeDto getCreative(Long creativeId) {
         return creativeRepository.findByIdAndDeletedFalse(creativeId)
                 .map(CreativeDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("소재가 존재하지 않습니다 - creativeId : " + creativeId));
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.CREATIVE_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
@@ -58,7 +60,7 @@ public class CreativeService {
             Campaign campaign = campaignRepository.getReferenceById(dto.campaignDto().id());
 
             if (creative.isDeleted()) {
-                throw new EntityNotFoundException();
+                throw new AdPlatformException(ErrorCode.BAD_REQUEST);
             }
 
             if (creative.getCampaign().equals(campaign))
@@ -68,8 +70,6 @@ public class CreativeService {
             creative.setBidingPrice(dto.bidingPrice());
         } catch (EntityNotFoundException e) {
             log.warn("소재를 수정하는데 필요한 정보를 찾을 수 없습니다. - dto : {}", e.getLocalizedMessage());
-        } catch (IllegalArgumentException e) {
-            log.warn("캠페인-광고주-소재가 매칭되어 있지 않습니다. 잘못된 경로로 접근하였습니다.", e.getLocalizedMessage());
         }
     }
 
@@ -99,7 +99,7 @@ public class CreativeService {
         ClientUser clientUser = clientUserRepository.getReferenceById(clientId);
 
         if (!campaign.getClientUser().equals(clientUser)) {
-            throw new IllegalArgumentException("캠페인-광고주가 매칭되어 있지 않습니다.");
+            throw new AdPlatformException(ErrorCode.INVALID_RELATION);
         }
     }
 
@@ -110,11 +110,11 @@ public class CreativeService {
         ClientUser clientUser = clientUserRepository.getReferenceById(clientId);
 
         if (!campaign.getClientUser().equals(clientUser)) {
-            throw new IllegalArgumentException("캠페인-광고주가 매칭되어 있지 않습니다.");
+            throw new AdPlatformException(ErrorCode.INVALID_RELATION);
         }
 
         if (!creative.getCampaign().equals(campaign)) {
-            throw new IllegalArgumentException("소재-광고주가 매칭되어 있지 않습니다.");
+            throw new AdPlatformException(ErrorCode.INVALID_RELATION);
         }
     }
 

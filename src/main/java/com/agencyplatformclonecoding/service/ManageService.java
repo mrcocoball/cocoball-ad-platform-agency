@@ -3,6 +3,8 @@ package com.agencyplatformclonecoding.service;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.ClientUserDto;
 import com.agencyplatformclonecoding.dto.ClientUserWithCampaignsDto;
+import com.agencyplatformclonecoding.exception.AdPlatformException;
+import com.agencyplatformclonecoding.exception.ErrorCode;
 import com.agencyplatformclonecoding.repository.AgentRepository;
 import com.agencyplatformclonecoding.repository.CampaignRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
@@ -30,7 +32,7 @@ public class ManageService {
     public ClientUserDto getClientUser(String clientId) {
         return clientUserRepository.findById(clientId)
                 .map(ClientUserDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("광고주가 존재하지 않습니다 - clientId : " + clientId));
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.CLIENT_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
@@ -49,7 +51,7 @@ public class ManageService {
     public ClientUserWithCampaignsDto getClientUserWithCampaigns(String clientId) {
         return clientUserRepository.findById(clientId)
                 .map(ClientUserWithCampaignsDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("광고주가 존재하지 않습니다 - clientId : " + clientId));
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.CLIENT_NOT_FOUND));
     }
 
     public long getClientUserCount() {

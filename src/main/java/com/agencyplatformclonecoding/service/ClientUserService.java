@@ -2,6 +2,8 @@ package com.agencyplatformclonecoding.service;
 
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.ClientUserDto;
+import com.agencyplatformclonecoding.exception.AdPlatformException;
+import com.agencyplatformclonecoding.exception.ErrorCode;
 import com.agencyplatformclonecoding.repository.AgentRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,7 @@ public class ClientUserService {
     public ClientUserDto getClientUser(String clientId) {
         return clientUserRepository.findById(clientId)
                 .map(ClientUserDto::from)
-                .orElseThrow(() -> new EntityNotFoundException("에이전트가 존재하지 않습니다 - clientId : " + clientId));
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.CLIENT_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
