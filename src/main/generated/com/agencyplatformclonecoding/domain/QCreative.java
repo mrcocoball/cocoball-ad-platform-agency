@@ -30,10 +30,6 @@ public class QCreative extends EntityPathBase<Creative> {
 
     public final QCampaign campaign;
 
-    public final NumberPath<Long> click = createNumber("click", Long.class);
-
-    public final NumberPath<Long> conversion = createNumber("conversion", Long.class);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -52,7 +48,7 @@ public class QCreative extends EntityPathBase<Creative> {
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
 
-    public final NumberPath<Long> purchase = createNumber("purchase", Long.class);
+    public final SetPath<Performance, QPerformance> performances = this.<Performance, QPerformance>createSet("performances", Performance.class, QPerformance.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> view = createNumber("view", Long.class);
 

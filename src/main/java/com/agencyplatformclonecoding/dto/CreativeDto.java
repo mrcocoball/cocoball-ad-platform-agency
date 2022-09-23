@@ -11,10 +11,6 @@ public record CreativeDto(
         Long id,
         String keyword,
         Long bidingPrice,
-        Long view,
-        Long click,
-        Long conversion,
-        Long purchase,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
@@ -23,11 +19,11 @@ public record CreativeDto(
 ) {
 
     public static CreativeDto of(CampaignDto campaignDto, Long campaignId, String keyword, Long bidingPrice) {
-        return new CreativeDto(campaignDto, campaignId, null, keyword, bidingPrice, null, null, null, null, null, null, null, null, false);
+        return new CreativeDto(campaignDto, campaignId, null, keyword, bidingPrice, null, null, null, null, false);
     }
 
-    public static CreativeDto of(CampaignDto campaignDto, Long campaignId, Long id, String keyword, Long bidingPrice, Long view, Long click, Long conversion, Long purchase, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, boolean activated) {
-        return new CreativeDto(campaignDto, campaignId, id, keyword, bidingPrice, view, click, conversion, purchase, createdAt, createdBy, modifiedAt, modifiedBy, activated);
+    public static CreativeDto of(CampaignDto campaignDto, Long campaignId, Long id, String keyword, Long bidingPrice, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, boolean activated) {
+        return new CreativeDto(campaignDto, campaignId, id, keyword, bidingPrice, createdAt, createdBy, modifiedAt, modifiedBy, activated);
     }
 
     // Entity -> dto로 변환
@@ -38,10 +34,6 @@ public record CreativeDto(
                 entity.getId(),
                 entity.getKeyword(),
                 entity.getBidingPrice(),
-                entity.getView(),
-                entity.getClick(),
-                entity.getConversion(),
-				entity.getPurchase(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
