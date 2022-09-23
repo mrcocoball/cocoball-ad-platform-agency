@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="head" th:replace="head :: head" />
+  <attr sel="#header" th:replace="header :: header" />
+  <attr sel="#footer" th:replace="footer :: footer" />
+
+  <attr sel="main" th:object="${performances}">
+
+  <attr sel="#performance-header/h1" th:text="'소재 키워드 : ' + ${creative.keyword}" />
+
+  <attr sel="#client-info">
+    <attr sel="tbody" th:remove="all-but-first">
+      <attr sel="td.user-id" th:text="${clientUser.userId}" />
+      <attr sel="td.nickname" th:text="${clientUser.nickname}" />
+      <attr sel="td.category" th:text="${clientUser.categoryName}"/>
+    </attr>
+  </attr>
+
+  <attr sel="#creative-info">
+    <attr sel="tbody" th:remove="all-but-first">
+      <attr sel="#activate-button" th:text="${creative.activated} != true ? 'OFF' : 'ON'"/>
+      <attr sel="#activate-button" th:classappend="${creative.activated} != true ? 'btn btn-danger active' : 'btn btn-primary active'"/>
+      <attr sel="td.id" th:text="${creative.id}" />
+      <attr sel="td.keyword" th:text="${creative.keyword}" />
+      <attr sel="td.biding-price" th:text="${creative.bidingPrice}"/>
+    </attr>
+  </attr>
+
+  <attr sel="#performance-table">
+      <attr sel="tbody" th:remove="all-but-first">
+        <attr sel="tr[0]" th:each="performance : ${performances}">
+          <attr sel="td.date" th:text="${performance.createdAt}" />
+          <attr sel="td.view" th:text="${performance.view}" />
+          <attr sel="td.click" th:text="${performance.click}" />
+          <attr sel="td.conversion" th:text="${performance.conversion}" />
+          <attr sel="td.purchase" th:text="${performance.purchase}"/>
+        </attr>
+      </attr>
+    </attr>
+
+    <attr sel="#pagination">
+      <attr sel="li[0]/a"
+            th:text="'previous'"
+            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number - 1})}"
+            th:class="'page-link' + (${performances.number} <= 0 ? ' disabled' : '')"
+      />
+      <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
+        <attr sel="a"
+              th:text="${pageNumber + 1}"
+              th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${pageNumber})}"
+              th:class="'page-link' + (${pageNumber} == ${performances.number} ? ' disabled' : '')"
+        />
+      </attr>
+      <attr sel="li[2]/a"
+            th:text="'next'"
+            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number + 1})}"
+            th:class="'page-link' + (${performances.number} >= ${performances.totalPages - 1} ? ' disabled' : '')"
+      />
+    </attr>
+  </attr>
+</thlogic>

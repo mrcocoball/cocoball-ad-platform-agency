@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="description" content="">
   <meta name="author" content="mrcocoball">
-  <title>소재 관리</title>
+  <title>소재 실적</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -69,15 +69,9 @@
   </div>
 
   <div class="container">
-    <header id="creative-header">
-      <h1> 소재 관리 페이지 </h1>
+    <header id="performance-header">
+      <h1> 소재 실적 페이지 </h1>
     </header>
-
-    <div class="row">
-      <div class="create-btn d-grid gap-2 justify-content-md">
-        <a class="btn btn-primary me-md-2" role="button" id="create-creative">소재 생성</a>
-      </div>
-    </div>
 
     <div class="row">
       <table class="table" id="client-info">
@@ -96,57 +90,59 @@
         </tr>
         </tbody>
       </table>
-      <table class="table" id="creative-table">
+
+      <table class="table" id="creative-info">
         <thead>
         <tr>
           <th class="activate-status" style="width: 80px;"><a>상태</a></th>
           <th class="id"><a>소재 번호</a></th>
           <th class="keyword"><a>소재 키워드</a></th>
           <th class="biding-price"><a>입찰가(원)</a></th>
-          <th class="manage" colspan="3"><a></a></th>
         </tr>
         </thead>
         <tbody>
         <tr>
           <td>
-            <form id="activate-creative-form">
-              <button class="btn btn-primary active" role="buttion" id="activate-button">ON
-              </button>
-            </form>
+            <button class="btn btn-primary active" role="buttion" id="activate-button">ON</button>
           </td>
           <td class="id">1</td>
           <td class="keyword">코코볼추천</td>
           <td class="biding-price">30000</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="manage-creative">소재 관리</a></td>
-          <td>
-            <form id="delete-creative-form">
-              <button class="btn btn-danger me-md-2" role="button" id="delete-creative">소재 삭제</button>
-            </form>
-          </td>
-          <td class="button"><a class="btn btn-info" role="button" id="performance-info">성과 확인</a></td>
+        </tr>
+        </tbody>
+      </table>
+
+	  <table class="table" id="performance-table">
+        <thead>
+        <tr>
+          <th class="date" style="width: 200px;"><a>날짜</a></th>
+          <th class="view"><a>노출수</a></th>
+          <th class="click"><a>클릭수</a></th>
+          <th class="conversion"><a>전환수</a></th>
+          <th class="purchase"><a>구매액</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="date">2022-08-03</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="purchase"><a>100000</a></td>
         </tr>
         <tr>
-          <td class="id">2</td>
-          <td class="keyword">코코볼구매</td>
-          <td class="biding-price">30000</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="manage-creative">소재 관리</a></td>
-          <td>
-            <form id="delete-creative-form">
-              <button class="btn btn-danger me-md-2" role="button" id="delete-creative">소재 삭제</button>
-            </form>
-          </td>
-          <td class="button"><a class="btn btn-info" role="button" id="performance-info">성과 확인</a></td>
+          <td class="date">2022-08-02</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="purchase"><a>100000</a></td>
+        </tr>
         <tr>
-          <td class="id">3</td>
-          <td class="keyword">코코볼관리</td>
-          <td class="biding-price">30000</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="manage-creative">소재 관리</a></td>
-          <td>
-            <form id="delete-creative-form">
-              <button class="btn btn-danger me-md-2" role="button" id="delete-creative">소재 삭제</button>
-            </form>
-          </td>
-          <td class="button"><a class="btn btn-info" role="button" id="performance-info">성과 확인</a></td>
+          <td class="date">2022-08-01</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="purchase"><a>100000</a></td>
         </tr>
         </tbody>
       </table>

@@ -19,6 +19,7 @@ public enum ErrorCode {
     CLIENT_NOT_FOUND(HttpStatus.NOT_FOUND, "Client not founded"),
     CAMPAIGN_NOT_FOUND(HttpStatus.NOT_FOUND, "Campaign not founded"),
     CREATIVE_NOT_FOUND(HttpStatus.NOT_FOUND, "Campaign not founded"),
+    PERFORMANCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Performance not founded"),
     AGENT_EXISTS(HttpStatus.CONFLICT, "Agent exists"),
     CLIENT_EXISTS(HttpStatus.CONFLICT, "Client exists"),
     INVALID_RELATION(HttpStatus.CONFLICT, "Client, Campaign, Creative does not match with each other"),
