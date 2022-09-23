@@ -5,15 +5,13 @@ import com.agencyplatformclonecoding.dto.CampaignDto;
 import com.agencyplatformclonecoding.dto.ClientUserDto;
 import com.agencyplatformclonecoding.dto.request.CampaignRequest;
 import com.agencyplatformclonecoding.dto.request.CreativeRequest;
-import com.agencyplatformclonecoding.dto.response.CampaignResponse;
-import com.agencyplatformclonecoding.dto.response.CampaignWithCreativesResponse;
-import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
-import com.agencyplatformclonecoding.dto.response.CreativeResponse;
-import com.agencyplatformclonecoding.service.CampaignService;
-import com.agencyplatformclonecoding.service.CreativeService;
-import com.agencyplatformclonecoding.service.ManageService;
-import com.agencyplatformclonecoding.service.PaginationService;
+import com.agencyplatformclonecoding.dto.response.*;
+import com.agencyplatformclonecoding.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +26,8 @@ public class CreativeController {
     private final ManageService manageService;
     private final CampaignService campaignService;
     private final CreativeService creativeService;
+    private final PerformanceService performanceService;
+    private final PaginationService paginationService;
 
     @GetMapping("/form")
     public String creativeForm(
@@ -111,5 +111,29 @@ public class CreativeController {
         creativeService.toggleCreativeActivate(creativeId, campaignId, clientId);
 
         return "redirect:/manage/{clientId}/campaigns/{campaignId}/creatives";
+    }
+
+    @GetMapping("/{creativeId}/performances")
+    public String performances(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("campaignId") Long campaignId,
+			@PathVariable Long creativeId,
+            @PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            ModelMap map
+    ) {
+        Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, creativeId, campaignId, clientId).map(PerformanceResponse::from);
+		CreativeWithPerformancesResponse creativeWithPerformancesResponse = CreativeWithPerformancesResponse.from(creativeService.getCreativeWithPerformances(creativeId));
+        CampaignWithCreativesResponse campaignWithCreativesResponse = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
+        ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), performances.getTotalPages());
+
+        map.addAttribute("clientUser", clientUserWithCampaignsResponse);
+        map.addAttribute("campaign", campaignWithCreativesResponse);
+		map.addAttribute("creative", creativeWithPerformancesResponse);
+        map.addAttribute("performances", performances);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("totalCount", performanceService.getPerformanceCount());
+
+        return "manage/performance";
     }
 }

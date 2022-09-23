@@ -4,6 +4,7 @@ import com.agencyplatformclonecoding.domain.Campaign;
 import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.Creative;
 import com.agencyplatformclonecoding.dto.CreativeDto;
+import com.agencyplatformclonecoding.dto.CreativeWithPerformancesDto;
 import com.agencyplatformclonecoding.exception.AdPlatformException;
 import com.agencyplatformclonecoding.exception.ErrorCode;
 import com.agencyplatformclonecoding.repository.CampaignRepository;
@@ -101,6 +102,13 @@ public class CreativeService {
         if (!campaign.getClientUser().equals(clientUser)) {
             throw new AdPlatformException(ErrorCode.INVALID_RELATION);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public CreativeWithPerformancesDto getCreativeWithPerformances(Long creativeId) {
+        return creativeRepository.findByIdAndDeletedFalse(creativeId)
+                .map(CreativeWithPerformancesDto::from)
+                .orElseThrow(() -> new AdPlatformException(ErrorCode.CREATIVE_NOT_FOUND));
     }
 
     public void validateClientAndCampaignAndCreative(Long creativeId, Long campaignId, String clientId) {
