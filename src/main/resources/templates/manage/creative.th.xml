@@ -28,22 +28,6 @@
       page=${creatives.number},
       sort='bidingPrice' + (*{sort.getOrderFor('bidingPrice')} != null ? (*{sort.getOrderFor('bidingPrice').direction.name} != 'DESC' ? ',desc' : '') : '')
   )}"/>
-        <attr sel="th.view/a" th:text="'노출수'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(
-      page=${creatives.number},
-      sort='view' + (*{sort.getOrderFor('view')} != null ? (*{sort.getOrderFor('view').direction.name} != 'DESC' ? ',desc' : '') : '')
-  )}"/>
-        <attr sel="th.click/a" th:text="'클릭수'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(
-      page=${creatives.number},
-      sort='click' + (*{sort.getOrderFor('click')} != null ? (*{sort.getOrderFor('click').direction.name} != 'DESC' ? ',desc' : '') : '')
-  )}"/>
-        <attr sel="th.conversion/a" th:text="'전환수'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(
-      page=${creatives.number},
-      sort='conversion' + (*{sort.getOrderFor('conversion')} != null ? (*{sort.getOrderFor('conversion').direction.name} != 'DESC' ? ',desc' : '') : '')
-  )}"/>
-        <attr sel="th.purchase/a" th:text="'구매액'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(
-      page=${creatives.number},
-      sort='purchase' + (*{sort.getOrderFor('purchase')} != null ? (*{sort.getOrderFor('purchase').direction.name} != 'DESC' ? ',desc' : '') : '')
-  )}"/>
       </attr>
 
       <attr sel="tbody" th:remove="all-but-first">
@@ -54,10 +38,6 @@
           <attr sel="td.id" th:text="${creative.id}" />
           <attr sel="td.keyword" th:text="${creative.keyword}" />
           <attr sel="td.biding-price" th:text="${creative.bidingPrice}" />
-          <attr sel="td.view" th:text="${creative.view}" />
-          <attr sel="td.click" th:text="${creative.click}" />
-          <attr sel="td.conversion" th:text="${creative.conversion}" />
-          <attr sel="td.purchase" th:text="${creative.purchase}"/>
           <attr sel="#manage-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/form'" />
           <attr sel="#delete-creative-form" th:action="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/delete'" th:method="post" />
         </attr>
