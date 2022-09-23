@@ -6,7 +6,9 @@ import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString(callSuper = true)
@@ -32,9 +34,11 @@ public class Creative extends AuditingFields {
     @Setter @Column private String keyword;
     @Setter @Column private Long bidingPrice;
     @Setter @Column private Long view;
-    @Setter @Column private Long click;
-    @Setter @Column private Long conversion;
-    @Setter @Column private Long purchase;
+
+    @ToString.Exclude
+    @OrderBy("createdAt DESC")
+    @OneToMany(mappedBy = "creative", cascade = CascadeType.ALL)
+    private final Set<Performance> performances = new LinkedHashSet<>();
 
    	@Setter @Column private boolean activated;
 
