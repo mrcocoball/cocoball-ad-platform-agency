@@ -6,6 +6,9 @@
 
   <attr sel="main" th:object="${performances}">
 
+  <attr sel="li.to-campaign/a" th:text="'캠페인 관리'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'}"/>
+  <attr sel="li.to-creative/a" th:text="'캠페인 관리'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'}"/>
+
   <attr sel="#performance-header/h1" th:text="'소재 키워드 : ' + ${creative.keyword}" />
 
   <attr sel="#client-info">

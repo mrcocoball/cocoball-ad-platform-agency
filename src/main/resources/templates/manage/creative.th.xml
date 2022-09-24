@@ -6,6 +6,8 @@
 
   <attr sel="main" th:object="${creatives}">
 
+  <attr sel="li.to-campaign/a" th:text="'캠페인 관리'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'}"/>
+
   <attr sel="#creative-header/h1" th:text="'캠페인명 : ' + ${campaign.name}" />
 
   <attr sel="#create-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/form'" />
