@@ -25,7 +25,7 @@
       <attr sel="#activate-button" th:classappend="${creative.activated} != true ? 'btn btn-danger active' : 'btn btn-primary active'"/>
       <attr sel="td.id" th:text="${creative.id}" />
       <attr sel="td.keyword" th:text="${creative.keyword}" />
-      <attr sel="td.biding-price" th:text="${creative.bidingPrice}"/>
+      <attr sel="td.biding-price" th:text="${creative.bidingPrice} + '원'"/>
     </attr>
   </attr>
 
@@ -36,7 +36,12 @@
           <attr sel="td.view" th:text="${performance.view}" />
           <attr sel="td.click" th:text="${performance.click}" />
           <attr sel="td.conversion" th:text="${performance.conversion}" />
-          <attr sel="td.purchase" th:text="${performance.purchase}"/>
+          <attr sel="td.purchase" th:text="${performance.purchase} + '원'"/>
+          <attr sel="td.spend" th:text="${performance.spend} + '원'" />
+          <attr sel="td.CTR" th:text="${performance.sCTR} + '%'" />
+          <attr sel="td.CVR" th:text="${performance.sCVR} + '%'"/>
+          <attr sel="td.CPA" th:text="${performance.CPA} + '원'" />
+          <attr sel="td.ROAS" th:text="${performance.sROAS} + '%'" />
         </attr>
       </attr>
     </attr>
