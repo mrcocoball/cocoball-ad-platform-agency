@@ -11,12 +11,20 @@ public record PerformanceResponse(
         Long click,
         Long conversion,
         Long purchase,
+		Long spend,
+		double CTR,
+		String sCTR,
+		double CVR,
+		String sCVR,
+		Long CPA,
+		double ROAS,
+		String sROAS,
 		LocalDate createdAt,
 		Long creativeId
 ) implements Serializable {
 
-    public static PerformanceResponse of(Long id, Long view, Long click, Long conversion, Long purchase, LocalDate createdAt, Long creativeId) {
-        return new PerformanceResponse(id, view, click, conversion, purchase, createdAt, creativeId);
+    public static PerformanceResponse of(Long id, Long view, Long click, Long conversion, Long purchase, Long spend, double CTR, String sCTR, double CVR, String sCVR, Long CPA, double ROAS, String sROAS, LocalDate createdAt, Long creativeId) {
+        return new PerformanceResponse(id, view, click, conversion, purchase, spend, CTR, sCTR, CVR, sCVR, CPA, ROAS, sROAS, createdAt, creativeId);
     }
 
     public static PerformanceResponse from(PerformanceDto dto) {
@@ -28,6 +36,14 @@ public record PerformanceResponse(
                 dto.click(),
                 dto.conversion(),
                 dto.purchase(),
+				dto.spend(),
+				dto.CTR(),
+				dto.sCTR(),
+				dto.CVR(),
+				dto.sCVR(),
+				dto.CPA(),
+				dto.ROAS(),
+				dto.sROAS(),
 				dto.createdAt(),
                 creativeId
         );
