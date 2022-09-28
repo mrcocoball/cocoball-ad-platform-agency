@@ -12,13 +12,14 @@ public record CreativeWithPerformancesResponse(
         Long id,
         String keyword,
         Long bidingPrice,
+        String sBidingPrice,
         Long campaignId,
-		Set<PerformanceResponse> performanceResponses,
+        Set<PerformanceResponse> performanceResponses,
         boolean activated
 ) implements Serializable {
 
-    public static CreativeWithPerformancesResponse of(Long id, String keyword, Long bidingPrice, Long campaignId, Set<PerformanceResponse> performanceResponses, boolean activated) {
-        return new CreativeWithPerformancesResponse(id, keyword, bidingPrice, campaignId, performanceResponses, activated);
+    public static CreativeWithPerformancesResponse of(Long id, String keyword, Long bidingPrice, String sBidingPrice, Long campaignId, Set<PerformanceResponse> performanceResponses, boolean activated) {
+        return new CreativeWithPerformancesResponse(id, keyword, bidingPrice, sBidingPrice, campaignId, performanceResponses, activated);
     }
 
     public static CreativeWithPerformancesResponse from(CreativeWithPerformancesDto dto) {
@@ -29,10 +30,11 @@ public record CreativeWithPerformancesResponse(
                 dto.id(),
                 dto.keyword(),
                 dto.bidingPrice(),
+                dto.sBidingPrice(),
                 campaignId,
-				dto.performanceDtos().stream()
-						.map(PerformanceResponse::from)
-						.collect(Collectors.toCollection(LinkedHashSet::new)),
+                dto.performanceDtos().stream()
+                        .map(PerformanceResponse::from)
+                        .collect(Collectors.toCollection(LinkedHashSet::new)),
                 activated
         );
     }
