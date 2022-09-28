@@ -25,22 +25,38 @@
       <attr sel="#activate-button" th:classappend="${creative.activated} != true ? 'btn btn-danger active' : 'btn btn-primary active'"/>
       <attr sel="td.id" th:text="${creative.id}" />
       <attr sel="td.keyword" th:text="${creative.keyword}" />
-      <attr sel="td.biding-price" th:text="${creative.bidingPrice} + '원'"/>
+      <attr sel="td.biding-price" th:text="${creative.sBidingPrice} + '원'"/>
     </attr>
   </attr>
+
+    <attr sel="#statistics-info">
+        <attr sel="tbody" th:remove="all-but-first">
+          <attr sel="tr[0]" th:each="statistic : ${statstics}">
+            <attr sel="td.view" th:text="${statistic.sView}" />
+            <attr sel="td.click" th:text="${statistic.sClick}" />
+            <attr sel="td.conversion" th:text="${statistic.sConversion}" />
+            <attr sel="td.purchase" th:text="${statistic.sPurchase} + '원'"/>
+            <attr sel="td.spend" th:text="${statistic.sSpend} + '원'" />
+            <attr sel="td.CTR" th:text="${statistic.sCTR} + '%'" />
+            <attr sel="td.CVR" th:text="${statistic.sCVR} + '%'"/>
+            <attr sel="td.CPA" th:text="${statistic.CPA} + '원'" />
+            <attr sel="td.ROAS" th:text="${statistic.sROAS} + '%'" />
+          </attr>
+        </attr>
+      </attr>
 
   <attr sel="#performance-table">
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="tr[0]" th:each="performance : ${performances}">
           <attr sel="td.date" th:text="${performance.createdAt}" />
-          <attr sel="td.view" th:text="${performance.view}" />
-          <attr sel="td.click" th:text="${performance.click}" />
-          <attr sel="td.conversion" th:text="${performance.conversion}" />
-          <attr sel="td.purchase" th:text="${performance.purchase} + '원'"/>
-          <attr sel="td.spend" th:text="${performance.spend} + '원'" />
+          <attr sel="td.view" th:text="${performance.sView}" />
+          <attr sel="td.click" th:text="${performance.sClick}" />
+          <attr sel="td.conversion" th:text="${performance.sConversion}" />
+          <attr sel="td.purchase" th:text="${performance.sPurchase} + '원'"/>
+          <attr sel="td.spend" th:text="${performance.sSpend} + '원'" />
           <attr sel="td.CTR" th:text="${performance.sCTR} + '%'" />
           <attr sel="td.CVR" th:text="${performance.sCVR} + '%'"/>
-          <attr sel="td.CPA" th:text="${performance.CPA} + '원'" />
+          <attr sel="td.CPA" th:text="${performance.sCPA} + '원'" />
           <attr sel="td.ROAS" th:text="${performance.sROAS} + '%'" />
         </attr>
       </attr>
