@@ -35,7 +35,7 @@
           <attr sel="#activate-button" th:classappend="${campaign.activated} != true ? 'btn btn-danger active' : 'btn btn-primary active'"/>
           <attr sel="td.id" th:text="${campaign.id}"/>
           <attr sel="td.name" th:text="${campaign.name}"/>
-          <attr sel="td.budget" th:text="${campaign.budget}"/>
+          <attr sel="td.budget" th:text="${campaign.sBudget} + '원'"/>
           <attr sel="#manage-campaign" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/form'"/>
           <attr sel="#creative-detail" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'"/>
           <attr sel="#delete-campaign-form" th:action="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/delete'" th:method="post"/>

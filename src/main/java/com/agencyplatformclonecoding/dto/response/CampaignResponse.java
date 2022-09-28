@@ -11,12 +11,13 @@ public record CampaignResponse(
         LocalDateTime createdAt,
         String name,
         Long budget,
+        String sBudget,
         String clientUserName,
         boolean activated
 ) implements Serializable {
 
-    public static CampaignResponse of(Long id, LocalDateTime createdAt, String name, Long budget, String clientUserName, boolean activated) {
-        return new CampaignResponse(id, createdAt, name, budget, clientUserName, activated);
+    public static CampaignResponse of(Long id, LocalDateTime createdAt, String name, Long budget, String sBudget, String clientUserName, boolean activated) {
+        return new CampaignResponse(id, createdAt, name, budget, sBudget, clientUserName, activated);
     }
 
     public static CampaignResponse from(CampaignDto dto) {
@@ -32,6 +33,7 @@ public record CampaignResponse(
                 dto.createdAt(),
                 dto.name(),
                 dto.budget(),
+                dto.sBudget(),
                 clientUserName,
                 activated
         );
