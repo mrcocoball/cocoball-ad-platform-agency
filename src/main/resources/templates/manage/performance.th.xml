@@ -29,9 +29,11 @@
     </attr>
   </attr>
 
+    <attr sel="#statistics_type_week" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(statisticsType=BEFORE_WEEK)}" th:method="get" />
+    <attr sel="#statistics_type_month" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(statisticsType=BEFORE_MONTH)}" th:method="get" />
+
     <attr sel="#statistics-info">
         <attr sel="tbody" th:remove="all-but-first">
-          <attr sel="tr[0]" th:each="statistic : ${statstics}">
             <attr sel="td.view" th:text="${statistic.sView}" />
             <attr sel="td.click" th:text="${statistic.sClick}" />
             <attr sel="td.conversion" th:text="${statistic.sConversion}" />
@@ -39,7 +41,7 @@
             <attr sel="td.spend" th:text="${statistic.sSpend} + '원'" />
             <attr sel="td.CTR" th:text="${statistic.sCTR} + '%'" />
             <attr sel="td.CVR" th:text="${statistic.sCVR} + '%'"/>
-            <attr sel="td.CPA" th:text="${statistic.CPA} + '원'" />
+            <attr sel="td.CPA" th:text="${statistic.sCPA} + '원'" />
             <attr sel="td.ROAS" th:text="${statistic.sROAS} + '%'" />
           </attr>
         </attr>
