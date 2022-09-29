@@ -34,6 +34,8 @@ public class QPerformance extends EntityPathBase<Performance> {
 
     public final NumberPath<Long> purchase = createNumber("purchase", Long.class);
 
+    public final NumberPath<Long> spend = createNumber("spend", Long.class);
+
     public final NumberPath<Long> view = createNumber("view", Long.class);
 
     public QPerformance(String variable) {

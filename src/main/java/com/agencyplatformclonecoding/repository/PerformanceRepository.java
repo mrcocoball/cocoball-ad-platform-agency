@@ -11,6 +11,8 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface PerformanceRepository extends
@@ -19,6 +21,10 @@ public interface PerformanceRepository extends
         QuerydslBinderCustomizer<QPerformance> {
 
     Page<Performance> findByCreative_Id(Pageable pageable, Long creativeId);
+
+    Page<Performance> findByCreative_IdAndCreatedAtBetween(Pageable pageable, Long creativeId, LocalDate startDate, LocalDate lastDate);
+
+    List<Performance> findByCreative_IdAndCreatedAtBetween(Long creativeId, LocalDate startDate, LocalDate lastDate);
 
     Optional<Performance> findByCreative_Id(Long creativeId);
 

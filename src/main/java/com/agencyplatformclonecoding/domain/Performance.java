@@ -33,6 +33,7 @@ public class Performance {
     @Setter @Column private Long click;
     @Setter @Column private Long conversion;
     @Setter @Column private Long purchase;
+    @Setter @Column private Long spend;
 	@Setter @Column private LocalDate createdAt;
 
     protected Performance() {}
@@ -43,6 +44,7 @@ public class Performance {
 		this.click = click;
         this.conversion = conversion;
         this.purchase = purchase;
+        this.spend = creative.getBidingPrice() * click;
     }
 
     public static Performance of(Creative creative, Long view, Long click, Long conversion, Long purchase) {

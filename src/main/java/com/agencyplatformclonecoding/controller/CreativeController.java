@@ -1,6 +1,8 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
+import com.agencyplatformclonecoding.domain.constrant.SearchType;
+import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.CampaignDto;
 import com.agencyplatformclonecoding.dto.ClientUserDto;
 import com.agencyplatformclonecoding.dto.request.CampaignRequest;
@@ -27,6 +29,7 @@ public class CreativeController {
     private final CampaignService campaignService;
     private final CreativeService creativeService;
     private final PerformanceService performanceService;
+    private final StatisticsService statisticsService;
     private final PaginationService paginationService;
 
     @GetMapping("/form")
@@ -117,21 +120,24 @@ public class CreativeController {
     public String performances(
             @PathVariable("clientId") String clientId,
             @PathVariable("campaignId") Long campaignId,
-			@PathVariable Long creativeId,
+            @PathVariable Long creativeId,
+            @RequestParam(required = false) StatisticsType statisticsType,
             @PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
     ) {
-        Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, creativeId, campaignId, clientId).map(PerformanceResponse::from);
-		CreativeWithPerformancesResponse creativeWithPerformancesResponse = CreativeWithPerformancesResponse.from(creativeService.getCreativeWithPerformances(creativeId));
+        CreativeWithPerformancesResponse creativeWithPerformancesResponse = CreativeWithPerformancesResponse.from(creativeService.getCreativeWithPerformances(creativeId));
         CampaignWithCreativesResponse campaignWithCreativesResponse = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+        Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, statisticsType, creativeId, campaignId, clientId).map(PerformanceResponse::from);
+        PerformanceStatisticsResponse statistic = PerformanceStatisticsResponse.from(statisticsService.totalPerformanceStatistics(statisticsType, creativeId));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), performances.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaignsResponse);
         map.addAttribute("campaign", campaignWithCreativesResponse);
-		map.addAttribute("creative", creativeWithPerformancesResponse);
+        map.addAttribute("creative", creativeWithPerformancesResponse);
         map.addAttribute("performances", performances);
         map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("statistic", statistic);
         map.addAttribute("totalCount", performanceService.getPerformanceCount());
 
         return "manage/performance";
