@@ -11,14 +11,6 @@
 
   <attr sel="#performance-header/h1" th:text="'소재 키워드 : ' + ${creative.keyword}" />
 
-  <attr sel="#client-info">
-    <attr sel="tbody" th:remove="all-but-first">
-      <attr sel="td.user-id" th:text="${clientUser.userId}" />
-      <attr sel="td.nickname" th:text="${clientUser.nickname}" />
-      <attr sel="td.category" th:text="${clientUser.categoryName}"/>
-    </attr>
-  </attr>
-
   <attr sel="#creative-info">
     <attr sel="tbody" th:remove="all-but-first">
       <attr sel="#activate-button" th:text="${creative.activated} != true ? 'OFF' : 'ON'"/>
