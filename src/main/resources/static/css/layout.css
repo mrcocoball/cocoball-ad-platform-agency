@@ -70,8 +70,18 @@ main {
 
 .create-btn {
     display: flex!important;
+    flex-direction: row-reverse;
 }
 
 th, td {
     vertical-align: middle;
+}
+
+.stats-btn {
+    width: fit-content;
+    margin-left: 10px;
+}
+
+.row.right {
+    flex-direction: row-reverse;
 }
