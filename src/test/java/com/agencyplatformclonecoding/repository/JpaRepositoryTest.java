@@ -29,6 +29,7 @@ class JpaRepositoryTest {
     private final ClientUserRepository clientUserRepository;
     private final CampaignRepository campaignRepository;
     private final CreativeRepository creativeRepository;
+    private final PerformanceRepository performanceRepository;
 
     public JpaRepositoryTest(
             @Autowired AgencyRepository agencyRepository,
@@ -37,7 +38,8 @@ class JpaRepositoryTest {
             @Autowired CategoryRepository categoryRepository,
             @Autowired ClientUserRepository clientUserRepository,
             @Autowired CampaignRepository campaignRepository,
-            @Autowired CreativeRepository creativeRepository
+            @Autowired CreativeRepository creativeRepository,
+            @Autowired PerformanceRepository performanceRepository
     ) {
         this.agencyRepository = agencyRepository;
         this.agentGroupRepository = agentGroupRepository;
@@ -46,6 +48,7 @@ class JpaRepositoryTest {
         this.clientUserRepository = clientUserRepository;
         this.campaignRepository = campaignRepository;
         this.creativeRepository = creativeRepository;
+        this.performanceRepository = performanceRepository;
     }
 
     @DisplayName("SELECT 테스트 - 에이전트 그룹 / 에이전트 / 광고주 / 캠페인 / 소재")
@@ -60,14 +63,16 @@ class JpaRepositoryTest {
         List<ClientUser> clientUsers = clientUserRepository.findAll();
         List<Campaign> campaigns = campaignRepository.findAll();
         List<Creative> creatives = creativeRepository.findAll();
+        List<Performance> performances = performanceRepository.findAll();
 
         // Then
         assertThat(agentGroups).isNotNull().hasSize(6);
         assertThat(agents).isNotNull().hasSize(21);
         assertThat(categories).isNotNull().hasSize(26);
-        assertThat(clientUsers).isNotNull().hasSize(100);
-        assertThat(campaigns).isNotNull().hasSize(200);
-        assertThat(creatives).isNotNull().hasSize(1000);
+        assertThat(clientUsers).isNotNull().hasSize(40);
+        assertThat(campaigns).isNotNull().hasSize(45);
+        assertThat(creatives).isNotNull().hasSize(5);
+        assertThat(performances).isNotNull().hasSize(31);
     }
 
     @DisplayName("INSERT 테스트 - 에이전트 그룹")
@@ -189,7 +194,7 @@ class JpaRepositoryTest {
     @Test
     void givenTestClientData_whenClientUpdating_thenWorksFine() {
         // Given
-        ClientUser clientUser = clientUserRepository.findById("c1").orElseThrow();
+        ClientUser clientUser = clientUserRepository.findById("c01").orElseThrow();
         String updatedName = "update";
         clientUser.setNickname(updatedName);
 
