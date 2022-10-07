@@ -1,20 +1,15 @@
 package com.agencyplatformclonecoding.controller;
 
-import com.agencyplatformclonecoding.config.SecurityConfig;
 import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.AgencyDto;
 import com.agencyplatformclonecoding.dto.AgentGroupDto;
-import com.agencyplatformclonecoding.dto.AgentGroupWithAgentsDto;
-import com.agencyplatformclonecoding.dto.AgentWithClientsDto;
 import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
 import com.agencyplatformclonecoding.dto.response.AgentGroupResponse;
+import com.agencyplatformclonecoding.fixture.Fixture;
 import com.agencyplatformclonecoding.service.AgentGroupService;
-import com.agencyplatformclonecoding.service.AgentService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import com.agencyplatformclonecoding.util.FormDataEncoder;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +27,14 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @DisplayName("VIEW 컨트롤러 - 에이전트 그룹 관리")
 @Import({TestSecurityConfig.class, FormDataEncoder.class})
@@ -53,11 +44,9 @@ class AgentGroupControllerTest {
     private final MockMvc mvc;
     private final FormDataEncoder formDataEncoder;
 
-    @MockBean
-    private AgentGroupService agentGroupService;
+    @MockBean private AgentGroupService agentGroupService;
 
-    @MockBean
-    private PaginationService paginationService;
+    @MockBean private PaginationService paginationService;
 
     public AgentGroupControllerTest(
             @Autowired MockMvc mvc,
@@ -117,7 +106,7 @@ class AgentGroupControllerTest {
         // Given
         Long agentGroupId = 1L;
         Long totalCount = 1L;
-        given(agentGroupService.getAgentGroupWithAgents(agentGroupId)).willReturn(createAgentGroupWithAgentsDto());
+        given(agentGroupService.getAgentGroupWithAgents(agentGroupId)).willReturn(Fixture.createAgentGroupWithAgentsDto());
         given(agentGroupService.getAgentGroupCount()).willReturn(totalCount);
 
         // When & Then
@@ -214,7 +203,7 @@ class AgentGroupControllerTest {
     void givenNothing_whenRequesting_thenReturnsUpdatedAgentGroupPage() throws Exception {
         // Given
         Long agentGroupId = 1L;
-        AgentGroupDto dto = createAgentGroupDto();
+        AgentGroupDto dto = Fixture.createAgentGroupDto();
         given(agentGroupService.getAgentGroup(agentGroupId)).willReturn(dto);
 
         // When & Then
@@ -248,41 +237,4 @@ class AgentGroupControllerTest {
                 .andExpect(redirectedUrl("/agentGroups/"));
         then(agentGroupService).should().updateAgentGroup(eq(agentGroupId), any(AgentGroupDto.class));
     }
-
-
-    // fixture
-
-    private AgencyDto createAgencyDto() {
-        return AgencyDto.of(
-                "t-agency",
-                "pw",
-                "테스트용"
-        );
-    }
-
-    private AgentGroupDto createAgentGroupDto() {
-        return AgentGroupDto.of(
-                createAgencyDto(),
-                1L,
-                "테스트용",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentGroupWithAgentsDto createAgentGroupWithAgentsDto() {
-        return AgentGroupWithAgentsDto.of(
-                createAgencyDto(),
-                Set.of(),
-                1l,
-                "김테스트",
-                LocalDateTime.now(),
-                "김테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
 }

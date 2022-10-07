@@ -27,10 +27,10 @@ public record AgentGroupWithAgentsDto(
     public static AgentGroupWithAgentsDto from(AgentGroup entity) {
         return new AgentGroupWithAgentsDto(
                 AgencyDto.from(entity.getAgency()),
-				entity.getAgents().stream()
+                entity.getAgents().stream()
                         .map(AgentDto::from)
-						.collect(Collectors.toCollection(LinkedHashSet::new)),
-				entity.getId(),
+                        .collect(Collectors.toCollection(LinkedHashSet::new)),
+                entity.getId(),
                 entity.getName(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),

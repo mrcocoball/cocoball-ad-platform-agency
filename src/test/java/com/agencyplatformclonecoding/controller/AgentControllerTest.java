@@ -1,9 +1,8 @@
 package com.agencyplatformclonecoding.controller;
 
-import com.agencyplatformclonecoding.config.SecurityConfig;
 import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.*;
+import com.agencyplatformclonecoding.fixture.Fixture;
 import com.agencyplatformclonecoding.service.AgentService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import org.junit.jupiter.api.DisplayName;
@@ -21,15 +20,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("VIEW 컨트롤러 - 에이전트 관리")
@@ -39,11 +35,9 @@ class AgentControllerTest {
 
     private final MockMvc mvc;
 
-    @MockBean
-    private AgentService agentService;
+    @MockBean private AgentService agentService;
 
-    @MockBean
-    private PaginationService paginationService;
+    @MockBean private PaginationService paginationService;
 
     public AgentControllerTest(
             @Autowired MockMvc mvc
@@ -102,7 +96,7 @@ class AgentControllerTest {
         // Given
         String agentId = "agent";
         Long totalCount = 1L;
-        given(agentService.getAgentWithClients(agentId)).willReturn(createAgentWithClientsDto());
+        given(agentService.getAgentWithClients(agentId)).willReturn(Fixture.createAgentWithClientsDto());
         given(agentService.getAgentCount()).willReturn(totalCount);
 
         // When & Then
@@ -180,57 +174,4 @@ class AgentControllerTest {
    				.andExpect(redirectedUrl("/agents"));
    		then(agentService).should().deleteAgenct(agentId);
    } */
-
-    // fixture
-
-    private AgencyDto createAgencyDto() {
-        return AgencyDto.of(
-                "t-agency",
-                "pw",
-                "테스트용"
-        );
-    }
-
-    private AgentGroupDto createAgentGroupDto() {
-        return AgentGroupDto.of(
-                createAgencyDto(),
-                1L,
-                "테스트용",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentDto createAgentDto() {
-        return AgentDto.of(
-                createAgencyDto(),
-                createAgentGroupDto(),
-                "t-agent",
-                "pw",
-                "테스트용용",
-                "email",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentWithClientsDto createAgentWithClientsDto() {
-        return AgentWithClientsDto.of(
-                createAgencyDto(),
-                createAgentGroupDto(),
-                Set.of(),
-                "t-client",
-                "pw",
-                "김테스트",
-                "email",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
 }

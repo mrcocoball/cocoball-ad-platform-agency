@@ -9,7 +9,9 @@ import com.agencyplatformclonecoding.dto.request.CampaignRequest;
 import com.agencyplatformclonecoding.dto.response.AgentGroupResponse;
 import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
+import com.agencyplatformclonecoding.fixture.Fixture;
 import com.agencyplatformclonecoding.service.CampaignService;
+import com.agencyplatformclonecoding.service.CreativeService;
 import com.agencyplatformclonecoding.service.ManageService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import com.agencyplatformclonecoding.util.FormDataEncoder;
@@ -24,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.TestExecutionEvent;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -51,14 +54,13 @@ class CampaignControllerTest {
     private final MockMvc mvc;
     private final FormDataEncoder formDataEncoder;
 
-    @MockBean
-    private CampaignService campaignService;
+    @MockBean private CampaignService campaignService;
 
-    @MockBean
-    private ManageService manageService;
+    @MockBean private ManageService manageService;
 
-    @MockBean
-    private PaginationService paginationService;
+    @MockBean private CreativeService creativeService;
+
+    @MockBean private PaginationService paginationService;
 
     public CampaignControllerTest(
             @Autowired MockMvc mvc,
@@ -68,32 +70,37 @@ class CampaignControllerTest {
         this.formDataEncoder = formDataEncoder;
     }
 
-    @Disabled("실제 기능은 잘 작동하나 테스트 코드 문제가 있음 (CampaignWithCreativesDto 문제)")
-    @DisplayName("[VIEW][GET] 특정 광고주의 특정 캠페인 정보 조회 - 정상 호출")
+    @WithMockUser
+    @DisplayName("[VIEW][GET] 단일 캠페인 관리 - 소재 리스트 정상 호출")
     @Test
     public void givenClientAndCampaignInfo_whenRequestingManageDetailView_thenReturnsManageDetailView() throws Exception {
         // Given
         String clientId = "client";
         Long campaignId = 1L;
-        Long totalCount = 1L;
+        Long totalCount = 0L;
+        given(manageService.getClientUserWithCampaigns(clientId)).willReturn(Fixture.createClientUserWithCampaignsDto());
+        given(campaignService.getCampaign(campaignId)).willReturn(Fixture.createCampaignDto());
+        given(creativeService.getCreativeCount()).willReturn(totalCount);
+        given(creativeService.searchCreatives(any(Pageable.class), eq(campaignId), eq(clientId))).willReturn(Page.empty());
 
         // When & Then
         mvc.perform(get("/manage/" + clientId + "/campaigns/" + campaignId + "/creatives"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("manage/campaign"))
+                .andExpect(view().name("manage/creative"))
                 .andExpect(model().attributeExists("campaign"))
                 .andExpect(model().attributeExists("creatives"))
 				.andExpect(model().attribute("totalCount", totalCount));
     }
 
-    @Disabled("실제 기능은 잘 작동하나 테스트 코드 문제가 있음 (ClientUserWithCampaignsResponse 문제)")
+    // @Disabled("실제 기능은 잘 작동하나 테스트 코드 문제가 있음 (ClientUserWithCampaignsResponse 문제)")
+    @WithMockUser
     @DisplayName("[VIEW][GET] 새 캠페인 생성 페이지")
     @Test
     void givenNothing_whenRequesting_thenReturnsNewCampaignPage() throws Exception {
         // Given
         String clientId = "client";
-        ClientUserWithCampaignsDto clientDto = createClientUserWithCampaignsDto();
+        ClientUserWithCampaignsDto clientDto = Fixture.createClientUserWithCampaignsDto();
 
         // When & Then
         mvc.perform(get("/manage/" + clientId + "/campaigns/form"))
@@ -126,15 +133,16 @@ class CampaignControllerTest {
         then(campaignService).should().saveCampaign(any(CampaignDto.class));
     }
 
-    @Disabled("실제 기능은 잘 작동하나 테스트 코드 문제가 있음 (ClientUserWithCampaignsResponse 문제)")
+    // @Disabled("실제 기능은 잘 작동하나 테스트 코드 문제가 있음 (ClientUserWithCampaignsResponse 문제)")
+    @WithMockUser
    	@DisplayName("[VIEW][GET] 캠페인 수정 페이지")
     @Test
     void givenNothing_whenRequesting_thenReturnsUpdatedCampaignPage() throws Exception {
         // Given
         String clientId = "client";
         Long campaignId = 1L;
-        CampaignDto dto = createCampaignDto();
-        ClientUserWithCampaignsDto clientDto = createClientUserWithCampaignsDto();
+        CampaignDto dto = Fixture.createCampaignDto();
+        ClientUserWithCampaignsDto clientDto = Fixture.createClientUserWithCampaignsDto();
         given(campaignService.getCampaign(campaignId)).willReturn(dto);
 
         // When & Then
@@ -170,93 +178,4 @@ class CampaignControllerTest {
                 .andExpect(redirectedUrl("/manage/client/campaigns"));
         then(campaignService).should().updateCampaign(eq(campaignId), eq(clientId), any(CampaignDto.class));
     }
-
-    // fixture
-
-    private AgencyDto createAgencyDto() {
-         return AgencyDto.of(
-                    "t-agency",
-                    "pw",
-                    "테스트용"
-         );
-    }
-
-    private AgentGroupDto createAgentGroupDto() {
-        return AgentGroupDto.of(
-                    createAgencyDto(),
-                    1L,
-                    "테스트용",
-                    LocalDateTime.now(),
-                    "테스트",
-                    LocalDateTime.now(),
-                    "테스트"
-        );
-    }
-    private AgentDto createAgentDto() {
-        return AgentDto.of(
-                    createAgencyDto(),
-                    createAgentGroupDto(),
-                    "t-agent",
-                    "pw",
-                    "테스트용용",
-                    "email",
-                    LocalDateTime.now(),
-                    "테스트",
-                    LocalDateTime.now(),
-                    "테스트"
-        );
-    }
-
-    private CategoryDto createCategoryDto() {
-        return CategoryDto.of(
-                1L,
-                "t-category",
-                LocalDateTime.now(),
-                "test",
-                LocalDateTime.now(),
-                "test"
-        );
-    }
-
-    private ClientUserDto createClientUserDto() {
-        return ClientUserDto.of(
-    				createAgencyDto(),
-    				createAgentDto(),
-                    createCategoryDto(),
-    				"t-client",
-    				"pw",
-    				"테스트용",
-    				"email",
-    				LocalDateTime.now(),
-                    "테스트",
-                    LocalDateTime.now(),
-                    "테스트"
-        );
-    }
-
-    private CampaignDto createCampaignDto() {
-        return CampaignDto.of(
-                createClientUserDto(),
-                "t-campaign",
-                10000L
-        );
-    }
-
-    private ClientUserWithCampaignsDto createClientUserWithCampaignsDto() {
-        return ClientUserWithCampaignsDto.of(
-                 createAgencyDto(),
-                 createAgentDto(),
-                 createCategoryDto(),
-                 "client",
-                 "pw",
-                 "테스트용",
-                 "email",
-                 LocalDateTime.now(),
-                 "테스트",
-                 LocalDateTime.now(),
-                 "테스트",
-                 Set.of()
-        );
-    }
-
 }

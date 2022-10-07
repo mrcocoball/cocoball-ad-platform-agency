@@ -6,7 +6,7 @@ import com.agencyplatformclonecoding.domain.AgentGroup;
 import java.time.LocalDateTime;
 
 public record AgentGroupDto(
-		AgencyDto agencyDto,
+        AgencyDto agencyDto,
         Long id,
         String name,
         LocalDateTime createdAt,
@@ -18,6 +18,7 @@ public record AgentGroupDto(
     public static AgentGroupDto of(AgencyDto agencyDto, String name) {
         return new AgentGroupDto(agencyDto, null, name, null, null, null, null);
     }
+
     public static AgentGroupDto of(AgencyDto agencyDto, Long id, String name, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         return new AgentGroupDto(agencyDto, id, name, createdAt, createdBy, modifiedAt, modifiedBy);
     }
@@ -26,7 +27,7 @@ public record AgentGroupDto(
     public static AgentGroupDto from(AgentGroup entity) {
         return new AgentGroupDto(
                 AgencyDto.from(entity.getAgency()),
-				entity.getId(),
+                entity.getId(),
                 entity.getName(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
@@ -39,7 +40,7 @@ public record AgentGroupDto(
     public AgentGroup toEntity(Agency agency) {
         return AgentGroup.of(
                 agency,
-				name
+                name
         );
     }
 }

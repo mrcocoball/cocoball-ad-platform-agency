@@ -32,29 +32,29 @@ public class AgentGroupController {
 
     @GetMapping
     public String agentGroups(
-                @RequestParam(required = false) SearchType searchType,
-                @RequestParam(required = false) String searchValue,
-                @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-                ModelMap map
-    	) {
-    		Page<AgentGroupResponse> agentGroups = agentGroupService.searchAgentGroups(searchType, searchValue, pageable)
-    				.map(AgentGroupResponse::from);
-    		List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), agentGroups.getTotalPages());
-            map.addAttribute("agentGroups", agentGroups);
-    		map.addAttribute("paginationBarNumbers", barNumbers);
-    		map.addAttribute("searchTypes", SearchType.values());
+            @RequestParam(required = false) SearchType searchType,
+            @RequestParam(required = false) String searchValue,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            ModelMap map
+    ) {
+        Page<AgentGroupResponse> agentGroups = agentGroupService.searchAgentGroups(searchType, searchValue, pageable)
+                .map(AgentGroupResponse::from);
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), agentGroups.getTotalPages());
+        map.addAttribute("agentGroups", agentGroups);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("searchTypes", SearchType.values());
 
-            return "agentgroups/index";
-        }
+        return "agentgroups/index";
+    }
 
     @GetMapping("/{agentGroupId}")
     public String agentGroup(@PathVariable Long agentGroupId, ModelMap map) {
 
-		AgentGroupWithAgentsResponse agentGroup = AgentGroupWithAgentsResponse.from(agentGroupService.getAgentGroupWithAgents(agentGroupId));
+        AgentGroupWithAgentsResponse agentGroup = AgentGroupWithAgentsResponse.from(agentGroupService.getAgentGroupWithAgents(agentGroupId));
 
         map.addAttribute("agentGroup", agentGroup);
         map.addAttribute("agents", agentGroup.agentResponses());
-		map.addAttribute("totalCount", agentGroupService.getAgentGroupCount());
+        map.addAttribute("totalCount", agentGroupService.getAgentGroupCount());
 
         return "agentgroups/detail";
     }
@@ -65,48 +65,48 @@ public class AgentGroupController {
     }
 
     @GetMapping("/form")
-   	public String agentGroupForm(ModelMap map) {
-   		map.addAttribute("formStatus", FormStatus.CREATE);
+    public String agentGroupForm(ModelMap map) {
+        map.addAttribute("formStatus", FormStatus.CREATE);
 
-   		return "agentgroups/form";
-   	}
+        return "agentgroups/form";
+    }
 
-   	@PostMapping("/form")
-   	public String createNewAgentGroup(
-			   @AuthenticationPrincipal PlatformPrincipal platformPrincipal,
-			   AgentGroupRequest agentGroupRequest) {
-   		agentGroupService.saveAgentGroup(agentGroupRequest.toDto(platformPrincipal.toDto()));
+    @PostMapping("/form")
+    public String createNewAgentGroup(
+            @AuthenticationPrincipal PlatformPrincipal platformPrincipal,
+            AgentGroupRequest agentGroupRequest) {
+        agentGroupService.saveAgentGroup(agentGroupRequest.toDto(platformPrincipal.toDto()));
 
-   		return "redirect:/agentGroups";
-   	}
+        return "redirect:/agentGroups";
+    }
 
-   	@GetMapping("/{agentGroupId}/form")
-   	public String updateAgentGroupForm(@PathVariable Long agentGroupId, ModelMap map) {
-   		AgentGroupResponse agentGroup = AgentGroupResponse.from(agentGroupService.getAgentGroup(agentGroupId));
+    @GetMapping("/{agentGroupId}/form")
+    public String updateAgentGroupForm(@PathVariable Long agentGroupId, ModelMap map) {
+        AgentGroupResponse agentGroup = AgentGroupResponse.from(agentGroupService.getAgentGroup(agentGroupId));
 
-   		map.addAttribute("agentGroup", agentGroup);
-   		map.addAttribute("formStatus", FormStatus.UPDATE);
+        map.addAttribute("agentGroup", agentGroup);
+        map.addAttribute("formStatus", FormStatus.UPDATE);
 
-   		return "agentgroups/form";
-   	}
+        return "agentgroups/form";
+    }
 
-   	@PostMapping("/{agentGroupId}/form")
-   	public String updateAgentGroup(
-			   @PathVariable Long agentGroupId,
-			   @AuthenticationPrincipal PlatformPrincipal platformPrincipal,
-			   AgentGroupRequest agentGroupRequest) {
-   		agentGroupService.updateAgentGroup(agentGroupId, agentGroupRequest.toDto(platformPrincipal.toDto()));  // TODO : 추후 에이전시 인증 기능 부여
+    @PostMapping("/{agentGroupId}/form")
+    public String updateAgentGroup(
+            @PathVariable Long agentGroupId,
+            @AuthenticationPrincipal PlatformPrincipal platformPrincipal,
+            AgentGroupRequest agentGroupRequest) {
+        agentGroupService.updateAgentGroup(agentGroupId, agentGroupRequest.toDto(platformPrincipal.toDto()));  // TODO : 추후 에이전시 인증 기능 부여
 
-   		return "redirect:/agentGroups/";
-   	}
+        return "redirect:/agentGroups/";
+    }
 
-   	@PostMapping ("/{agentGroupId}/delete")
-   	public String deleteAgentGroup(
-			   @PathVariable Long agentGroupId,
-			   @AuthenticationPrincipal PlatformPrincipal platformPrincipal) {
-   		agentGroupService.deleteAgentGroup(agentGroupId, platformPrincipal.getUsername());
+    @PostMapping("/{agentGroupId}/delete")
+    public String deleteAgentGroup(
+            @PathVariable Long agentGroupId,
+            @AuthenticationPrincipal PlatformPrincipal platformPrincipal) {
+        agentGroupService.deleteAgentGroup(agentGroupId, platformPrincipal.getUsername());
 
-   		return "redirect:/agentGroups";
-   	}
+        return "redirect:/agentGroups";
+    }
 
 }

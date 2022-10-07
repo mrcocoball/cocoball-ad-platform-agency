@@ -40,7 +40,8 @@ public class Agent extends AuditingFields {
     @Setter @Column(length = 50, nullable = false) private String nickname;
     @Setter @Column private boolean deleted;
 
-    protected Agent() {}
+    protected Agent() {
+    }
 
     private Agent(Agency agency, AgentGroup agentGroup, String userId, String userPassword, String email, String nickname) {
         this.agency = agency;

@@ -26,9 +26,10 @@ public class PerformanceStatisticsDto {
     double ROAS;
     String sROAS;
 
-    public PerformanceStatisticsDto() {}
+    public PerformanceStatisticsDto() {
+    }
 
-    private PerformanceStatisticsDto (Long creativeId, Long view, String sView, Long click, String sClick, Long conversion, String sConversion, Long purchase, String sPurchase, Long spend, String sSpend, double CTR, String sCTR, double CVR, String sCVR, Long CPA, String sCPA, double ROAS, String sROAS) {
+    private PerformanceStatisticsDto(Long creativeId, Long view, String sView, Long click, String sClick, Long conversion, String sConversion, Long purchase, String sPurchase, Long spend, String sSpend, double CTR, String sCTR, double CVR, String sCVR, Long CPA, String sCPA, double ROAS, String sROAS) {
         this.creativeId = creativeId;
         this.view = view;
         this.sView = sView;

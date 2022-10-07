@@ -7,8 +7,7 @@ public enum StatisticsType {
     BEFORE_MONTH("최근 30일"),
     BEFORE_CUSTOM("기간 설정");
 
-    @Getter
-    private final String description;
+    @Getter private final String description;
 
     StatisticsType(String description) {
         this.description = description;

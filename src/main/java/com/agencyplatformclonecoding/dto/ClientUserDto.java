@@ -24,7 +24,7 @@ public record ClientUserDto(
 ) {
 
     public static ClientUserDto of(AgencyDto agencyDto, AgentDto agentDto, CategoryDto categoryDto, String password, String nickname, String email) {
-        return new ClientUserDto(agencyDto, agentDto, categoryDto,null, password, nickname, email, null, null, null, null);
+        return new ClientUserDto(agencyDto, agentDto, categoryDto, null, password, nickname, email, null, null, null, null);
     }
 
     public static ClientUserDto of(String userId) {

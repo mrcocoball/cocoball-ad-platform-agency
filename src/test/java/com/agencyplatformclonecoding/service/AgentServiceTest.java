@@ -1,16 +1,15 @@
 package com.agencyplatformclonecoding.service;
 
-import com.agencyplatformclonecoding.domain.*;
+import com.agencyplatformclonecoding.domain.Agent;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.AgencyDto;
 import com.agencyplatformclonecoding.dto.AgentDto;
-import com.agencyplatformclonecoding.dto.AgentGroupDto;
 import com.agencyplatformclonecoding.dto.AgentWithClientsDto;
+import com.agencyplatformclonecoding.exception.AdPlatformException;
+import com.agencyplatformclonecoding.fixture.Fixture;
 import com.agencyplatformclonecoding.repository.AgencyRepository;
 import com.agencyplatformclonecoding.repository.AgentGroupRepository;
 import com.agencyplatformclonecoding.repository.AgentRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,12 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -52,7 +46,7 @@ class AgentServiceTest {
     void givenAgentId_whenSearchingAgent_thenReturnsAgent() {
         // Given
         String agentId = "t-agent";
-        Agent agent = createAgent();
+        Agent agent = Fixture.createAgent();
         given(agentRepository.findByUserIdAndDeletedFalse(agentId)).willReturn(Optional.of(agent));
 
         // When
@@ -102,7 +96,7 @@ class AgentServiceTest {
     void givenAgentId_whenSearchingAgentWithClients_thenReturnsAgentWithClients() {
         // Given
         String agentId = "t-agent";
-        Agent agent = createAgent();
+        Agent agent = Fixture.createAgent();
         given(agentRepository.findByUserIdAndDeletedFalse(agentId)).willReturn(Optional.of(agent));
 
         // When
@@ -127,8 +121,7 @@ class AgentServiceTest {
 
         // Then
         assertThat(t)
-                .isInstanceOf(EntityNotFoundException.class)
-                .hasMessage("에이전트가 존재하지 않습니다 - agentId : " + agentId);
+                .isInstanceOf(AdPlatformException.class);
         then(agentRepository).should().findByUserIdAndDeletedFalse(agentId);
     }
 
@@ -144,8 +137,7 @@ class AgentServiceTest {
 
         // Then
         assertThat(t)
-                .isInstanceOf(EntityNotFoundException.class)
-                .hasMessage("에이전트가 존재하지 않습니다 - agentId : " + agentId);
+                .isInstanceOf(AdPlatformException.class);
         then(agentRepository).should().findByUserIdAndDeletedFalse(agentId);
     }
 
@@ -178,147 +170,4 @@ class AgentServiceTest {
         assertThat(actual).isEqualTo(expected);
         then(agentRepository).should().countByDeletedFalse();
     }
-
-
-    // fixture
-
-    private Agency createAgency() {
-        Agency agency = Agency.of(
-                "t-agency",
-                "pw",
-                "테스트용"
-        );
-
-        return agency;
-    }
-
-    private AgentGroup createAgentGroup() {
-        AgentGroup agentGroup = AgentGroup.of(
-                createAgency(),
-                1L,
-                "테스트용그룹"
-        );
-
-        return agentGroup;
-    }
-
-    private Agent createAgent() {
-        Agent agent = Agent.of(
-                createAgency(),
-                createAgentGroup(),
-                "t-agent",
-                "pw",
-                "email",
-                "테스트용"
-        );
-
-        return agent;
-    }
-
-    private Category createCategory() {
-        Category category = Category.of(
-                "t-category"
-        );
-
-        return category;
-    }
-
-    private ClientUser createClientUser() {
-        ClientUser clientUser = ClientUser.of(
-                createAgency(),
-                createAgent(),
-                createCategory(),
-                "t-client",
-                "pw",
-                "email",
-                "테스트용"
-        );
-
-        return clientUser;
-    }
-
-    private List<ClientUser> clientUsers() {
-        List<ClientUser> clientUsers = Arrays.asList(createClientUser());
-
-        return clientUsers;
-    }
-
-    private AgencyDto createAgencyDto() {
-        return AgencyDto.of(
-                "t-agency",
-                "pw",
-                "테스트용"
-        );
-    }
-
-    private AgentGroupDto createAgentGroupDto() {
-        return AgentGroupDto.of(
-                createAgencyDto(),
-                1L,
-                "테스트용",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentGroupDto createModifiedAgentGroupDto(Long agentGroupId) {
-        return AgentGroupDto.of(
-                createAgencyDto(),
-                agentGroupId,
-                "테스트용",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentDto createAgentDto() {
-        return AgentDto.of(
-                createAgencyDto(),
-                createAgentGroupDto(),
-                "t-agent",
-                "pw",
-                "테스트용용",
-                "email",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentDto createAgentDto(Long agentGroupId) {
-        return AgentDto.of(
-                createAgencyDto(),
-                createModifiedAgentGroupDto(agentGroupId),
-                "t-agent",
-                "pw",
-                "테스트용용",
-                "email",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentWithClientsDto createAgentWithClientsDto() {
-        return AgentWithClientsDto.of(
-                createAgencyDto(),
-                createAgentGroupDto(),
-                Set.of(),
-                "t-agent",
-                "pw",
-                "김테스트",
-                "email",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
 }

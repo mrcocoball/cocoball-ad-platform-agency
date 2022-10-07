@@ -99,6 +99,14 @@ public class CreativeService {
         Campaign campaign = campaignRepository.getReferenceById(campaignId);
         ClientUser clientUser = clientUserRepository.getReferenceById(clientId);
 
+        if (campaign == null) {
+            throw new AdPlatformException(ErrorCode.CAMPAIGN_NOT_FOUND);
+        }
+
+        if (clientUser == null) {
+            throw new AdPlatformException(ErrorCode.CLIENT_NOT_FOUND);
+        }
+
         if (!campaign.getClientUser().equals(clientUser)) {
             throw new AdPlatformException(ErrorCode.INVALID_RELATION);
         }
@@ -116,6 +124,18 @@ public class CreativeService {
         Creative creative = creativeRepository.getReferenceById(creativeId);
         Campaign campaign = campaignRepository.getReferenceById(campaignId);
         ClientUser clientUser = clientUserRepository.getReferenceById(clientId);
+
+        if (creative == null) {
+            throw new AdPlatformException(ErrorCode.CREATIVE_NOT_FOUND);
+        }
+
+        if (campaign == null) {
+            throw new AdPlatformException(ErrorCode.CAMPAIGN_NOT_FOUND);
+        }
+
+        if (clientUser == null) {
+            throw new AdPlatformException(ErrorCode.CLIENT_NOT_FOUND);
+        }
 
         if (!campaign.getClientUser().equals(clientUser)) {
             throw new AdPlatformException(ErrorCode.INVALID_RELATION);

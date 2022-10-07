@@ -26,8 +26,8 @@ public class SecurityConfig {
                 )
                 .formLogin().and()
                 .logout()
-                        .logoutSuccessUrl("/")
-                        .and()
+                .logoutSuccessUrl("/")
+                .and()
                 .build();
     }
 
@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .map(PlatformPrincipal::from)
                 .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다 - username: " + username));
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

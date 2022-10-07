@@ -25,8 +25,8 @@ import javax.persistence.EntityNotFoundException;
 public class ManageService {
 
     private final ClientUserRepository clientUserRepository;
-	private final CampaignRepository campaignRepository;
-	private final CreativeRepository creativeRepository;
+    private final CampaignRepository campaignRepository;
+    private final CreativeRepository creativeRepository;
 
     @Transactional(readOnly = true)
     public ClientUserDto getClientUser(String clientId) {
@@ -41,7 +41,7 @@ public class ManageService {
             return clientUserRepository.findAll(pageable).map(ClientUserDto::from);
         }
 
-        return switch(searchType) {
+        return switch (searchType) {
             case ID -> clientUserRepository.findByUserIdContaining(searchKeyword, pageable).map(ClientUserDto::from);
             case NICKNAME -> clientUserRepository.findByNicknameContaining(searchKeyword, pageable).map(ClientUserDto::from);
         };

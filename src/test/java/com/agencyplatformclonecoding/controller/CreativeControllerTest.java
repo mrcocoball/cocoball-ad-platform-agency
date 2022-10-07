@@ -27,11 +27,9 @@ class CreativeControllerTest {
 
     private final MockMvc mvc;
 
-    @MockBean
-    private CreativeService creativeService;
+    @MockBean private CreativeService creativeService;
 
-    @MockBean
-    private PaginationService paginationService;
+    @MockBean private PaginationService paginationService;
 
     public CreativeControllerTest(
             @Autowired MockMvc mvc

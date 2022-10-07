@@ -1,9 +1,8 @@
 package com.agencyplatformclonecoding.controller;
 
-import com.agencyplatformclonecoding.config.SecurityConfig;
 import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.*;
+import com.agencyplatformclonecoding.fixture.Fixture;
 import com.agencyplatformclonecoding.service.ClientUserService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +20,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -37,11 +35,9 @@ class ClientUserControllerTest {
 
     private final MockMvc mvc;
 
-    @MockBean
-    private ClientUserService clientUserService;
+    @MockBean private ClientUserService clientUserService;
 
-    @MockBean
-    private PaginationService paginationService;
+    @MockBean private PaginationService paginationService;
 
     public ClientUserControllerTest(
             @Autowired MockMvc mvc
@@ -100,7 +96,7 @@ class ClientUserControllerTest {
         // Given
 		String clientId = "client";
 		Long totalCount = 1L;
-		given(clientUserService.getClientUser(clientId)).willReturn(createClientUserDto());
+		given(clientUserService.getClientUser(clientId)).willReturn(Fixture.createClientUserDto());
 		given(clientUserService.getClientUserCount()).willReturn(totalCount);
 
         // When & Then
@@ -157,70 +153,4 @@ class ClientUserControllerTest {
         then(clientUserService).should().searchClientUsers(null, null, pageable);
         then(paginationService).should().getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages());
     }
-
-
-	// fixture
-
-	private AgencyDto createAgencyDto() {
-        return AgencyDto.of(
-                "t-agency",
-                "pw",
-                "테스트용"
-        );
-    }
-
-    private AgentGroupDto createAgentGroupDto() {
-        return AgentGroupDto.of(
-                createAgencyDto(),
-                1L,
-                "테스트용",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentDto createAgentDto() {
-        return AgentDto.of(
-                createAgencyDto(),
-                createAgentGroupDto(),
-                "t-agent",
-                "pw",
-                "테스트용용",
-                "email",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-	private ClientUserDto createClientUserDto() {
-		return ClientUserDto.of(
-				createAgencyDto(),
-				createAgentDto(),
-                createCategoryDto(),
-				"t-client",
-				"pw",
-				"테스트용",
-				"email",
-				LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private CategoryDto createCategoryDto() {
-        return CategoryDto.of(
-                1L,
-                "t-category",
-                LocalDateTime.now(),
-                "test",
-                LocalDateTime.now(),
-                "test"
-        );
-    }
-
 }

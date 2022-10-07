@@ -25,8 +25,11 @@ public interface ClientUserRepository extends
     Page<ClientUser> findByAgent_UserIdContaining(String userId, Pageable pageable);
 
     Page<ClientUser> findByUserIdContaining(String userId, Pageable pageable);
+
     Page<ClientUser> findByNicknameContaining(String nickname, Pageable pageable);
+
     Page<ClientUser> findByCategoryContaining(Category category, Pageable pageable);
+
     List<ClientUser> findByAgent_UserId(String userId);
 
     @Override
