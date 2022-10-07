@@ -1,12 +1,16 @@
 package com.agencyplatformclonecoding.service;
 
-import com.agencyplatformclonecoding.domain.*;
+import com.agencyplatformclonecoding.domain.Agent;
+import com.agencyplatformclonecoding.domain.AgentGroup;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.*;
+import com.agencyplatformclonecoding.dto.AgentDto;
+import com.agencyplatformclonecoding.dto.AgentGroupDto;
+import com.agencyplatformclonecoding.dto.AgentGroupWithAgentsDto;
+import com.agencyplatformclonecoding.exception.AdPlatformException;
+import com.agencyplatformclonecoding.fixture.Fixture;
 import com.agencyplatformclonecoding.repository.AgencyRepository;
 import com.agencyplatformclonecoding.repository.AgentGroupRepository;
 import com.agencyplatformclonecoding.repository.AgentRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,8 +21,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchThrowable;
@@ -28,22 +32,18 @@ import static org.mockito.BDDMockito.*;
 @ExtendWith(MockitoExtension.class)
 class AgentGroupServiceTest {
 
-    @InjectMocks
-    private AgentGroupService sut;
+    @InjectMocks private AgentGroupService sut;
 
-    @Mock
-    private AgencyRepository agencyRepository;
-    @Mock
-    private AgentGroupRepository agentGroupRepository;
-    @Mock
-    private AgentRepository agentRepository;
+    @Mock private AgencyRepository agencyRepository;
+    @Mock private AgentGroupRepository agentGroupRepository;
+    @Mock private AgentRepository agentRepository;
 
     @DisplayName("READ - 에이전트 그룹 조회 시 에이전트 그룹 반환")
     @Test
     void givenAgentGroupId_whenSearchingAgentGroup_thenReturnsAgentGroup() {
         // Given
         Long agentGroupId = 1L;
-        AgentGroup agentGroup = createAgentGroup();
+        AgentGroup agentGroup = Fixture.createAgentGroup();
         given(agentGroupRepository.findById(agentGroupId)).willReturn(Optional.of(agentGroup));
 
         // When
@@ -92,7 +92,7 @@ class AgentGroupServiceTest {
     void givenAgentGroupId_whenSearchingAgentGroupWithAgents_thenReturnsAgentGroupWithAgents() {
         // Given
         Long agentGroupId = 1L;
-        AgentGroup agentGroup = createAgentGroup();
+        AgentGroup agentGroup = Fixture.createAgentGroup();
         given(agentGroupRepository.findById(agentGroupId)).willReturn(Optional.of(agentGroup));
 
         // When
@@ -116,8 +116,7 @@ class AgentGroupServiceTest {
 
         // Then
         assertThat(t)
-                .isInstanceOf(EntityNotFoundException.class)
-                .hasMessage("에이전트 그룹이 존재하지 않습니다 - agentGroupId : " + agentGroupId);
+                .isInstanceOf(AdPlatformException.class);
         then(agentGroupRepository).should().findById(agentGroupId);
     }
 
@@ -133,8 +132,7 @@ class AgentGroupServiceTest {
 
         // Then
         assertThat(t)
-                .isInstanceOf(EntityNotFoundException.class)
-                .hasMessage("에이전트 그룹이 존재하지 않습니다 - agentGroupId : " + agentGroupId);
+                .isInstanceOf(AdPlatformException.class);
         then(agentGroupRepository).should().findById(agentGroupId);
     }
 
@@ -142,9 +140,9 @@ class AgentGroupServiceTest {
     @Test
     void givenAgentGroupInfo_whenSavingAgentGroup_thenSavesAgentGroup() {
         // Given
-        AgentGroupDto dto = createAgentGroupDto();
-        given(agencyRepository.getReferenceById(dto.agencyDto().agencyId())).willReturn(createAgency());
-        given(agentGroupRepository.save(any(AgentGroup.class))).willReturn(createAgentGroup());
+        AgentGroupDto dto = Fixture.createAgentGroupDto();
+        given(agencyRepository.getReferenceById(dto.agencyDto().agencyId())).willReturn(Fixture.createAgency());
+        given(agentGroupRepository.save(any(AgentGroup.class))).willReturn(Fixture.createAgentGroup());
 
         // When
         sut.saveAgentGroup(dto);
@@ -158,11 +156,11 @@ class AgentGroupServiceTest {
     @Test
     void givenAgentGroupIdAndAgentInfo_whenSavingAgentGroup_thenSavesAgentGroup() {
         // Given
-        AgentDto dto = createAgentDto();
+        AgentDto dto = Fixture.createAgentDto();
         Long agentGroupId = 1L;
-        given(agencyRepository.getReferenceById(dto.agencyDto().agencyId())).willReturn(createAgency());
-        given(agentGroupRepository.getReferenceById(dto.agentGroupDto().id())).willReturn(createAgentGroup());
-        given(agentRepository.save(any(Agent.class))).willReturn(createAgent());
+        given(agencyRepository.getReferenceById(dto.agencyDto().agencyId())).willReturn(Fixture.createAgency());
+        given(agentGroupRepository.getReferenceById(dto.agentGroupDto().id())).willReturn(Fixture.createAgentGroup());
+        given(agentRepository.save(any(Agent.class))).willReturn(Fixture.createAgent());
 
         // When
         sut.saveAgentInAgentGroup(agentGroupId, dto);
@@ -177,8 +175,8 @@ class AgentGroupServiceTest {
     @Test
     void givenAgentGroupModifiedName_whenUpdatingAgentGroupName_thenUpdatesAgentGroupName() {
         // Given
-        AgentGroup agentGroup = createAgentGroup();
-        AgentGroupDto dto = createAgentGroupDto("update-group");
+        AgentGroup agentGroup = Fixture.createAgentGroup();
+        AgentGroupDto dto = Fixture.createAgentGroupDto("update-group");
         given(agentGroupRepository.getReferenceById(dto.id())).willReturn(agentGroup);
         given(agencyRepository.getReferenceById(dto.agencyDto().agencyId())).willReturn(dto.agencyDto().toEntity());
 
@@ -196,7 +194,7 @@ class AgentGroupServiceTest {
     @Test
     void givenNotExistAgentGroup_whenUpdatingAgentGroupName_thenLogsWarningAndDoesNothing() {
         // Given
-        AgentGroupDto dto = createAgentGroupDto("update-group");
+        AgentGroupDto dto = Fixture.createAgentGroupDto("update-group");
         given(agentGroupRepository.getReferenceById(dto.id())).willThrow(EntityNotFoundException.class);
 
         // When
@@ -251,123 +249,4 @@ class AgentGroupServiceTest {
         assertThat(actual).isEqualTo(expected);
         then(agentRepository).should().findByAgentGroup_IdAndDeletedFalse(agentGroupId);
     }
-
-    //fixture
-
-    private Agency createAgency() {
-        Agency agency = Agency.of(
-                "t-agency",
-                "pw",
-                "테스트용"
-        );
-
-        return agency;
-    }
-
-    private AgentGroup createAgentGroup() {
-        AgentGroup agentGroup = AgentGroup.of(
-                createAgency(),
-                1L,
-                "테스트용그룹"
-        );
-
-        return agentGroup;
-    }
-
-    private Agent createAgent() {
-        Agent agent = Agent.of(
-                createAgency(),
-                createAgentGroup(),
-                "t-agent",
-                "pw",
-                "email",
-                "테스트용"
-        );
-
-        return agent;
-    }
-
-    private Category createCategory() {
-        Category category = Category.of(
-                "t-category"
-        );
-
-        return category;
-    }
-
-    private ClientUser createClientUser() {
-        ClientUser clientUser = ClientUser.of(
-                createAgency(),
-                createAgent(),
-                createCategory(),
-                "t-client",
-                "pw",
-                "email",
-                "테스트용"
-        );
-
-        return clientUser;
-    }
-
-    private List<ClientUser> clientUsers() {
-        List<ClientUser> clientUsers = Arrays.asList(createClientUser());
-
-        return clientUsers;
-    }
-
-    private AgencyDto createAgencyDto() {
-        return AgencyDto.of(
-                "t-agency",
-                "pw",
-                "테스트용"
-        );
-    }
-
-    private AgentGroupDto createAgentGroupDto() {
-        return createAgentGroupDto("update-group");
-    }
-
-    private AgentGroupDto createAgentGroupDto(String agentGroupName) {
-        return AgentGroupDto.of(
-                createAgencyDto(),
-                1L,
-                agentGroupName,
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentDto createAgentDto() {
-        return AgentDto.of(
-                createAgencyDto(),
-                createAgentGroupDto(),
-                "t-agent",
-                "pw",
-                "테스트용용",
-                "email",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
-    private AgentWithClientsDto createAgentWithClientsDto() {
-        return AgentWithClientsDto.of(
-                createAgencyDto(),
-                createAgentGroupDto(),
-                Set.of(),
-                "t-agent",
-                "pw",
-                "김테스트",
-                "email",
-                LocalDateTime.now(),
-                "테스트",
-                LocalDateTime.now(),
-                "테스트"
-        );
-    }
-
 }

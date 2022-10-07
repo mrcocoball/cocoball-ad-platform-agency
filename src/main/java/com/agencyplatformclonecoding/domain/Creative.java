@@ -27,9 +27,7 @@ public class Creative extends AuditingFields {
     private Long id;
 
     // 다대일 양방향
-    @Setter
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "CAMPAIGN_ID") private Campaign campaign; // 에이전시 정보 (ID)
+    @Setter @ManyToOne(optional = false) @JoinColumn(name = "CAMPAIGN_ID") private Campaign campaign; // 에이전시 정보 (ID)
 
     @Setter @Column private String keyword;
     @Setter @Column private Long bidingPrice;
@@ -40,11 +38,12 @@ public class Creative extends AuditingFields {
     @OneToMany(mappedBy = "creative", cascade = CascadeType.ALL)
     private final Set<Performance> performances = new LinkedHashSet<>();
 
-   	@Setter @Column private boolean activated;
+    @Setter @Column private boolean activated;
 
     @Setter @Column private boolean deleted;
 
-    protected Creative() {}
+    protected Creative() {
+    }
 
     private Creative(Campaign campaign, String keyword, Long bidingPrice) {
         this.campaign = campaign;
