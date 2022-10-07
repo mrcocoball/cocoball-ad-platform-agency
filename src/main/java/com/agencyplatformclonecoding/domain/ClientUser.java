@@ -36,7 +36,8 @@ public class ClientUser extends AuditingFields {
     @OneToMany(mappedBy = "clientUser", cascade = CascadeType.ALL)
     private final Set<Campaign> campaigns = new LinkedHashSet<>();
 
-    protected ClientUser() {}
+    protected ClientUser() {
+    }
 
     private ClientUser(Agency agency, Agent agent, Category category, String userId, String userPassword, String email, String nickname) {
         this.agency = agency;

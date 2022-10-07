@@ -59,19 +59,19 @@
     <attr sel="#pagination">
       <attr sel="li[0]/a"
             th:text="'previous'"
-            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number - 1})}"
+            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number - 1}, statisticsType=${param.statisticsType})}"
             th:class="'page-link' + (${performances.number} <= 0 ? ' disabled' : '')"
       />
       <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
         <attr sel="a"
               th:text="${pageNumber + 1}"
-              th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${pageNumber})}"
+              th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${pageNumber}, statisticsType=${param.statisticsType})}"
               th:class="'page-link' + (${pageNumber} == ${performances.number} ? ' disabled' : '')"
         />
       </attr>
       <attr sel="li[2]/a"
             th:text="'next'"
-            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number + 1})}"
+            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number + 1}, statisticsType=${param.statisticsType})}"
             th:class="'page-link' + (${performances.number} >= ${performances.totalPages - 1} ? ' disabled' : '')"
       />
     </attr>

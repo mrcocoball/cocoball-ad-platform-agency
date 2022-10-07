@@ -27,21 +27,21 @@ public interface AgentRepository extends
 
     List<Agent> findByAgentGroup_IdAndDeletedFalse(Long agentGroupId);
 
-   	Page<Agent> findByDeletedFalse(Pageable pageable);
+    Page<Agent> findByDeletedFalse(Pageable pageable);
 
-   	Optional<Agent> findByUserIdAndDeletedFalse(String agentId);
+    Optional<Agent> findByUserIdAndDeletedFalse(String agentId);
 
-   	Page<Agent> findByUserIdContainingAndDeletedFalse(String userId, Pageable pageable);
+    Page<Agent> findByUserIdContainingAndDeletedFalse(String userId, Pageable pageable);
 
     Page<Agent> findByNicknameContainingAndDeletedFalse(String nickname, Pageable pageable);
 
     long countByDeletedFalse();
 
     @Modifying
-   	@Transactional
-   	@Query("UPDATE Agent a SET a.deleted = true where a.userId = :agentId and a.agency.agencyId = :agencyId")
+    @Transactional
+    @Query("UPDATE Agent a SET a.deleted = true where a.userId = :agentId and a.agency.agencyId = :agencyId")
     void setAgentDeletedTrue(@Param("agentId") String agentId,
-   							 @Param("agencyId") String agencyId);
+                             @Param("agencyId") String agencyId);
 
     @Override
     default void customize(QuerydslBindings bindings, QAgent root) {

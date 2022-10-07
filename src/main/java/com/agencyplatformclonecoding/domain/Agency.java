@@ -39,7 +39,8 @@ public class Agency extends AuditingFields {
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
     private final Set<AgentGroup> agentGroups = new LinkedHashSet<>();
 
-    protected Agency() {}
+    protected Agency() {
+    }
 
     private Agency(String agencyId, String password, String agencyName) {
         this.agencyId = agencyId;

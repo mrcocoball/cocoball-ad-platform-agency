@@ -6,7 +6,7 @@ import com.agencyplatformclonecoding.dto.AgentGroupDto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public record AgentGroupResponse (
+public record AgentGroupResponse(
         Long id,
         LocalDateTime createdAt,
         String name

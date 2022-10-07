@@ -33,7 +33,7 @@ public class ManageController {
     public String manage(
             @RequestParam(required = false) SearchType searchType,
             @RequestParam(required = false) String searchValue,
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
             ModelMap map
     ) {
         Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)

@@ -36,11 +36,12 @@ public class Campaign extends AuditingFields {
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
     private final Set<Creative> creatives = new LinkedHashSet<>();
 
-   	@Setter @Column private boolean activated;
+    @Setter @Column private boolean activated;
 
     @Setter @Column private boolean deleted;
 
-    protected Campaign() {}
+    protected Campaign() {
+    }
 
     private Campaign(ClientUser clientUser, String name, Long budget) {
         this.clientUser = clientUser;

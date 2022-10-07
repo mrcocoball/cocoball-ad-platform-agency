@@ -25,23 +25,22 @@ public class Performance {
     private Long id;
 
     // 다대일 양방향
-    @Setter
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "CREATIVE_ID") private Creative creative; // 소재 정보 (ID)
+    @Setter @ManyToOne(optional = false) @JoinColumn(name = "CREATIVE_ID") private Creative creative; // 소재 정보 (ID)
 
     @Setter @Column private Long view;
     @Setter @Column private Long click;
     @Setter @Column private Long conversion;
     @Setter @Column private Long purchase;
     @Setter @Column private Long spend;
-	@Setter @Column private LocalDate createdAt;
+    @Setter @Column private LocalDate createdAt;
 
-    protected Performance() {}
+    protected Performance() {
+    }
 
     private Performance(Creative creative, Long view, Long click, Long conversion, Long purchase) {
         this.creative = creative;
         this.view = view;
-		this.click = click;
+        this.click = click;
         this.conversion = conversion;
         this.purchase = purchase;
         this.spend = creative.getBidingPrice() * click;

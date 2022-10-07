@@ -26,7 +26,8 @@ public class Category extends AuditingFields {
 
     @Setter @Column private String name;
 
-    protected Category() {}
+    protected Category() {
+    }
 
     private Category(String name) {
         this.name = name;

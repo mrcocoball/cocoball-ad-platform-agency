@@ -28,13 +28,13 @@ public class AgentController {
 
     @GetMapping
     public String agents(
-                @RequestParam(required = false) SearchType searchType,
-                @RequestParam(required = false) String searchValue,
-                @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-                ModelMap map
-    	) {
+            @RequestParam(required = false) SearchType searchType,
+            @RequestParam(required = false) String searchValue,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            ModelMap map
+    ) {
         Page<AgentResponse> agents = agentService.searchAgents(searchType, searchValue, pageable)
-    				.map(AgentResponse::from);
+                .map(AgentResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), agents.getTotalPages());
         map.addAttribute("agents", agents);
         map.addAttribute("paginationBarNumbers", barNumbers);
@@ -53,19 +53,20 @@ public class AgentController {
 
         return "agents/detail";
     }
+
     @GetMapping("/{agentId}/{clientId}")
     public String mappingClient(@PathVariable String agentId, String clientId) {
-         return "forward:/manage/{clientId}/campaigns";
-     }
+        return "forward:/manage/{clientId}/campaigns";
+    }
 
-    @PostMapping ("/{agentId}/delete")
-   	public String deleteAgent(
+    @PostMapping("/{agentId}/delete")
+    public String deleteAgent(
             @PathVariable String agentId,
             @AuthenticationPrincipal PlatformPrincipal platformPrincipal) {
-   		agentService.deleteAgent(agentId, platformPrincipal.getUsername());
+        agentService.deleteAgent(agentId, platformPrincipal.getUsername());
 
-   		return "redirect:/agents";
+        return "redirect:/agents";
 
-   	}
+    }
 
 }

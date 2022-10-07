@@ -27,8 +27,7 @@ public class AgentGroup extends AuditingFields {
     private Long id;
 
     // 다대일 양방향
-    @Setter
-    @ManyToOne @JoinColumn(name = "AGENCY_ID") private Agency agency; // 에이전시 정보 (ID)
+    @Setter @ManyToOne @JoinColumn(name = "AGENCY_ID") private Agency agency; // 에이전시 정보 (ID)
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
@@ -37,7 +36,8 @@ public class AgentGroup extends AuditingFields {
 
     @Setter @Column(length = 50, nullable = false) private String name;
 
-    protected AgentGroup() {}
+    protected AgentGroup() {
+    }
 
     private AgentGroup(Agency agency, String name) {
         this.agency = agency;
@@ -50,11 +50,11 @@ public class AgentGroup extends AuditingFields {
         this.name = name;
     }
 
-    public static AgentGroup of (Agency agency, String name) {
+    public static AgentGroup of(Agency agency, String name) {
         return new AgentGroup(agency, name);
     }
 
-    public static AgentGroup of (Agency agency, Long id, String name) {
+    public static AgentGroup of(Agency agency, Long id, String name) {
         return new AgentGroup(agency, id, name);
     }
 

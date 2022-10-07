@@ -37,13 +37,13 @@ public class ClientUserService {
             return clientUserRepository.findAll(pageable).map(ClientUserDto::from);
         }
 
-        return switch(searchType) {
+        return switch (searchType) {
             case ID -> clientUserRepository.findByUserIdContaining(searchKeyword, pageable).map(ClientUserDto::from);
             case NICKNAME -> clientUserRepository.findByNicknameContaining(searchKeyword, pageable).map(ClientUserDto::from);
         };
     }
 
     public long getClientUserCount() {
-            return clientUserRepository.count();
-        }
+        return clientUserRepository.count();
+    }
 }

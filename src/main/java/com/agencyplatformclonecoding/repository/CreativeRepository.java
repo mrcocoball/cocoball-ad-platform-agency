@@ -31,8 +31,8 @@ public interface CreativeRepository extends
     long countByDeletedFalse();
 
     @Modifying(clearAutomatically = true)
-   	@Transactional
-   	@Query("UPDATE Creative c SET c.deleted = true where c.id = :id")
+    @Transactional
+    @Query("UPDATE Creative c SET c.deleted = true where c.id = :id")
     void setCreativeDeletedTrue(@Param("id") Long id);
 
     @Modifying(clearAutomatically = true)

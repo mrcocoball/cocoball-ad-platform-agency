@@ -4,7 +4,7 @@ import com.agencyplatformclonecoding.domain.Category;
 
 import java.time.LocalDateTime;
 
-public record CategoryDto (
+public record CategoryDto(
         Long id,
         String name,
         LocalDateTime createdAt,
