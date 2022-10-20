@@ -23,7 +23,7 @@
 
 ## 1.1.0 릴리즈 구현 기능 (2022-10-07)
 - URL : https://cocoball-ad-agency-platform.herokuapp.com/
-- 최초 로그인이 필요 (ID : TestAgency / PW : test1234)
+- 최초 로그인이 필요 (ID : TestAgency / PW : test1234) → 서버 자동 슬립 모드로 인해 초기 실행 시 서 다소 시간이 소요됩니다. 양해 부탁드립니다.
 - 대행사 어드민 기능이 구현되었음
 - 1.1.0 업데이트 내용 정리 : https://velog.io/@mrcocoball/2210011007%EA%B4%91%EA%B3%A0-%EA%B4%80%EB%A6%AC-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EB%8C%80%ED%96%89%EC%82%AC-%EC%84%BC%ED%84%B0-%EC%A0%9C%EC%9E%91-331.1.0-%EB%B2%84%EC%A0%84-%EB%A6%B4%EB%A6%AC%EC%A6%88-%EB%B0%B0%ED%8F%AC
 
