@@ -20,7 +20,7 @@
       <attr sel="thead/tr">
         <attr sel="th.activate-status/a" th:text="'상태'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(
       page=${campaigns.number},
-      sort='status' + (*{sort.getOrderFor('status')} != null ? (*{sort.getOrderFor('status').direction.name} != 'DESC' ? ',desc' : '') : '')
+      sort='activated' + (*{sort.getOrderFor('activated')} != null ? (*{sort.getOrderFor('activated').direction.name} != 'DESC' ? ',desc' : '') : '')
   )}"/>
         <attr sel="th.budget/a" th:text="'예산'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(
       page=${campaigns.number},

@@ -1,17 +1,11 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
-import com.agencyplatformclonecoding.dto.AgencyDto;
-import com.agencyplatformclonecoding.dto.CampaignWithCreativesDto;
+import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.ClientUserDto;
-import com.agencyplatformclonecoding.dto.ClientUserWithCampaignsDto;
-import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
 import com.agencyplatformclonecoding.dto.request.CampaignRequest;
 import com.agencyplatformclonecoding.dto.response.*;
-import com.agencyplatformclonecoding.service.CampaignService;
-import com.agencyplatformclonecoding.service.CreativeService;
-import com.agencyplatformclonecoding.service.ManageService;
-import com.agencyplatformclonecoding.service.PaginationService;
+import com.agencyplatformclonecoding.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping(value = "/manage/{clientId}/campaigns")
@@ -32,6 +29,7 @@ public class CampaignController {
     private final CampaignService campaignService;
     private final CreativeService creativeService;
     private final PaginationService paginationService;
+    private final StatisticsService statisticsService;
 
     @GetMapping("/form")
     public String campaignForm(
@@ -98,10 +96,15 @@ public class CampaignController {
     public String creatives(
             @PathVariable("clientId") String clientId,
             @PathVariable Long campaignId,
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(required = false) StatisticsType statisticsType,
             ModelMap map
     ) {
         Page<CreativeResponse> creatives = creativeService.searchCreatives(pageable, campaignId, clientId).map(CreativeResponse::from);
+        Set<PerformanceStatisticsResponse> creativesStatistics = statisticsService.creativesWithPerformanceStatistics(statisticsType, campaignId)
+                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
+        Set<PerformanceStatisticsResponse> totalCreativesStatistics = statisticsService.totalCreativesPerformanceStatistics(statisticsType, campaignId)
+                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         CampaignResponse campaign = CampaignResponse.from(campaignService.getCampaign(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), creatives.getTotalPages());
@@ -110,6 +113,8 @@ public class CampaignController {
         map.addAttribute("campaign", campaign);
         map.addAttribute("creatives", creatives);
         map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("creativeStatistics", creativesStatistics);
+        map.addAttribute("totalCreativeStatistics", totalCreativesStatistics);
         map.addAttribute("totalCount", creativeService.getCreativeCount());
 
         return "manage/creative";
