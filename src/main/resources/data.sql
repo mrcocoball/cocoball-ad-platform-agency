@@ -160,11 +160,17 @@ insert into campaign (client_id, created_at, created_by, modified_at, modified_b
 
 -- 소재 관련 (5개)
 insert into creative (campaign_id, created_at, created_by, modified_at, modified_by, biding_price, keyword, activated, deleted) values
-(1, '2022-07-13 01:32:28', 'Karoline', '2021-10-26 02:46:03', 'Karoline', 7224, 'Automation', true, false),
-(1, '2022-07-10 04:40:02', 'Ashien', '2022-07-08 09:18:39', 'Ashien', 4503, 'Criminal Investigations', true, false),
-(1, '2021-11-26 01:47:21', 'Flossie', '2022-01-29 02:01:15', 'Flossie', 5463, 'AVEVA PDMS', true, false),
-(1, '2022-06-10 22:12:32', 'Tracey', '2022-07-01 08:11:24', 'Tracey', 8190, 'Switches', true, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, 'Air Freight', true, false);
+(1, '2022-07-13 01:32:28', 'Karoline', '2021-10-26 02:46:03', 'Karoline', 7224, '강남핸드폰매장', true, false),
+(1, '2022-07-10 04:40:02', 'Ashien', '2022-07-08 09:18:39', 'Ashien', 4503, '서울핸드폰매장', true, false),
+(1, '2021-11-26 01:47:21', 'Flossie', '2022-01-29 02:01:15', 'Flossie', 5463, '핸드폰매장추천', false, false),
+(1, '2022-06-10 22:12:32', 'Tracey', '2022-07-01 08:11:24', 'Tracey', 8190, '핸드폰중고거래', false, false),
+(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '핸드폰중고판매', false, false),
+(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '중고핸드폰판매', false, false),
+(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '핸드폰저렴하게', false, false),
+(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '핸드폰견적', false, false),
+(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '강남핸드폰견적', false, false),
+(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '서울핸드폰견적', false, false),
+(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '저가형핸드폰', false, false);
 
 -- 소재 실적 관련 (1개 소재, 31일치)
 insert into performance (creative_id, created_at, view, click, conversion, purchase, spend) values
@@ -198,4 +204,35 @@ insert into performance (creative_id, created_at, view, click, conversion, purch
 (1, DATE_SUB(now(), INTERVAL 4 DAY), 152, 51, 26, 8790000, 368424),
 (1, DATE_SUB(now(), INTERVAL 3 DAY), 604, 71, 16, 9620000, 512904),
 (1, DATE_SUB(now(), INTERVAL 2 DAY), 450, 73, 8, 1249000, 527352),
-(1, DATE_SUB(now(), INTERVAL 1 DAY), 535, 97, 34, 7844000, 700728);
+(1, DATE_SUB(now(), INTERVAL 1 DAY), 535, 97, 34, 7844000, 700728),
+(2, DATE_SUB(now(), INTERVAL 31 DAY), 234, 35, 12, 2606000, 545640),
+(2, DATE_SUB(now(), INTERVAL 30 DAY), 666, 46, 14, 1128000, 434534),
+(2, DATE_SUB(now(), INTERVAL 29 DAY), 554, 23, 15, 4361000, 565232),
+(2, DATE_SUB(now(), INTERVAL 28 DAY), 662, 56, 24, 6456000, 365344),
+(2, DATE_SUB(now(), INTERVAL 27 DAY), 552, 39, 23, 7621000, 343646),
+(2, DATE_SUB(now(), INTERVAL 26 DAY), 17, 49, 5, 7551000, 386536),
+(2, DATE_SUB(now(), INTERVAL 25 DAY), 421, 74, 10, 5834000, 487456),
+(2, DATE_SUB(now(), INTERVAL 24 DAY), 123, 61, 34, 3435000, 492344),
+(2, DATE_SUB(now(), INTERVAL 23 DAY), 155, 16, 12, 6453000, 645348),
+(2, DATE_SUB(now(), INTERVAL 22 DAY), 22, 23, 12, 8605000, 436546),
+(2, DATE_SUB(now(), INTERVAL 21 DAY), 68, 56, 33, 4325000, 552349),
+(2, DATE_SUB(now(), INTERVAL 20 DAY), 43, 34, 20, 3942000, 423420),
+(2, DATE_SUB(now(), INTERVAL 19 DAY), 93, 24, 43, 5823000, 295450),
+(2, DATE_SUB(now(), INTERVAL 18 DAY), 96, 43, 22, 6033000, 666238),
+(2, DATE_SUB(now(), INTERVAL 17 DAY), 68, 65, 27, 1234000, 464530),
+(2, DATE_SUB(now(), INTERVAL 16 DAY), 35, 24, 12, 4662000, 324538),
+(2, DATE_SUB(now(), INTERVAL 15 DAY), 15, 35, 15, 3645000, 294540),
+(2, DATE_SUB(now(), INTERVAL 14 DAY), 99, 65, 30, 3240000, 446530),
+(2, DATE_SUB(now(), INTERVAL 13 DAY), 64, 92, 35, 7772000, 545466),
+(2, DATE_SUB(now(), INTERVAL 12 DAY), 33, 51, 12, 5734000, 535234),
+(2, DATE_SUB(now(), INTERVAL 11 DAY), 51, 56, 28, 7452000, 592348),
+(2, DATE_SUB(now(), INTERVAL 10 DAY), 54, 45, 21, 6143000, 454530),
+(2, DATE_SUB(now(), INTERVAL 9 DAY), 82, 34, 12, 3645000, 365346),
+(2, DATE_SUB(now(), INTERVAL 8 DAY), 91, 56, 10, 1663000, 592434),
+(2, DATE_SUB(now(), INTERVAL 7 DAY), 52, 25, 12, 1225000, 395342),
+(2, DATE_SUB(now(), INTERVAL 6 DAY), 59, 34, 11, 5104000, 332340),
+(2, DATE_SUB(now(), INTERVAL 5 DAY), 47, 56, 21, 4235000, 495346),
+(2, DATE_SUB(now(), INTERVAL 4 DAY), 12, 23, 14, 7563000, 293534),
+(2, DATE_SUB(now(), INTERVAL 3 DAY), 64, 41, 16, 8534000, 483424),
+(2, DATE_SUB(now(), INTERVAL 2 DAY), 45, 54, 8, 945000, 465632),
+(2, DATE_SUB(now(), INTERVAL 1 DAY), 55, 55, 34, 5653000, 634428);

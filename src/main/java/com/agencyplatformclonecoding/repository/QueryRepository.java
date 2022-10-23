@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.agencyplatformclonecoding.domain.QCampaign.campaign;
 import static com.agencyplatformclonecoding.domain.QCreative.creative;
 import static com.agencyplatformclonecoding.domain.QPerformance.performance;
 
@@ -43,30 +44,101 @@ public class QueryRepository {
                         performance.spend
                 ))
                 .from(performance)
-                .join(creative).on(performance.creative.id.eq(creativeId))
+                .leftJoin(performance.creative, creative)
                 .where(
-                        performance.createdAt.between(startDate, lastDate)
+                        performance.createdAt.between(startDate, lastDate),
+                        performance.creative.id.eq(creativeId)
                 )
-                .groupBy(performance.createdAt)
-                .orderBy(performance.createdAt.desc())
+                .groupBy(performance.creative.id)
                 .fetch();
 
-        Long spend = 0L;
-        Long view = 0L;
-        Long click = 0L;
-        Long conversion = 0L;
-        Long purchase = 0L;
-
         for (PerformanceStatisticsDto result : results) {
-            if (result.getSpend() != null) spend += result.getSpend();
-            if (result.getView() != null) view += result.getView();
-            if (result.getClick() != null) click += result.getClick();
-            if (result.getPurchase() != null) purchase += result.getPurchase();
-            if (result.getConversion() != null) conversion += result.getConversion();
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setCreativeIndicator(spend, view, click, conversion, purchase);
         }
 
-        PerformanceStatisticsDto totalResult = PerformanceStatisticsDto.of(creativeId, view, click, conversion, purchase, spend);
-        results.add(0, totalResult);
+        return results;
+    }
+
+    public List<PerformanceStatisticsDto> findByCampaign_IdAndStatisticsDefault(@Param("id") Long campaignId,
+                                                                                @Param("startDate") LocalDate startDate,
+                                                                                @Param("lastDate") LocalDate lastDate
+    ) {
+        List<PerformanceStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(PerformanceStatisticsDto.class,
+                        performance.creative.id.as("creativeId"),
+                        performance.creative.keyword.as("keyword"),
+                        performance.creative.bidingPrice.as("bidingPrice"),
+                        performance.creative.deleted.as("deleted"),
+                        performance.creative.activated.as("activated"),
+                        performance.view.sum().as("view"),
+                        performance.click.sum().as("click"),
+                        performance.conversion.sum().as("conversion"),
+                        performance.purchase.sum().as("purchase"),
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        campaign.id.eq(campaignId),
+                        performance.creative.deleted.eq(false)
+                )
+                .groupBy(performance.creative.id)
+                .fetch();
+
+        for (PerformanceStatisticsDto result : results) {
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setCreativeIndicator(spend, view, click, conversion, purchase);
+        }
+
+        return results;
+    }
+
+    public List<PerformanceStatisticsDto> findByCampaign_IdAndTotalStatisticsDefault(@Param("id") Long campaignId,
+                                                                                @Param("startDate") LocalDate startDate,
+                                                                                @Param("lastDate") LocalDate lastDate
+    ) {
+        List<PerformanceStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(PerformanceStatisticsDto.class,
+                        performance.view.sum().as("view"),
+                        performance.click.sum().as("click"),
+                        performance.conversion.sum().as("conversion"),
+                        performance.purchase.sum().as("purchase"),
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        campaign.id.eq(campaignId),
+                        performance.creative.deleted.eq(false)
+                )
+                .groupBy(performance.creative.campaign.id)
+                .fetch();
+
+        for (PerformanceStatisticsDto result : results) {
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setCampaignTotalIndicator(spend, view, click, conversion, purchase);
+        }
+
         return results;
     }
 

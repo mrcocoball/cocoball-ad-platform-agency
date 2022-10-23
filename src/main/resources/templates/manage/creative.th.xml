@@ -12,19 +12,30 @@
 
   <attr sel="#create-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/form'" />
 
-  <attr sel="#client-info">
-    <attr sel="tbody" th:remove="all-but-first">
-      <attr sel="td.user-id" th:text="${clientUser.userId}" />
-      <attr sel="td.nickname" th:text="${clientUser.nickname}" />
-      <attr sel="td.category" th:text="${clientUser.categoryName}"/>
-    </attr>
-  </attr>
+  <attr sel="#statistics_type_week" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(statisticsType=BEFORE_WEEK)}" th:method="get" />
+  <attr sel="#statistics_type_month" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(statisticsType=BEFORE_MONTH)}" th:method="get" />
+
+    <attr sel="#campaign-statistics-info">
+        <attr sel="tbody" th:remove="all-but-first">
+          <attr sel="tr[0]" th:each="totalCreativeStatistic : ${totalCreativeStatistics}">
+            <attr sel="td.view" th:text="${totalCreativeStatistic.sView}" />
+            <attr sel="td.click" th:text="${totalCreativeStatistic.sClick}" />
+            <attr sel="td.conversion" th:text="${totalCreativeStatistic.sConversion}" />
+            <attr sel="td.purchase" th:text="${totalCreativeStatistic.sPurchase} + '원'"/>
+            <attr sel="td.spend" th:text="${totalCreativeStatistic.sSpend} + '원'" />
+            <attr sel="td.CTR" th:text="${totalCreativeStatistic.sCTR} + '%'" />
+            <attr sel="td.CVR" th:text="${totalCreativeStatistic.sCVR} + '%'"/>
+            <attr sel="td.CPA" th:text="${totalCreativeStatistic.sCPA} + '원'" />
+            <attr sel="td.ROAS" th:text="${totalCreativeStatistic.sROAS} + '%'" />
+          </attr>
+        </attr>
+      </attr>
 
     <attr sel="#creative-table">
       <attr sel="thead/tr">
         <attr sel="th.activate-status/a" th:text="'상태'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(
       page=${creatives.number},
-      sort='status' + (*{sort.getOrderFor('status')} != null ? (*{sort.getOrderFor('status').direction.name} != 'DESC' ? ',desc' : '') : '')
+      sort='activated' + (*{sort.getOrderFor('activated')} != null ? (*{sort.getOrderFor('activated').direction.name} != 'DESC' ? ',desc' : '') : '')
   )}"/>
         <attr sel="th.biding-price/a" th:text="'입찰가'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(
       page=${creatives.number},
@@ -46,6 +57,25 @@
         </attr>
       </attr>
     </attr>
+
+    <attr sel="#statistics-table">
+        <attr sel="tbody" th:remove="all-but-first">
+          <attr sel="tr[0]" th:each="creativeStatistic : ${creativeStatistics}">
+            <attr sel="td.id" th:text="${creativeStatistic.creativeId}" />
+            <attr sel="td.keyword" th:text="${creativeStatistic.keyword}" />
+            <attr sel="td.biding-price" th:text="${creativeStatistic.sBidingPrice} + '원'"/>
+            <attr sel="td.view" th:text="${creativeStatistic.sView}" />
+            <attr sel="td.click" th:text="${creativeStatistic.sClick}" />
+            <attr sel="td.conversion" th:text="${creativeStatistic.sConversion}" />
+            <attr sel="td.purchase" th:text="${creativeStatistic.sPurchase} + '원'"/>
+            <attr sel="td.spend" th:text="${creativeStatistic.sSpend} + '원'" />
+            <attr sel="td.CTR" th:text="${creativeStatistic.sCTR} + '%'" />
+            <attr sel="td.CVR" th:text="${creativeStatistic.sCVR} + '%'"/>
+            <attr sel="td.CPA" th:text="${creativeStatistic.sCPA} + '원'" />
+            <attr sel="td.ROAS" th:text="${creativeStatistic.sROAS} + '%'" />
+          </attr>
+        </attr>
+      </attr>
 
     <attr sel="#pagination">
       <attr sel="li[0]/a"
