@@ -7,6 +7,9 @@ import java.text.DecimalFormat;
 @Getter
 public class PerformanceStatisticsDto {
     Long creativeId;
+    String keyword;
+    Long bidingPrice;
+    String sBidingPrice;
     Long view;
     String sView;
     Long click;
@@ -25,6 +28,8 @@ public class PerformanceStatisticsDto {
     String sCPA;
     double ROAS;
     String sROAS;
+    boolean activated;
+    boolean deleted;
 
     public PerformanceStatisticsDto() {
     }
@@ -75,29 +80,93 @@ public class PerformanceStatisticsDto {
         return new PerformanceStatisticsDto(creativeId, view, sView, click, sClick, conversion, sConversion, purchase, sPurchase, spend, sSpend, CTR, sCTR, CVR, sCVR, CPA, sCPA, ROAS, sROAS);
     }
 
+    public void setCreativeIndicator(Long spend, Long view, Long click, Long conversion, Long purchase) {
+
+        String sBidingPrice = formatToString(bidingPrice);
+        String sSpend = formatToString(spend);
+        String sView = formatToString(view);
+        String sClick = formatToString(click);
+        String sConversion = formatToString(conversion);
+        String sPurchase = formatToString(purchase);
+        double CTR = calculateCTR(click, view);
+        String sCTR = String.format("%.2f", CTR * 100);
+        double CVR = calculateCVR(conversion, click);
+        String sCVR = String.format("%.2f", CVR * 100);
+        Long CPA = calculateCPA(spend, conversion);
+        String sCPA = formatToString(CPA);
+        double ROAS = calculateROAS(purchase, spend);
+        String sROAS = String.format("%.2f", ROAS * 100);
+
+        this.sSpend = sSpend;
+        this.sBidingPrice = sBidingPrice;
+        this.sView = sView;
+        this.sClick = sClick;
+        this.sConversion = sConversion;
+        this.sPurchase = sPurchase;
+        this.CTR = CTR;
+        this.sCTR = sCTR;
+        this.CVR = CVR;
+        this.sCVR = sCVR;
+        this.CPA = CPA;
+        this.sCPA = sCPA;
+        this.ROAS = ROAS;
+        this.sROAS =sROAS;
+    }
+
+    public void setCampaignTotalIndicator(Long spend, Long view, Long click, Long conversion, Long purchase) {
+
+        String sSpend = formatToString(spend);
+        String sView = formatToString(view);
+        String sClick = formatToString(click);
+        String sConversion = formatToString(conversion);
+        String sPurchase = formatToString(purchase);
+        double CTR = calculateCTR(click, view);
+        String sCTR = String.format("%.2f", CTR * 100);
+        double CVR = calculateCVR(conversion, click);
+        String sCVR = String.format("%.2f", CVR * 100);
+        Long CPA = calculateCPA(spend, conversion);
+        String sCPA = formatToString(CPA);
+        double ROAS = calculateROAS(purchase, spend);
+        String sROAS = String.format("%.2f", ROAS * 100);
+
+        this.sSpend = sSpend;
+        this.sView = sView;
+        this.sClick = sClick;
+        this.sConversion = sConversion;
+        this.sPurchase = sPurchase;
+        this.CTR = CTR;
+        this.sCTR = sCTR;
+        this.CVR = CVR;
+        this.sCVR = sCVR;
+        this.CPA = CPA;
+        this.sCPA = sCPA;
+        this.ROAS = ROAS;
+        this.sROAS =sROAS;
+    }
+
     public static double calculateCTR(Long click, Long view) {
-        if (view == 0) {
+        if (view == 0 || view == null) {
             return 0;
         }
         return (double) click / view;
     }
 
     public static double calculateCVR(Long conversion, Long click) {
-        if (click == 0) {
+        if (click == 0 || click == null) {
             return 0;
         }
         return (double) conversion / click;
     }
 
     public static Long calculateCPA(Long spend, Long conversion) {
-        if (conversion == 0) {
+        if (conversion == 0 || conversion == null) {
             return null;
         }
         return spend / conversion;
     }
 
     public static double calculateROAS(Long purchase, Long spend) {
-        if (spend == 0) {
+        if (spend == 0 || spend == null) {
             return 0;
         }
         return (double) purchase / spend;
