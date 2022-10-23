@@ -18,7 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping(value = "/manage/{clientId}/campaigns/{campaignId}/creatives")
@@ -129,7 +132,8 @@ public class CreativeController {
         CampaignWithCreativesResponse campaignWithCreativesResponse = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
         Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, statisticsType, creativeId, campaignId, clientId).map(PerformanceResponse::from);
-        PerformanceStatisticsResponse statistic = PerformanceStatisticsResponse.from(statisticsService.totalPerformanceStatistics(statisticsType, creativeId));
+        Set<PerformanceStatisticsResponse> statistics = statisticsService.totalPerformanceStatistics(statisticsType, creativeId)
+                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), performances.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaignsResponse);
@@ -137,7 +141,7 @@ public class CreativeController {
         map.addAttribute("creative", creativeWithPerformancesResponse);
         map.addAttribute("performances", performances);
         map.addAttribute("paginationBarNumbers", barNumbers);
-        map.addAttribute("statistic", statistic);
+        map.addAttribute("statistics", statistics);
         map.addAttribute("totalCount", performanceService.getPerformanceCount());
 
         return "manage/performance";

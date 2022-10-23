@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 
-import static com.agencyplatformclonecoding.domain.QCampaign.campaign;
-
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
