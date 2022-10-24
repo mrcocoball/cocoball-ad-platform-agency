@@ -78,6 +78,8 @@
 
     <div class="row right">
       <div class="create-btn d-grid gap-2 justify-content-md">
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일간 통계</a>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일간 통계</a>
         <a class="btn btn-primary me-md-2" role="button" id="create-campaign">캠페인 생성</a>
       </div>
     </div>
@@ -96,6 +98,82 @@
           <td class="user-id"><a>client1</a></td>
           <td class="nickname">코코볼자동차</td>
           <td class="category">자동차</td>
+        </tr>
+        </tbody>
+      </table>
+      <table class="table" id="client-statistics-info">
+        <thead>
+        <tr>
+          <th class="view" style="width: 75px;"><a>총 노출수</a></th>
+          <th class="click" style="width: 75px;"><a>총 클릭수</a></th>
+          <th class="conversion" style="width: 75px;"><a>총 전환수</a></th>
+          <th class="purchase" style="width: 150px;"><a>총 구매액</a></th>
+          <th class="spend" style="width: 125px;"><a>총 소진액</a></th>
+          <th class="CTR" style="width: 75px;"><a>클릭률</a></th>
+          <th class="CVR" style="width: 75px;"><a>전환률</a></th>
+          <th class="CPA" style="width: 100px;"><a>CPA</a></th>
+          <th class="ROAS" style="width: 100px;"><a>ROAS</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="purchase"><a>100000</a></td>
+          <td class="spend"><a>20000</a></td>
+          <td class="CTR"><a>0.1</a></td>
+          <td class="CVR"><a>0.1</a></td>
+          <td class="CPA"><a>2000</a></td>
+          <td class="ROAS"><a>500</a></td>
+        </tr>
+        </tbody>
+      </table>
+      <table class="table" id="statistics-table">
+        <thead>
+        <tr>
+          <th class="id"><a>ID</a></th>
+          <th class="name" style="width: 150px;"><a>캠페인명</a></th>
+          <th class="budget" style="width: 100px;"><a>예산</a></th>
+          <th class="view" style="width: 75px;"><a>노출수</a></th>
+          <th class="click" style="width: 75px;"><a>클릭수</a></th>
+          <th class="conversion" style="width: 75px;"><a>전환수</a></th>
+          <th class="purchase" style="width: 150px;"><a>구매액</a></th>
+          <th class="spend" style="width: 125px;"><a>소진액</a></th>
+          <th class="CTR" style="width: 75px;"><a>클릭률</a></th>
+          <th class="CVR" style="width: 75px;"><a>전환률</a></th>
+          <th class="CPA" style="width: 100px;"><a>CPA</a></th>
+          <th class="ROAS" style="width: 100px;"><a>ROAS</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="id">144</td>
+          <td class="name">코코볼추천</td>
+          <td class="budget">10000</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="purchase"><a>100000</a></td>
+          <td class="spend"><a>20000</a></td>
+          <td class="CTR"><a>0.1</a></td>
+          <td class="CVR"><a>0.1</a></td>
+          <td class="CPA"><a>2000</a></td>
+          <td class="ROAS"><a>500</a></td>
+        </tr>
+        <tr>
+          <td class="date">2022-08-02</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="purchase"><a>100000</a></td>
+        </tr>
+        <tr>
+          <td class="date">2022-08-01</td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="purchase"><a>100000</a></td>
         </tr>
         </tbody>
       </table>

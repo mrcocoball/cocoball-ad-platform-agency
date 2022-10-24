@@ -96,7 +96,7 @@ public class CampaignController {
     public String creatives(
             @PathVariable("clientId") String clientId,
             @PathVariable Long campaignId,
-            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(size = 5, sort = "activated", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false) StatisticsType statisticsType,
             ModelMap map
     ) {

@@ -112,12 +112,12 @@ insert into client_user (client_id, created_at, created_by, modified_at, modifie
 
 -- 캠페인 관련 (45개)
 insert into campaign (client_id, created_at, created_by, modified_at, modified_by, budget, name, activated, deleted) values
-('c01', '2022-08-14 13:18:02', 'Yasmin', '2022-04-25 08:47:01', 'Yasmin', 8090, '2022-08-14 13:18:02, 8090', true, false),
-('c01', '2022-03-23 14:56:28', 'Salome', '2021-10-01 16:25:54', 'Salome', 14122, '2022-03-23 14:56:28, 14122', false, false),
-('c01', '2021-09-17 12:33:34', 'Borden', '2022-07-01 01:14:40', 'Borden', 13438, '2021-09-17 12:33:34, 13438', false, false),
-('c01', '2022-06-30 15:35:08', 'Kassi', '2021-10-22 14:57:57', 'Kassi', 18263, '2022-06-30 15:35:08, 18263', false, false),
-('c01', '2021-10-12 13:26:42', 'Alethea', '2021-09-24 01:08:37', 'Alethea', 6243, '2021-10-12 13:26:42, 6243', false, false),
-('c01', '2021-09-09 01:36:42', 'Indira', '2021-09-05 01:23:52', 'Indira', 11358, '2021-09-09 01:36:42, 11358', false, false),
+('c01', '2022-08-14 13:18:02', 'Yasmin', '2022-04-25 08:47:01', 'Yasmin', 8090, '서울지역캠페인', true, false),
+('c01', '2022-03-23 14:56:28', 'Salome', '2021-10-01 16:25:54', 'Salome', 14122, '아이폰추천매장', true, false),
+('c01', '2021-09-17 12:33:34', 'Borden', '2022-07-01 01:14:40', 'Borden', 13438, '미사용캠페인1', false, false),
+('c01', '2022-06-30 15:35:08', 'Kassi', '2021-10-22 14:57:57', 'Kassi', 18263, '미사용캠페인2', false, false),
+('c01', '2021-10-12 13:26:42', 'Alethea', '2021-09-24 01:08:37', 'Alethea', 6243, '미사용캠페인3', false, false),
+('c01', '2021-09-09 01:36:42', 'Indira', '2021-09-05 01:23:52', 'Indira', 11358, '미사용캠페인4', false, false),
 ('c02', '2022-05-22 21:20:16', 'Axel', '2022-06-22 00:44:12', 'Axel', 4327, '2022-05-22 21:20:16, 4327', false, false),
 ('c03', '2021-10-30 09:15:58', 'Deane', '2022-05-15 22:06:54', 'Deane', 19384, '2021-10-30 09:15:58, 19384', false, false),
 ('c04', '2022-04-06 19:53:11', 'Theresina', '2022-07-11 10:56:48', 'Theresina', 15381, '2022-04-06 19:53:11, 15381', false, false),
@@ -158,7 +158,7 @@ insert into campaign (client_id, created_at, created_by, modified_at, modified_b
 ('c39', '2022-01-16 10:54:00', 'Bendicty', '2022-06-01 00:37:26', 'Bendicty', 19564, '2022-01-16 10:54:00, 19564', false, false),
 ('c40', '2021-09-28 20:24:46', 'Griff', '2022-02-01 14:01:53', 'Griff', 17917, '2021-09-28 20:24:46, 17917', false, false);
 
--- 소재 관련 (5개)
+-- 소재 관련 (14개)
 insert into creative (campaign_id, created_at, created_by, modified_at, modified_by, biding_price, keyword, activated, deleted) values
 (1, '2022-07-13 01:32:28', 'Karoline', '2021-10-26 02:46:03', 'Karoline', 7224, '강남핸드폰매장', true, false),
 (1, '2022-07-10 04:40:02', 'Ashien', '2022-07-08 09:18:39', 'Ashien', 4503, '서울핸드폰매장', true, false),
@@ -170,7 +170,10 @@ insert into creative (campaign_id, created_at, created_by, modified_at, modified
 (1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '핸드폰견적', false, false),
 (1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '강남핸드폰견적', false, false),
 (1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '서울핸드폰견적', false, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '저가형핸드폰', false, false);
+(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '저가형핸드폰', false, false),
+(2, '2022-07-13 01:32:28', 'Karoline', '2021-10-26 02:46:03', 'Karoline', 7224, '아이폰자급제', true, false),
+(2, '2022-07-10 04:40:02', 'Ashien', '2022-07-08 09:18:39', 'Ashien', 4503, '아이폰약정', true, false),
+(2, '2021-11-26 01:47:21', 'Flossie', '2022-01-29 02:01:15', 'Flossie', 5463, '아이폰색상추천', false, false);
 
 -- 소재 실적 관련 (1개 소재, 31일치)
 insert into performance (creative_id, created_at, view, click, conversion, purchase, spend) values
@@ -235,4 +238,31 @@ insert into performance (creative_id, created_at, view, click, conversion, purch
 (2, DATE_SUB(now(), INTERVAL 4 DAY), 12, 23, 14, 7563000, 293534),
 (2, DATE_SUB(now(), INTERVAL 3 DAY), 64, 41, 16, 8534000, 483424),
 (2, DATE_SUB(now(), INTERVAL 2 DAY), 45, 54, 8, 945000, 465632),
-(2, DATE_SUB(now(), INTERVAL 1 DAY), 55, 55, 34, 5653000, 634428);
+(2, DATE_SUB(now(), INTERVAL 1 DAY), 55, 55, 34, 5653000, 634428),
+(12, DATE_SUB(now(), INTERVAL 13 DAY), 54, 22, 5, 6772000, 445466),
+(12, DATE_SUB(now(), INTERVAL 12 DAY), 23, 11, 6, 4734000, 435234),
+(12, DATE_SUB(now(), INTERVAL 11 DAY), 41, 36, 14, 6452000, 392348),
+(12, DATE_SUB(now(), INTERVAL 10 DAY), 44, 35, 14, 4143000, 254530),
+(12, DATE_SUB(now(), INTERVAL 9 DAY), 72, 34, 12, 1645000, 165346),
+(12, DATE_SUB(now(), INTERVAL 8 DAY), 81, 36, 10, 663000, 292434),
+(12, DATE_SUB(now(), INTERVAL 7 DAY), 42, 25, 6, 225000, 95342),
+(12, DATE_SUB(now(), INTERVAL 6 DAY), 49, 24, 8, 4104000, 232340),
+(12, DATE_SUB(now(), INTERVAL 5 DAY), 37, 26, 12, 3235000, 395346),
+(12, DATE_SUB(now(), INTERVAL 4 DAY), 25, 15, 8, 6563000, 193534),
+(12, DATE_SUB(now(), INTERVAL 3 DAY), 54, 31, 12, 3534000, 283424),
+(12, DATE_SUB(now(), INTERVAL 2 DAY), 35, 24, 8, 745000, 165632),
+(12, DATE_SUB(now(), INTERVAL 1 DAY), 45, 25, 12, 3653000, 334428),
+(13, DATE_SUB(now(), INTERVAL 14 DAY), 799, 65, 12, 1750000, 241800),
+(13, DATE_SUB(now(), INTERVAL 13 DAY), 594, 64, 29, 2209000, 379056),
+(13, DATE_SUB(now(), INTERVAL 12 DAY), 234, 41, 2, 6854000, 285144),
+(13, DATE_SUB(now(), INTERVAL 11 DAY), 418, 67, 7, 5596000, 528488),
+(13, DATE_SUB(now(), INTERVAL 10 DAY), 404, 35, 1, 4278000, 341800),
+(13, DATE_SUB(now(), INTERVAL 9 DAY), 712, 44, 3, 1859000, 262336),
+(13, DATE_SUB(now(), INTERVAL 8 DAY), 491, 36, 3, 1713000, 321264),
+(13, DATE_SUB(now(), INTERVAL 7 DAY), 452, 53, 21, 446000, 55112),
+(13, DATE_SUB(now(), INTERVAL 6 DAY), 859, 25, 12, 1260000, 197320),
+(13, DATE_SUB(now(), INTERVAL 5 DAY), 647, 49, 25, 2307000, 470696),
+(13, DATE_SUB(now(), INTERVAL 4 DAY), 142, 31, 26, 5790000, 268424),
+(13, DATE_SUB(now(), INTERVAL 3 DAY), 504, 21, 16, 5620000, 112904),
+(13, DATE_SUB(now(), INTERVAL 2 DAY), 350, 43, 8, 249000, 27352),
+(13, DATE_SUB(now(), INTERVAL 1 DAY), 435, 67, 34, 4844000, 200728);

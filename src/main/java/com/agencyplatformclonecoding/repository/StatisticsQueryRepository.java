@@ -1,16 +1,11 @@
 package com.agencyplatformclonecoding.repository;
 
-import com.agencyplatformclonecoding.dto.CreativeDto;
-import com.agencyplatformclonecoding.dto.PerformanceDto;
 import com.agencyplatformclonecoding.dto.PerformanceStatisticsDto;
 import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -18,15 +13,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.agencyplatformclonecoding.domain.QCampaign.campaign;
+import static com.agencyplatformclonecoding.domain.QClientUser.clientUser;
 import static com.agencyplatformclonecoding.domain.QCreative.creative;
 import static com.agencyplatformclonecoding.domain.QPerformance.performance;
 
 @Repository
-public class QueryRepository {
+public class StatisticsQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public QueryRepository(JPAQueryFactory jpaQueryFactory) {
+    public StatisticsQueryRepository(JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
@@ -107,8 +103,8 @@ public class QueryRepository {
     }
 
     public List<PerformanceStatisticsDto> findByCampaign_IdAndTotalStatisticsDefault(@Param("id") Long campaignId,
-                                                                                @Param("startDate") LocalDate startDate,
-                                                                                @Param("lastDate") LocalDate lastDate
+                                                                                     @Param("startDate") LocalDate startDate,
+                                                                                     @Param("lastDate") LocalDate lastDate
     ) {
         List<PerformanceStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(PerformanceStatisticsDto.class,
@@ -136,7 +132,85 @@ public class QueryRepository {
             Long conversion = result.getConversion();
             Long purchase = result.getPurchase();
 
-            result.setCampaignTotalIndicator(spend, view, click, conversion, purchase);
+            result.setTotalIndicator(spend, view, click, conversion, purchase);
+        }
+
+        return results;
+    }
+
+    public List<PerformanceStatisticsDto> findByClientUser_IdAndStatisticsDefault(@Param("id") String clientId,
+                                                                                  @Param("startDate") LocalDate startDate,
+                                                                                  @Param("lastDate") LocalDate lastDate
+    ) {
+        List<PerformanceStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(PerformanceStatisticsDto.class,
+                        campaign.id.as("campaignId"),
+                        campaign.name.as("name"),
+                        campaign.budget.as("budget"),
+                        campaign.deleted.as("deleted"),
+                        performance.view.sum().as("view"),
+                        performance.click.sum().as("click"),
+                        performance.conversion.sum().as("conversion"),
+                        performance.purchase.sum().as("purchase"),
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .leftJoin(campaign.clientUser, clientUser)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        clientUser.userId.eq(clientId),
+                        campaign.deleted.eq(false)
+                )
+                .groupBy(campaign.id)
+                .fetch();
+
+        for (PerformanceStatisticsDto result : results) {
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setCampaignIndicator(spend, view, click, conversion, purchase);
+        }
+
+        return results;
+    }
+
+    public List<PerformanceStatisticsDto> findByClientUser_IdAndTotalStatisticsDefault(@Param("id") String clientId,
+                                                                                       @Param("startDate") LocalDate startDate,
+                                                                                       @Param("lastDate") LocalDate lastDate
+    ) {
+        List<PerformanceStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(PerformanceStatisticsDto.class,
+                        performance.view.sum().as("view"),
+                        performance.click.sum().as("click"),
+                        performance.conversion.sum().as("conversion"),
+                        performance.purchase.sum().as("purchase"),
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .leftJoin(campaign.clientUser, clientUser)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        clientUser.userId.eq(clientId),
+                        campaign.deleted.eq(false)
+                )
+                .groupBy(clientUser.userId)
+                .fetch();
+
+        for (PerformanceStatisticsDto result : results) {
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setTotalIndicator(spend, view, click, conversion, purchase);
         }
 
         return results;

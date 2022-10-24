@@ -8,6 +8,9 @@
 
     <attr sel="#create-campaign" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/form'}"/>
 
+    <attr sel="#statistics_type_week" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(statisticsType=BEFORE_WEEK)}" th:method="get" />
+    <attr sel="#statistics_type_month" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(statisticsType=BEFORE_MONTH)}" th:method="get" />
+
     <attr sel="#client-info">
       <attr sel="tbody" th:remove="all-but-first">
         <attr sel="td.user-id" th:text="${clientUser.userId}" />
@@ -16,15 +19,52 @@
       </attr>
     </attr>
 
+    <attr sel="#client-statistics-info">
+        <attr sel="tbody" th:remove="all-but-first">
+          <attr sel="tr[0]" th:each="totalCampaignStatistic : ${totalCampaignStatistics}">
+            <attr sel="td.view" th:text="${totalCampaignStatistic.sView}" />
+            <attr sel="td.click" th:text="${totalCampaignStatistic.sClick}" />
+            <attr sel="td.conversion" th:text="${totalCampaignStatistic.sConversion}" />
+            <attr sel="td.purchase" th:text="${totalCampaignStatistic.sPurchase} + '원'"/>
+            <attr sel="td.spend" th:text="${totalCampaignStatistic.sSpend} + '원'" />
+            <attr sel="td.CTR" th:text="${totalCampaignStatistic.sCTR} + '%'" />
+            <attr sel="td.CVR" th:text="${totalCampaignStatistic.sCVR} + '%'"/>
+            <attr sel="td.CPA" th:text="${totalCampaignStatistic.sCPA} + '원'" />
+            <attr sel="td.ROAS" th:text="${totalCampaignStatistic.sROAS} + '%'" />
+          </attr>
+        </attr>
+      </attr>
+
+    <attr sel="#statistics-table">
+        <attr sel="tbody" th:remove="all-but-first">
+          <attr sel="tr[0]" th:each="campaignStatistic : ${campaignStatistics}">
+            <attr sel="td.id" th:text="${campaignStatistic.campaignId}" />
+            <attr sel="td.name" th:text="${campaignStatistic.name}" />
+            <attr sel="td.budget" th:text="${campaignStatistic.sBudget} + '원'"/>
+            <attr sel="td.view" th:text="${campaignStatistic.sView}" />
+            <attr sel="td.click" th:text="${campaignStatistic.sClick}" />
+            <attr sel="td.conversion" th:text="${campaignStatistic.sConversion}" />
+            <attr sel="td.purchase" th:text="${campaignStatistic.sPurchase} + '원'"/>
+            <attr sel="td.spend" th:text="${campaignStatistic.sSpend} + '원'" />
+            <attr sel="td.CTR" th:text="${campaignStatistic.sCTR} + '%'" />
+            <attr sel="td.CVR" th:text="${campaignStatistic.sCVR} + '%'"/>
+            <attr sel="td.CPA" th:text="${campaignStatistic.sCPA} + '원'" />
+            <attr sel="td.ROAS" th:text="${campaignStatistic.sROAS} + '%'" />
+          </attr>
+        </attr>
+      </attr>
+
     <attr sel="#campaign-table">
       <attr sel="thead/tr">
         <attr sel="th.activate-status/a" th:text="'상태'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(
       page=${campaigns.number},
-      sort='activated' + (*{sort.getOrderFor('activated')} != null ? (*{sort.getOrderFor('activated').direction.name} != 'DESC' ? ',desc' : '') : '')
+      sort='activated' + (*{sort.getOrderFor('activated')} != null ? (*{sort.getOrderFor('activated').direction.name} != 'DESC' ? ',desc' : '') : ''),
+      statisticsType=${param.statisticsType}
   )}"/>
         <attr sel="th.budget/a" th:text="'예산'" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(
       page=${campaigns.number},
-      sort='budget' + (*{sort.getOrderFor('budget')} != null ? (*{sort.getOrderFor('budget').direction.name} != 'DESC' ? ',desc' : '') : '')
+      sort='budget' + (*{sort.getOrderFor('budget')} != null ? (*{sort.getOrderFor('budget').direction.name} != 'DESC' ? ',desc' : '') : ''),
+      statisticsType=${param.statisticsType}
   )}"/>
       </attr>
 
@@ -46,19 +86,19 @@
     <attr sel="#pagination">
       <attr sel="li[0]/a"
             th:text="'previous'"
-            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(page=${campaigns.number - 1})}"
+            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(page=${campaigns.number - 1}, statisticsType=${param.statisticsType})}"
             th:class="'page-link' + (${campaigns.number} <= 0 ? ' disabled' : '')"
       />
       <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
         <attr sel="a"
               th:text="${pageNumber + 1}"
-              th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(page=${pageNumber})}"
+              th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(page=${pageNumber}, statisticsType=${param.statisticsType})}"
               th:class="'page-link' + (${pageNumber} == ${campaigns.number} ? ' disabled' : '')"
         />
       </attr>
       <attr sel="li[2]/a"
             th:text="'next'"
-            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(page=${campaigns.number + 1})}"
+            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'(page=${campaigns.number + 1}, statisticsType=${param.statisticsType})}"
             th:class="'page-link' + (${campaigns.number} >= ${campaigns.totalPages - 1} ? ' disabled' : '')"
       />
     </attr>
