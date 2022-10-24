@@ -2,7 +2,7 @@ package com.agencyplatformclonecoding.service;
 
 import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.PerformanceStatisticsDto;
-import com.agencyplatformclonecoding.repository.QueryRepository;
+import com.agencyplatformclonecoding.repository.StatisticsQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class StatisticsService {
 
-    private final QueryRepository queryRepository;
+    private final StatisticsQueryRepository statisticsQueryRepository;
 
     // List 타입 반환
     @Transactional(readOnly = true)
@@ -30,12 +30,12 @@ public class StatisticsService {
         LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
 
         if (statisticsType == null) {
-            return queryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeThirtyDays, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> queryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> queryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeThirtyDays, lastDate);
+            case BEFORE_WEEK -> statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeSevenDays, lastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeThirtyDays, lastDate);
             case BEFORE_CUSTOM -> null;
         };
     }
@@ -50,12 +50,12 @@ public class StatisticsService {
         LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
 
         if (statisticsType == null) {
-            return queryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> queryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> queryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
+            case BEFORE_WEEK -> statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeSevenDays, lastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
             case BEFORE_CUSTOM -> null;
         };
     }
@@ -69,12 +69,51 @@ public class StatisticsService {
         LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
 
         if (statisticsType == null) {
-            return queryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> queryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> queryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
+            case BEFORE_WEEK -> statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeSevenDays, lastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
+            case BEFORE_CUSTOM -> null;
+        };
+    }
+
+    // List 타입 반환
+    @Transactional(readOnly = true)
+    public List<PerformanceStatisticsDto> clientWithCampaignsStatistics(StatisticsType statisticsType, String clientId) {
+
+        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+
+        if (statisticsType == null) {
+            return statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
+        }
+
+        return switch (statisticsType) {
+            case BEFORE_WEEK -> statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDateBeforeSevenDays, lastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
+            case BEFORE_CUSTOM -> null;
+        };
+    }
+
+    @Transactional(readOnly = true)
+    public List<PerformanceStatisticsDto> totalCampaignsPerformanceStatistics(StatisticsType statisticsType, String clientId) {
+
+        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+
+        if (statisticsType == null) {
+            return statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
+        }
+
+        return switch (statisticsType) {
+            case BEFORE_WEEK -> statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeSevenDays, lastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
             case BEFORE_CUSTOM -> null;
         };
     }

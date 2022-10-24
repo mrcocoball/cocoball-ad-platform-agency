@@ -1,9 +1,11 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
+import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
+import com.agencyplatformclonecoding.dto.response.PerformanceStatisticsResponse;
 import com.agencyplatformclonecoding.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping("manage")
@@ -28,6 +33,7 @@ public class ManageController {
     private final CampaignService campaignService;
     private final CreativeService creativeService;
     private final PaginationService paginationService;
+    private final StatisticsService statisticsService;
 
     @GetMapping()
     public String manage(
@@ -49,15 +55,22 @@ public class ManageController {
     @GetMapping("/{clientId}/campaigns")
     public String campaigns(
             @PathVariable String clientId,
-            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(required = false) StatisticsType statisticsType,
+            @PageableDefault(size = 5, sort = "activated", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
     ) {
         Page<CampaignResponse> campaigns = campaignService.searchCampaigns(pageable, clientId).map(CampaignResponse::from);
+        Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.clientWithCampaignsStatistics(statisticsType, clientId)
+                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
+        Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.totalCampaignsPerformanceStatistics(statisticsType, clientId)
+                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), campaigns.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaigns);
         map.addAttribute("campaigns", campaigns);
+        map.addAttribute("campaignStatistics", campaignStatistics);
+        map.addAttribute("totalCampaignStatistics", totalCampaignStatistics);
         map.addAttribute("paginationBarNumbers", barNumbers);
         map.addAttribute("totalCount", campaignService.getCampaignCount());
 

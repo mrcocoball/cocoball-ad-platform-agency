@@ -3,12 +3,8 @@ package com.agencyplatformclonecoding.service;
 import com.agencyplatformclonecoding.domain.Campaign;
 import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.Creative;
-import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
-import com.agencyplatformclonecoding.dto.ClientUserDto;
-import com.agencyplatformclonecoding.dto.ClientUserWithCampaignsDto;
 import com.agencyplatformclonecoding.dto.PerformanceDto;
-import com.agencyplatformclonecoding.dto.PerformanceStatisticsDto;
 import com.agencyplatformclonecoding.exception.AdPlatformException;
 import com.agencyplatformclonecoding.exception.ErrorCode;
 import com.agencyplatformclonecoding.repository.*;
@@ -21,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +28,7 @@ public class PerformanceService {
     private final CreativeRepository creativeRepository;
     private final ClientUserRepository clientUserRepository;
     private final PerformanceRepository performanceRepository;
-    private final QueryRepository queryRepository;
+    private final StatisticsQueryRepository statisticsQueryRepository;
 
     @Transactional(readOnly = true)
     public PerformanceDto getPerformance(Long performanceId) {
