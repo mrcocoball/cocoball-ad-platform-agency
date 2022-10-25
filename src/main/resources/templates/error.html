@@ -1,15 +1,83 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-   <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="author" content="mrcocoball">
+
+  <title>광고 관리 페이지</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
+
 <body>
-<p>
-  <span th:text="${statusCode} ?: _">Error</span>가 발생하였습니다.
-</p>
-<ul>
-  <li>Error 내용 : <span th:text="${message} ?: _">?</span></li>
-</ul>
+
+<header id="header">
+  헤더 삽입부
+  <hr>
+</header>
+
+<main class="d-flex flex-nowrap">
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 900px; width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi pe-none me-2" width="40" height="32">
+        <use xlink:href="#bootstrap"/>
+      </svg>
+      <span class="fs-4"></span>
+    </a>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/agents" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#home"/>
+          </svg>
+          에이전트 관리
+        </a>
+      </li>
+      <li>
+        <a href="/agentGroups" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#speedometer2"/>
+          </svg>
+          에이전트 그룹 관리
+        </a>
+      </li>
+      <li>
+        <a href="/clients" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#table"/>
+          </svg>
+          광고주 관리
+        </a>
+      </li>
+      <li>
+        <a href="/manage" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#grid"/>
+          </svg>
+          광고 관리
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#people-circle"/>
+          </svg>
+          대시보드
+        </a>
+      </li>
+  </div>
+
+  <div class="container" style="text-align:center">
+    <p style="font-size: 50px;"><span th:text="${statusCode} ?: _">Error</span>가 발생하였습니다.</p>
+    <p>Error 내용 : <span th:text="${message} ?: _">잘못된 요청입니다.</span></p>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>
