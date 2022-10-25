@@ -6,6 +6,7 @@ import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
 import com.agencyplatformclonecoding.dto.response.PerformanceStatisticsResponse;
+import com.agencyplatformclonecoding.repository.StatisticsQueryRepository;
 import com.agencyplatformclonecoding.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,6 @@ public class ManageController {
 
     private final ManageService manageService;
     private final CampaignService campaignService;
-    private final CreativeService creativeService;
     private final PaginationService paginationService;
     private final StatisticsService statisticsService;
 
@@ -39,14 +39,19 @@ public class ManageController {
     public String manage(
             @RequestParam(required = false) SearchType searchType,
             @RequestParam(required = false) String searchValue,
+            @RequestParam(required = false) StatisticsType statisticsType,
             @PageableDefault(size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
             ModelMap map
     ) {
         Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)
                 .map(ClientUserResponse::from);
+        Set<PerformanceStatisticsResponse> totalClientSpendStatistics = statisticsService.totalSpendStatistics(statisticsType)
+                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), clientUsers.getTotalPages());
+
         map.addAttribute("clientUsers", clientUsers);
         map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("totalClientSpendStatistics", totalClientSpendStatistics);
         map.addAttribute("searchTypes", SearchType.values());
 
         return "manage/index";

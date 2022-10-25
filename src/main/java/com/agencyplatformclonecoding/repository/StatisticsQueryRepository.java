@@ -216,6 +216,31 @@ public class StatisticsQueryRepository {
         return results;
     }
 
+    public List<PerformanceStatisticsDto> findClientUserSpendTotalStatisticsDefault(@Param("startDate") LocalDate startDate,
+                                                                                    @Param("lastDate") LocalDate lastDate
+    ) {
+        List<PerformanceStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(PerformanceStatisticsDto.class,
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        creative.deleted.eq(false)
+                )
+                .fetch();
+
+        for (PerformanceStatisticsDto result : results) {
+            Long spend = result.getSpend();
+
+            result.setSpendIndicator(spend); // spend 세팅용 메소드
+            result.setStartDateAndLastDate(startDate, lastDate);
+        }
+
+        return results;
+    }
+
     private StringTemplate localDateTimeFormat() {
         return Expressions
                 .stringTemplate("DATE_FORMAT({0}, {1})", performance.createdAt, ConstantImpl.create("%Y-%m-%d"));

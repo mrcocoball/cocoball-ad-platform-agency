@@ -106,7 +106,26 @@
       </div>
     </div>
 
+    <div class="row right">
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일간 통계</a>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일간 통계</a>
+    </div>
+
     <div class="row">
+      <table class="table" id="client-spend-statistics-info">
+        <thead>
+        <tr>
+          <th class="date" style="width: 125px;"><a>조회 기간</a></th>
+          <th class="spend" style="width: 125px;"><a>총 소진액</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="date"><a>2022-09-24 ~ 2022-10-24</a></td>
+          <td class="spend"><a>20000</a></td>
+        </tr>
+        </tbody>
+      </table>
       <table class="table" id="client-table">
         <thead>
         <tr>
@@ -125,65 +144,7 @@
           <td class="agent-name">김코코볼</td>
           <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
         </tr>
-        <tr>
-          <td class="user-id"><a>client2</a></td>
-          <td class="nickname">코코볼전자</td>
-          <td class="agent-name">김코코볼</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client3</a></td>
-          <td class="nickname">코코볼물산</td>
-          <td class="agent-name">김지오</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client4</a></td>
-          <td class="nickname">코코볼식품</td>
-          <td class="agent-name">김지오</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client5</a></td>
-          <td class="nickname">코코볼생명보험</td>
-          <td class="agent-name">김지오</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client6</a></td>
-          <td class="nickname">코코볼뱅크</td>
-          <td class="agent-name">김호빵</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client7</a></td>
-          <td class="nickname">코코볼의집</td>
-          <td class="agent-name">김호빵</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client8</a></td>
-          <td class="nickname">코코볼리</td>
-          <td class="agent-name">김호떡</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client9</a></td>
-          <td class="nickname">코코볼마켓</td>
-          <td class="agent-name">김호떡</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        <tr>
-          <td class="user-id"><a>client10</a></td>
-          <td class="nickname">코코볼의민족</td>
-          <td class="agent-name">김모찌</td>
-          <td class="button"><a class="btn btn-primary" role="button" id="client-manage">광고 관리</a></td>
-        </tr>
-        </tbody>
       </table>
-    </div>
-
-    <div class="row">
       <nav id="pagination" aria-label="Page navigation">
         <ul class="pagination justify-content-center">
           <li class="page-item"><a class="page-link" href="#">Previous</a></li>
