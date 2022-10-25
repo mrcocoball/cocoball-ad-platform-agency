@@ -3,6 +3,7 @@ package com.agencyplatformclonecoding.dto;
 import lombok.Getter;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 
 @Getter
 public class PerformanceStatisticsDto {
@@ -36,6 +37,8 @@ public class PerformanceStatisticsDto {
     String sROAS;
     boolean activated;
     boolean deleted;
+    LocalDate startDate;
+    LocalDate lastDate;
 
     public PerformanceStatisticsDto() {
     }
@@ -135,6 +138,19 @@ public class PerformanceStatisticsDto {
         this.sCPA = sCPA;
         this.ROAS = ROAS;
         this.sROAS = sROAS;
+    }
+
+    public void setSpendIndicator(Long spend) {
+
+        String sSpend = formatToString(spend);
+
+        this.sSpend = sSpend;
+    }
+
+    public void setStartDateAndLastDate(LocalDate startDate, LocalDate lastDate) {
+
+        this.startDate = startDate;
+        this.lastDate = lastDate;
     }
 
     public static double calculateCTR(Long click, Long view) {

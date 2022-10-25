@@ -36,12 +36,14 @@ public record PerformanceStatisticsResponse(
         double ROAS,
         String sROAS,
         boolean activated,
-        boolean deleted
+        boolean deleted,
+        LocalDate startDate,
+        LocalDate lastDate
 
 ) implements Serializable {
 
-    public static PerformanceStatisticsResponse of(String clientId, Long campaignId, Long creativeId, String username, String name, String keyword, Long budget, String sBudget, Long bidingPrice, String sBidingPrice, Long view, String sView, Long click, String sClick, Long conversion, String sConversion, Long purchase, String sPurchase, Long spend, String sSpend, double CTR, String sCTR, double CVR, String sCVR, Long CPA, String sCPA, double ROAS, String sROAS, boolean activated, boolean deleted) {
-        return new PerformanceStatisticsResponse(clientId, campaignId, creativeId, username, name, keyword, budget, sBudget, bidingPrice, sBidingPrice, view, sView, click, sClick, conversion, sConversion, purchase, sPurchase, spend, sSpend, CTR, sCTR, CVR, sCVR, CPA, sCPA, ROAS, sROAS, activated, deleted);
+    public static PerformanceStatisticsResponse of(String clientId, Long campaignId, Long creativeId, String username, String name, String keyword, Long budget, String sBudget, Long bidingPrice, String sBidingPrice, Long view, String sView, Long click, String sClick, Long conversion, String sConversion, Long purchase, String sPurchase, Long spend, String sSpend, double CTR, String sCTR, double CVR, String sCVR, Long CPA, String sCPA, double ROAS, String sROAS, boolean activated, boolean deleted, LocalDate startDate, LocalDate lastDate) {
+        return new PerformanceStatisticsResponse(clientId, campaignId, creativeId, username, name, keyword, budget, sBudget, bidingPrice, sBidingPrice, view, sView, click, sClick, conversion, sConversion, purchase, sPurchase, spend, sSpend, CTR, sCTR, CVR, sCVR, CPA, sCPA, ROAS, sROAS, activated, deleted, startDate, lastDate);
     }
 
     public static PerformanceStatisticsResponse from(PerformanceStatisticsDto dto) {
@@ -76,7 +78,9 @@ public record PerformanceStatisticsResponse(
                 dto.getROAS(),
                 dto.getSROAS(),
                 dto.isActivated(),
-                dto.isDeleted()
+                dto.isDeleted(),
+                dto.getStartDate(),
+                dto.getLastDate()
         );
     }
 }

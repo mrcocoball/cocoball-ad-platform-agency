@@ -20,7 +20,6 @@ public class StatisticsService {
 
     private final StatisticsQueryRepository statisticsQueryRepository;
 
-    // List 타입 반환
     @Transactional(readOnly = true)
     public List<PerformanceStatisticsDto> totalPerformanceStatistics(StatisticsType statisticsType, Long creativeId) {
 
@@ -40,7 +39,6 @@ public class StatisticsService {
         };
     }
 
-    // List 타입 반환
     @Transactional(readOnly = true)
     public List<PerformanceStatisticsDto> creativesWithPerformanceStatistics(StatisticsType statisticsType, Long campaignId) {
 
@@ -79,7 +77,6 @@ public class StatisticsService {
         };
     }
 
-    // List 타입 반환
     @Transactional(readOnly = true)
     public List<PerformanceStatisticsDto> clientWithCampaignsStatistics(StatisticsType statisticsType, String clientId) {
 
@@ -114,6 +111,25 @@ public class StatisticsService {
         return switch (statisticsType) {
             case BEFORE_WEEK -> statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeSevenDays, lastDate);
             case BEFORE_MONTH -> statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
+            case BEFORE_CUSTOM -> null;
+        };
+    }
+
+    @Transactional(readOnly = true)
+    public List<PerformanceStatisticsDto> totalSpendStatistics(StatisticsType statisticsType) {
+
+        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+
+        if (statisticsType == null) {
+            return statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDateBeforeThirtyDays, lastDate);
+        }
+
+        return switch (statisticsType) {
+            case BEFORE_WEEK -> statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDateBeforeSevenDays, lastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDateBeforeThirtyDays, lastDate);
             case BEFORE_CUSTOM -> null;
         };
     }
