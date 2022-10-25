@@ -9,6 +9,7 @@
         <attr sel="td.user-id" th:text="${agent.userId}" />
         <attr sel="td.nickname" th:text="${agent.nickname}" />
         <attr sel="td.agent-group" th:text="${agent.agentGroupName}" />
+        <attr sel="td.email" th:text="${agent.email}" />
       </attr>
     </attr>
 
@@ -18,6 +19,7 @@
           <attr sel="td.client-id" th:text="${client.userId}" />
           <attr sel="td.nickname" th:text="${client.nickname}" />
           <attr sel="td.category" th:text="${client.categoryName}" />
+          <attr sel="td.email" th:text="${client.email}" />
           <attr sel="#client-manage" th:href="@{'/manage/' + ${client.userId} + '/campaigns'}" />
         </attr>
       </attr>
