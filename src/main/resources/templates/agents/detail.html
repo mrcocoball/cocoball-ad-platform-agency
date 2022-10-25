@@ -6,82 +6,97 @@
   <meta name="author" content="mrcocoball">
   <title>에이전트 상세 페이지</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
 <body>
 
-  <header id="header">
-    헤더 삽입부
-    <hr>
-  </header>
+<header id="header">
+  헤더 삽입부
+  <hr>
+</header>
 
-  <main class="d-flex flex-nowrap">
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 865px; width: 280px;">
-      <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
-        <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-        <span class="fs-4"></span>
-      </a>
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <a href="/agents" class="nav-link active" aria-current="page">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-            에이전트 관리
-          </a>
-        </li>
-        <li>
-          <a href="/agentGroups" class="nav-link text-white">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-            에이전트 그룹 관리
-          </a>
-        </li>
-        <li>
-          <a href="/clients" class="nav-link text-white">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-            광고주 관리
-          </a>
-        </li>
-        <li>
-          <a href="/manage" class="nav-link text-white">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-            광고 관리
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-            대시보드
-          </a>
-        </li>
-    </div>
+<main class="d-flex flex-nowrap">
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 865px; width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi pe-none me-2" width="40" height="32">
+        <use xlink:href="#bootstrap"/>
+      </svg>
+      <span class="fs-4"></span>
+    </a>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/agents" class="nav-link active" aria-current="page">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#home"/>
+          </svg>
+          에이전트 관리
+        </a>
+      </li>
+      <li>
+        <a href="/agentGroups" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#speedometer2"/>
+          </svg>
+          에이전트 그룹 관리
+        </a>
+      </li>
+      <li>
+        <a href="/clients" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#table"/>
+          </svg>
+          광고주 관리
+        </a>
+      </li>
+      <li>
+        <a href="/manage" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#grid"/>
+          </svg>
+          광고 관리
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#people-circle"/>
+          </svg>
+          대시보드
+        </a>
+      </li>
+  </div>
 
-   <div class="container">
-     <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-       <ol class="breadcrumb">
-         <li class="breadcrumb-item"><a href="/agents">에이전트 목록</a></li>
-         <li class="breadcrumb-item active" aria-current="page">상세</li>
-       </ol>
-     </nav>
-   <h1> 에이전트 정보 </h1>
+  <div class="container">
+    <nav
+        style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+        aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/agents">에이전트 목록</a></li>
+        <li class="breadcrumb-item active" aria-current="page">상세</li>
+      </ol>
+    </nav>
+    <h1> 에이전트 정보 </h1>
     <div class="row">
-	  <table class="table" id="agent-info">
-		<thead>
+      <table class="table" id="agent-info">
+        <thead>
         <tr>
           <th class="user-id col-2"><a>ID</a></th>
           <th class="nickname col-2"><a>이름</a></th>
           <th class="agent-group col-2"><a>그룹</a></th>
-          <th class="created-at col"><a>계정 생성일</a></th>
+          <th class="email"><a>이메일</a></th>
         </tr>
         </thead>
-		<tbody>
-		<tr>
+        <tbody>
+        <tr>
           <td class="user-id">cocoballagent</td>
           <td class="nickname">김코코볼</td>
           <td class="agent-group">마케팅 1팀</td>
-          <td class="created-at">2022-08-18</td>
+          <td class="email">cocoball@cocoball.com</td>
         </tr>
-		</tbody>
-    </table>
+        </tbody>
+      </table>
     </div>
 
     <div class="row">
@@ -91,6 +106,7 @@
           <th class="client-id col-xs-2"><a>ID</a></th>
           <th class="nickname col-xs-2"><a>이름</a></th>
           <th class="category col-xs-2"><a>업종</a></th>
+          <th class="email">이메일</th>
           <th class="client-manage"></th>
         </tr>
         </thead>
@@ -99,6 +115,7 @@
           <td class="client-id"><a>client1</a></td>
           <td class="nickname">코코볼자동차</td>
           <td class="category">자동차</td>
+          <td class="email">client1@client.com</td>
           <th class="button"><a class="btn btn-primary" role="button" id="client-manage">광고주 관리</a></th>
         </tr>
         <tr>
@@ -106,11 +123,13 @@
           <td>코코볼전자</td>
           <th class="button"><a class="btn btn-primary" role="button" id="client-manage">광고주 관리</a></th>
         </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
     </div>
-  </main>
+</main>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
 
 </body>

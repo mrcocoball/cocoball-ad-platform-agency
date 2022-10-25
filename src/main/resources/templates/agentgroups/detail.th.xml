@@ -9,6 +9,7 @@
         <attr sel="tr[0]" th:each="agent : ${agents}">
           <attr sel="td.agent-id" th:text="${agent.userId}" />
           <attr sel="td.nickname" th:text="${agent.nickname}" />
+          <attr sel="td.email" th:text="${agent.email}" />
           <attr sel="#agent-info" th:href="@{'/agents/' + ${agent.userId}}" />
         </attr>
       </attr>
