@@ -16,7 +16,7 @@
 * Spring Properties DevTools
 * Thymeleaf
 * MySQL
-* Chart.js
+* Chart.js (예정)
 * Querydsl
 * GitKraken
 * Heroku </br></br>
