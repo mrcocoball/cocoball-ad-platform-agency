@@ -159,21 +159,21 @@ insert into campaign (client_id, created_at, created_by, modified_at, modified_b
 ('c40', '2021-09-28 20:24:46', 'Griff', '2022-02-01 14:01:53', 'Griff', 17917, '2021-09-28 20:24:46, 17917', false, false);
 
 -- 소재 관련 (14개)
-insert into creative (campaign_id, created_at, created_by, modified_at, modified_by, biding_price, keyword, activated, deleted) values
-(1, '2022-07-13 01:32:28', 'Karoline', '2021-10-26 02:46:03', 'Karoline', 7224, '강남핸드폰매장', true, false),
-(1, '2022-07-10 04:40:02', 'Ashien', '2022-07-08 09:18:39', 'Ashien', 4503, '서울핸드폰매장', true, false),
-(1, '2021-11-26 01:47:21', 'Flossie', '2022-01-29 02:01:15', 'Flossie', 5463, '핸드폰매장추천', false, false),
-(1, '2022-06-10 22:12:32', 'Tracey', '2022-07-01 08:11:24', 'Tracey', 8190, '핸드폰중고거래', false, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '핸드폰중고판매', false, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '중고핸드폰판매', false, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '핸드폰저렴하게', false, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '핸드폰견적', false, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '강남핸드폰견적', false, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '서울핸드폰견적', false, false),
-(1, '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', 5423, '저가형핸드폰', false, false),
-(2, '2022-07-13 01:32:28', 'Karoline', '2021-10-26 02:46:03', 'Karoline', 7224, '아이폰자급제', true, false),
-(2, '2022-07-10 04:40:02', 'Ashien', '2022-07-08 09:18:39', 'Ashien', 4503, '아이폰약정', true, false),
-(2, '2021-11-26 01:47:21', 'Flossie', '2022-01-29 02:01:15', 'Flossie', 5463, '아이폰색상추천', false, false);
+insert into creative (campaign_id, biding_price, keyword, description, url, created_at, created_by, modified_at, modified_by, activated, deleted) values
+(1, 7224, '강남핸드폰매장', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-07-13 01:32:28', 'Karoline', '2021-10-26 02:46:03', 'Karoline', true, false),
+(1, 4503, '서울핸드폰매장', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-07-10 04:40:02', 'Ashien', '2022-07-08 09:18:39', 'Ashien', true, false),
+(1, 5463, '핸드폰매장추천', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2021-11-26 01:47:21', 'Flossie', '2022-01-29 02:01:15', 'Flossie', false, false),
+(1, 8190, '핸드폰중고거래', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-06-10 22:12:32', 'Tracey', '2022-07-01 08:11:24', 'Tracey', false, false),
+(1, 5423, '핸드폰중고판매', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', false, false),
+(1, 5423, '중고핸드폰판매', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', false, false),
+(1, 5423, '핸드폰저렴하게', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', false, false),
+(1, 5423, '핸드폰견적', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', false, false),
+(1, 5423, '강남핸드폰견적', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', false, false),
+(1, 5423, '서울핸드폰견적', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', false, false),
+(1, 5423, '저가형핸드폰', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-03-31 01:00:20', 'Anders', '2022-06-08 12:58:18', 'Anders', false, false),
+(2, 7224, '아이폰자급제', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-07-13 01:32:28', 'Karoline', '2021-10-26 02:46:03', 'Karoline', true, false),
+(2, 4503, '아이폰약정', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2022-07-10 04:40:02', 'Ashien', '2022-07-08 09:18:39', 'Ashien', true, false),
+(2, 5463, '아이폰색상추천', '핸드폰 구매는 코코볼모바일', 'https://velog.io/@mrcocoball', '2021-11-26 01:47:21', 'Flossie', '2022-01-29 02:01:15', 'Flossie', false, false);
 
 -- 소재 실적 관련 (1개 소재, 31일치)
 insert into performance (creative_id, created_at, view, click, conversion, purchase, spend) values

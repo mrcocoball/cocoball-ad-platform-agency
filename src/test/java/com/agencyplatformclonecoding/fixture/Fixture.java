@@ -77,7 +77,9 @@ public class Fixture {
         Creative creative = Creative.of(
                 createCampaign(),
                 "t-keyword",
-                1000L
+                1000L,
+                "testDescription",
+                "testUrl"
         );
 
         return creative;
@@ -246,7 +248,9 @@ public class Fixture {
                 createCampaignDto(),
                 1L,
                 keyword,
-                1000L
+                1000L,
+                "testDescription",
+                "testUrl"
         );
     }
 
@@ -255,7 +259,9 @@ public class Fixture {
                 createCampaignDto(),
                 1L,
                 "t-creative",
-                bidingPrice
+                bidingPrice,
+                "testDescription",
+                "testUrl"
         );
     }
 

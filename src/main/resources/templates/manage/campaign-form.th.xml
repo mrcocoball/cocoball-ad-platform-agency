@@ -8,7 +8,7 @@
 
   <attr sel="#campaign-form" th:action="${formStatus?.update} ? '/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/form' : '/manage/' + ${clientUser.userId} + '/campaigns/form'" th:method="post">
     <attr sel="#name" th:value="${campaign?.name} ?: _" />
-    <attr sel="#budget" th:text="${campaign?.budget} ?: _" />
+    <attr sel="#budget" th:value="${campaign?.budget} ?: _" />
     <attr sel="#submit-button" th:text="${formStatus?.description} ?: _" />
     <attr sel="#cancel-button" th:onclick="'history.back()'" />
   </attr>

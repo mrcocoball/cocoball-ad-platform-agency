@@ -13,6 +13,8 @@ public record CreativeDto(
         String keyword,
         Long bidingPrice,
         String sBidingPrice,
+        String description,
+        String url,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
@@ -20,15 +22,15 @@ public record CreativeDto(
         boolean activated
 ) {
 
-    public static CreativeDto of(CampaignDto campaignDto, Long campaignId, String keyword, Long bidingPrice) {
+    public static CreativeDto of(CampaignDto campaignDto, Long campaignId, String keyword, Long bidingPrice, String description, String url) {
 
         String sBidingPrice = formatToString(bidingPrice);
 
-        return new CreativeDto(campaignDto, campaignId, null, keyword, bidingPrice, sBidingPrice, null, null, null, null, false);
+        return new CreativeDto(campaignDto, campaignId, null, keyword, bidingPrice, sBidingPrice, description, url, null, null, null, null, false);
     }
 
-    public static CreativeDto of(CampaignDto campaignDto, Long campaignId, Long id, String keyword, Long bidingPrice, String sBidingPrice, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, boolean activated) {
-        return new CreativeDto(campaignDto, campaignId, id, keyword, bidingPrice, sBidingPrice, createdAt, createdBy, modifiedAt, modifiedBy, activated);
+    public static CreativeDto of(CampaignDto campaignDto, Long campaignId, Long id, String keyword, Long bidingPrice, String sBidingPrice, String description, String url, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, boolean activated) {
+        return new CreativeDto(campaignDto, campaignId, id, keyword, bidingPrice, sBidingPrice, description, url, createdAt, createdBy, modifiedAt, modifiedBy, activated);
     }
 
     // Entity -> dto로 변환
@@ -43,6 +45,8 @@ public record CreativeDto(
                 entity.getKeyword(),
                 entity.getBidingPrice(),
                 sBidingPrice,
+                entity.getDescription(),
+                entity.getUrl(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
@@ -56,7 +60,9 @@ public record CreativeDto(
         return Creative.of(
                 campaign,
                 keyword,
-                bidingPrice
+                bidingPrice,
+                description,
+                url
         );
     }
 

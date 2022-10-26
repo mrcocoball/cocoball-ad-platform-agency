@@ -18,6 +18,8 @@
       <attr sel="td.id" th:text="${creative.id}" />
       <attr sel="td.keyword" th:text="${creative.keyword}" />
       <attr sel="td.biding-price" th:text="${creative.sBidingPrice} + '원'"/>
+      <attr sel="td.description" th:text="${creative.description}" />
+      <attr sel="td.url/a" th:href="${creative.url}" />
     </attr>
   </attr>
 

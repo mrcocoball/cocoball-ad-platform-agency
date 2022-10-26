@@ -66,6 +66,14 @@ public class CreativeService {
                 if (dto.keyword() != null) {
                     creative.setKeyword(dto.keyword());
                 }
+            if (dto.description() != null) {
+                creative.setDescription(dto.description());
+
+            }
+            if (dto.url() != null) {
+                creative.setUrl(dto.url());
+            }
+
             creative.setBidingPrice(dto.bidingPrice());
         } catch (EntityNotFoundException e) {
             log.warn("소재를 수정하는데 필요한 정보를 찾을 수 없습니다. - dto : {}", e.getLocalizedMessage());

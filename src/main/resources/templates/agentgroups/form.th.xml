@@ -7,7 +7,7 @@
   <attr sel="#agentgroup-form-header/h1" th:text="${formStatus} ? '에이전트 그룹 ' + ${formStatus.description} : _" />
 
   <attr sel="#agentgroup-form" th:action="${formStatus?.update} ? '/agentGroups/' + ${agentGroup.id} + '/form' : '/agentGroups/form'" th:method="post">
-    <attr sel="#name" th:text="${agentGroup?.name} ?: _" />
+    <attr sel="#name" th:value="${agentGroup?.name} ?: _" />
     <attr sel="#submit-button" th:text="${formStatus?.description} ?: _" />
     <attr sel="#cancel-button" th:onclick="'history.back()'" />
   </attr>

@@ -38,6 +38,8 @@ public class QCreative extends EntityPathBase<Creative> {
 
     public final BooleanPath deleted = createBoolean("deleted");
 
+    public final StringPath description = createString("description");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath keyword = createString("keyword");
@@ -49,6 +51,8 @@ public class QCreative extends EntityPathBase<Creative> {
     public final StringPath modifiedBy = _super.modifiedBy;
 
     public final SetPath<Performance, QPerformance> performances = this.<Performance, QPerformance>createSet("performances", Performance.class, QPerformance.class, PathInits.DIRECT2);
+
+    public final StringPath url = createString("url");
 
     public final NumberPath<Long> view = createNumber("view", Long.class);
 

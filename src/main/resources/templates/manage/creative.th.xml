@@ -53,6 +53,8 @@
           <attr sel="td.id" th:text="${creative.id}" />
           <attr sel="td.keyword" th:text="${creative.keyword}" />
           <attr sel="td.biding-price" th:text="${creative.sBidingPrice} + '원'" />
+          <attr sel="td.description" th:text="${creative.description}" />
+          <attr sel="td.url/a" th:href="${creative.url}" />
           <attr sel="#manage-creative" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/form'" />
           <attr sel="#delete-creative-form" th:action="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/delete'" th:method="post" />
           <attr sel="#performance-info" th:href="'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'"/>
