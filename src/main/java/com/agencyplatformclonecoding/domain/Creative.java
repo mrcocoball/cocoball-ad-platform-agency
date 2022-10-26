@@ -31,6 +31,8 @@ public class Creative extends AuditingFields {
 
     @Setter @Column private String keyword;
     @Setter @Column private Long bidingPrice;
+    @Setter @Column(length = 15) private String description;
+    @Setter @Column private String url;
     @Setter @Column private Long view;
 
     @ToString.Exclude
@@ -45,15 +47,17 @@ public class Creative extends AuditingFields {
     protected Creative() {
     }
 
-    private Creative(Campaign campaign, String keyword, Long bidingPrice) {
+    private Creative(Campaign campaign, String keyword, Long bidingPrice, String description, String url) {
         this.campaign = campaign;
         this.keyword = keyword;
         this.bidingPrice = bidingPrice;
+        this.description = description;
+        this.url = url;
         this.deleted = false;
     }
 
-    public static Creative of(Campaign campaign, String keyword, Long bidingPrice) {
-        return new Creative(campaign, keyword, bidingPrice);
+    public static Creative of(Campaign campaign, String keyword, Long bidingPrice, String description, String url) {
+        return new Creative(campaign, keyword, bidingPrice, description, url);
     }
 
     @Override

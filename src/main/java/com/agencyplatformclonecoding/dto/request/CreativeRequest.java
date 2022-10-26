@@ -6,11 +6,13 @@ import com.agencyplatformclonecoding.dto.CreativeDto;
 public record CreativeRequest(
         Long campaignId,
         String keyword,
-        Long bidingPrice
+        Long bidingPrice,
+        String description,
+        String url
 ) {
 
-    public static CreativeRequest of(Long campaignId, String keyword, Long bidingPrice) {
-        return new CreativeRequest(campaignId, keyword, bidingPrice);
+    public static CreativeRequest of(Long campaignId, String keyword, Long bidingPrice, String description, String url) {
+        return new CreativeRequest(campaignId, keyword, bidingPrice, description, url);
     }
 
     public CreativeDto toDto(CampaignDto campaignDto) {
@@ -18,7 +20,9 @@ public record CreativeRequest(
                 campaignDto,
                 campaignDto.id(),
                 keyword,
-                bidingPrice
+                bidingPrice,
+                description,
+                url
         );
     }
 }

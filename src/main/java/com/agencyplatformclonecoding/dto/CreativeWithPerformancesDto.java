@@ -15,6 +15,8 @@ public record CreativeWithPerformancesDto(
         String keyword,
         Long bidingPrice,
         String sBidingPrice,
+        String description,
+        String url,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
@@ -23,8 +25,8 @@ public record CreativeWithPerformancesDto(
         boolean activated
 ) {
 
-    public static CreativeWithPerformancesDto of(CampaignDto campaignDto, Long campaignId, Long id, String keyword, Long bidingPrice, String sBidingPrice, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Set<PerformanceDto> performanceDtos, boolean activated) {
-        return new CreativeWithPerformancesDto(campaignDto, campaignId, id, keyword, bidingPrice, sBidingPrice, createdAt, createdBy, modifiedAt, modifiedBy, performanceDtos, activated);
+    public static CreativeWithPerformancesDto of(CampaignDto campaignDto, Long campaignId, Long id, String keyword, Long bidingPrice, String sBidingPrice, String description, String url, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Set<PerformanceDto> performanceDtos, boolean activated) {
+        return new CreativeWithPerformancesDto(campaignDto, campaignId, id, keyword, bidingPrice, sBidingPrice, description, url, createdAt, createdBy, modifiedAt, modifiedBy, performanceDtos, activated);
     }
 
     // Entity -> dto로 변환
@@ -39,6 +41,8 @@ public record CreativeWithPerformancesDto(
                 entity.getKeyword(),
                 entity.getBidingPrice(),
                 sBidingPrice,
+                entity.getDescription(),
+                entity.getUrl(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
