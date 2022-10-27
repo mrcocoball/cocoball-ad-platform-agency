@@ -21,7 +21,7 @@
 * GitKraken
 * Heroku </br></br>
 
-## 1.2.0 릴리즈 구현 기능 (2022-10-27)
+## 1.2.1 릴리즈 구현 기능 (2022-10-27)
 - URL : <a href="https://cocoball-ad-agency-platform.herokuapp.com/" target='_blank'>확인하기</a>
 - 최초 로그인이 필요 (ID : TestAgency / PW : test1234) 
 - 서버 자동 슬립 모드로 인해 초기 실행 시 다소 시간이 소요됩니다. 양해 부탁드립니다.
