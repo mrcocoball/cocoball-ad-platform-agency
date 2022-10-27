@@ -33,11 +33,11 @@ public class StatisticsQueryRepository {
         List<PerformanceStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(PerformanceStatisticsDto.class,
                         performance.creative.id,
-                        performance.view,
-                        performance.click,
-                        performance.conversion,
-                        performance.purchase,
-                        performance.spend
+                        performance.view.sum().as("view"),
+                        performance.click.sum().as("click"),
+                        performance.conversion.sum().as("conversion"),
+                        performance.purchase.sum().as("purchase"),
+                        performance.spend.sum().as("spend")
                 ))
                 .from(performance)
                 .leftJoin(performance.creative, creative)
