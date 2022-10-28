@@ -56,6 +56,7 @@ public class StatisticsQueryRepository {
             Long purchase = result.getPurchase();
 
             result.setCreativeIndicator(spend, view, click, conversion, purchase);
+            result.setStartDateAndLastDate(startDate, lastDate);
         }
 
         return results;
@@ -97,6 +98,7 @@ public class StatisticsQueryRepository {
             Long purchase = result.getPurchase();
 
             result.setCreativeIndicator(spend, view, click, conversion, purchase);
+            result.setStartDateAndLastDate(startDate, lastDate);
         }
 
         return results;
@@ -133,6 +135,7 @@ public class StatisticsQueryRepository {
             Long purchase = result.getPurchase();
 
             result.setTotalIndicator(spend, view, click, conversion, purchase);
+            result.setStartDateAndLastDate(startDate, lastDate);
         }
 
         return results;
@@ -174,6 +177,7 @@ public class StatisticsQueryRepository {
             Long purchase = result.getPurchase();
 
             result.setCampaignIndicator(spend, view, click, conversion, purchase);
+            result.setStartDateAndLastDate(startDate, lastDate);
         }
 
         return results;
@@ -211,6 +215,7 @@ public class StatisticsQueryRepository {
             Long purchase = result.getPurchase();
 
             result.setTotalIndicator(spend, view, click, conversion, purchase);
+            result.setStartDateAndLastDate(startDate, lastDate);
         }
 
         return results;
@@ -234,7 +239,7 @@ public class StatisticsQueryRepository {
         for (PerformanceStatisticsDto result : results) {
             Long spend = result.getSpend();
 
-            result.setSpendIndicator(spend); // spend 세팅용 메소드
+            result.setSpendIndicator(spend);
             result.setStartDateAndLastDate(startDate, lastDate);
         }
 
