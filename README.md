@@ -55,11 +55,13 @@
    * 광고주의 캠페인 내의 소재의 실적 조회 및 통계 확인 (최근 7일, 최근 30일 통계)
    * 광고주의 캠페인의 실적 조회 및 통계 확인 (최근 7일, 30일 통계) - 1.2.0 릴리즈 추가
    * 광고주의 실적 조회 및 통계 확인 (최근 7일, 30일 통계) - 1.2.0 릴리즈 추가
-   * 에이전시 내 광고주의 전체 소진액 조회 (최근 7일, 30일 통계) - 1.2.0 릴리즈 추가
+   * 에이전시 내 광고주의 전체 소진액 조회 (최근 7일, 30일 통계) - 1.2.0 릴리즈 추가 
+   </br></br>
    
 ## 1.3.0 릴리즈 진행 중
 - 1.3.0 기획 문서 : <a href="https://velog.io/@mrcocoball/221028%EA%B4%91%EA%B3%A0-%EA%B4%80%EB%A6%AC-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EB%8C%80%ED%96%89%EC%82%AC-%EC%84%BC%ED%84%B0-%EC%A0%9C%EC%9E%91-431.3.0-%EB%B2%84%EC%A0%84-%EB%A6%B4%EB%A6%AC%EC%A6%88-%EA%B8%B0%ED%9A%8D" target='_blank'>확인하기</a>
-- 릴리즈 작업 현황 : <a href="https://github.com/users/mrcocoball/projects/4/views/1" target='_blank'>Projects 확인하기</a> </br></br>
+- 릴리즈 작업 현황 : <a href="https://github.com/users/mrcocoball/projects/4/views/1" target='_blank'>Projects 확인하기</a> 
+</br></br>
 
 ## 추가 예정 기능
 * 대행사 어드민 기능
