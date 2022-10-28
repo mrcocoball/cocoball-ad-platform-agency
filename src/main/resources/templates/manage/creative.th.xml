@@ -15,9 +15,10 @@
   <attr sel="#statistics_type_week" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(statisticsType=BEFORE_WEEK)}" th:method="get" />
   <attr sel="#statistics_type_month" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(statisticsType=BEFORE_MONTH)}" th:method="get" />
 
-    <attr sel="#campaign-statistics-info">
+    <attr sel="#statistics-info">
         <attr sel="tbody" th:remove="all-but-first">
           <attr sel="tr[0]" th:each="totalCreativeStatistic : ${totalCreativeStatistics}">
+            <attr sel="td.date" th:text="${totalCreativeStatistic.startDate} + ' ~ ' + ${totalCreativeStatistic.lastDate}" />
             <attr sel="td.view" th:text="${totalCreativeStatistic.sView}" />
             <attr sel="td.click" th:text="${totalCreativeStatistic.sClick}" />
             <attr sel="td.conversion" th:text="${totalCreativeStatistic.sConversion}" />
@@ -65,6 +66,7 @@
     <attr sel="#statistics-table">
         <attr sel="tbody" th:remove="all-but-first">
           <attr sel="tr[0]" th:each="creativeStatistic : ${creativeStatistics}">
+            <attr sel="td.date" th:text="${creativeStatistic.startDate} + ' ~ ' + ${creativeStatistic.lastDate}" />
             <attr sel="td.id" th:text="${creativeStatistic.creativeId}" />
             <attr sel="td.keyword" th:text="${creativeStatistic.keyword}" />
             <attr sel="td.biding-price" th:text="${creativeStatistic.sBidingPrice} + '원'"/>

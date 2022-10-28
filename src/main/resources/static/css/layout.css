@@ -60,6 +60,14 @@ main {
     color: black;
 }
 
+#statistics-info > tbody {
+    font-size: 13px
+}
+
+#statistics-table > tbody {
+    font-size: 11px
+}
+
 .create-btn {
     display: flex !important;
     flex-direction: row-reverse;

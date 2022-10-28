@@ -19,9 +19,10 @@
       </attr>
     </attr>
 
-    <attr sel="#client-statistics-info">
+    <attr sel="#statistics-info">
         <attr sel="tbody" th:remove="all-but-first">
           <attr sel="tr[0]" th:each="totalCampaignStatistic : ${totalCampaignStatistics}">
+            <attr sel="td.date" th:text="${totalCampaignStatistic.startDate} + ' ~ ' + ${totalCampaignStatistic.lastDate}" />
             <attr sel="td.view" th:text="${totalCampaignStatistic.sView}" />
             <attr sel="td.click" th:text="${totalCampaignStatistic.sClick}" />
             <attr sel="td.conversion" th:text="${totalCampaignStatistic.sConversion}" />
@@ -38,6 +39,7 @@
     <attr sel="#statistics-table">
         <attr sel="tbody" th:remove="all-but-first">
           <attr sel="tr[0]" th:each="campaignStatistic : ${campaignStatistics}">
+            <attr sel="td.date" th:text="${campaignStatistic.startDate} + ' ~ ' + ${campaignStatistic.lastDate}" />
             <attr sel="td.id" th:text="${campaignStatistic.campaignId}" />
             <attr sel="td.name" th:text="${campaignStatistic.name}" />
             <attr sel="td.budget" th:text="${campaignStatistic.sBudget} + '원'"/>

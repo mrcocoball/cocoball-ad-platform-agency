@@ -29,6 +29,7 @@
     <attr sel="#statistics-info">
         <attr sel="tbody" th:remove="all-but-first">
             <attr sel="tr[0]" th:each="statistic : ${statistics}">
+            <attr sel="td.date" th:text="${statistic.startDate} + ' ~ ' + ${statistic.lastDate}" />
             <attr sel="td.view" th:text="${statistic.sView}" />
             <attr sel="td.click" th:text="${statistic.sClick}" />
             <attr sel="td.conversion" th:text="${statistic.sConversion}" />
