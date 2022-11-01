@@ -13,11 +13,12 @@ public record ClientUserWithCampaignsResponse(
         String categoryName,
         LocalDateTime createdAt,
         String nickname,
+        String email,
         Set<CampaignResponse> campaignResponses
 ) implements Serializable {
 
-    public static ClientUserWithCampaignsResponse of(String userId, String categoryName, LocalDateTime createdAt, String nickname, Set<CampaignResponse> campaignResponses) {
-        return new ClientUserWithCampaignsResponse(userId, categoryName, createdAt, nickname, campaignResponses);
+    public static ClientUserWithCampaignsResponse of(String userId, String categoryName, LocalDateTime createdAt, String nickname, String email, Set<CampaignResponse> campaignResponses) {
+        return new ClientUserWithCampaignsResponse(userId, categoryName, createdAt, nickname, email, campaignResponses);
     }
 
     public static ClientUserWithCampaignsResponse from(ClientUserWithCampaignsDto dto) {
@@ -28,6 +29,7 @@ public record ClientUserWithCampaignsResponse(
                 categoryName,
                 dto.createdAt(),
                 dto.nickname(),
+                dto.email(),
                 dto.campaignDtos().stream()
                         .map(CampaignResponse::from)
                         .collect(Collectors.toCollection(LinkedHashSet::new))

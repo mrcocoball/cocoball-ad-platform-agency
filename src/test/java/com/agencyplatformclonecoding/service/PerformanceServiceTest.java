@@ -48,7 +48,7 @@ class PerformanceServiceTest {
         given(performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDate, lastDate)).willReturn(Page.empty());
 
         // When
-        Page<PerformanceDto> performances = sut.searchPerformances(pageable, statisticsType, creativeId, campaignId, clientId);
+        Page<PerformanceDto> performances = sut.searchPerformances(pageable, startDate, lastDate, statisticsType, creativeId, campaignId, clientId);
 
         // Then
         assertThat(performances).isEmpty();

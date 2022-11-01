@@ -16,8 +16,11 @@
     </attr>
     <attr sel="#search-value" th:value="${param.searchValue}" />
 
+    <attr sel="#start-date" th:value="${param.startDate}" />
+    <attr sel="#last-date" th:value="${param.lastDate}" />
     <attr sel="#statistics_type_week" th:href="@{'/manage'(statisticsType=BEFORE_WEEK)}" th:method="get" />
     <attr sel="#statistics_type_month" th:href="@{'/manage'(statisticsType=BEFORE_MONTH)}" th:method="get" />
+    <attr sel="#statistics_type_custom" th:href="@{'/manage'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
 
     <attr sel="#client-spend-statistics-info">
         <attr sel="tbody" th:remove="all-but-first">
@@ -35,21 +38,24 @@
       sort='userId' + (*{sort.getOrderFor('userId')} != null ? (*{sort.getOrderFor('userId').direction.name} != 'DESC' ? ',desc' : '') : ''),
       searchType=${param.searchType},
       searchValue=${param.searchValue},
-      statisticsType=${param.statisticsType}
+      statisticsType=${param.statisticsType},
+      startDate=${param.startDate}, lastDate=${param.lastDate}
   )}"/>
         <attr sel="th.nickname/a" th:text="'광고주명'" th:href="@{/manage(
       page=${clientUsers.number},
       sort='nickname' + (*{sort.getOrderFor('nickname')} != null ? (*{sort.getOrderFor('nickname').direction.name} != 'DESC' ? ',desc' : '') : ''),
       searchType=${param.searchType},
       searchValue=${param.searchValue},
-      statisticsType=${param.statisticsType}
+      statisticsType=${param.statisticsType},
+      startDate=${param.startDate}, lastDate=${param.lastDate}
   )}"/>
         <attr sel="th.category/a" th:text="'업종'" th:href="@{/clients(
       page=${clientUsers.number},
       sort='categoryName' + (*{sort.getOrderFor('categoryName')} != null ? (*{sort.getOrderFor('categoryName').direction.name} != 'DESC' ? ',desc' : '') : ''),
       searchType=${param.searchType},
       searchValue=${param.searchValue},
-      statisticsType=${param.statisticsType}
+      statisticsType=${param.statisticsType},
+      startDate=${param.startDate}, lastDate=${param.lastDate}
   )}"/>
       </attr>
 
@@ -67,19 +73,19 @@
     <attr sel="#pagination">
       <attr sel="li[0]/a"
             th:text="'previous'"
-            th:href="@{/manage(page=${clientUsers.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue}, statisticsType=${param.statisticsType})}"
+            th:href="@{/manage(page=${clientUsers.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue}, statisticsType=${param.statisticsType}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
             th:class="'page-link' + (${clientUsers.number} <= 0 ? ' disabled' : '')"
       />
       <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
         <attr sel="a"
               th:text="${pageNumber + 1}"
-              th:href="@{/manage(page=${pageNumber}, searchType=${param.searchType}, searchValue=${param.searchValue}, statisticsType=${param.statisticsType})}"
+              th:href="@{/manage(page=${pageNumber}, searchType=${param.searchType}, searchValue=${param.searchValue}, statisticsType=${param.statisticsType}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
               th:class="'page-link' + (${pageNumber} == ${clientUsers.number} ? ' disabled' : '')"
         />
       </attr>
       <attr sel="li[2]/a"
             th:text="'next'"
-            th:href="@{/manage(page=${clientUsers.number + 1}, searchType=${param.searchType}, searchValue=${param.searchValue}, statisticsType=${param.statisticsType})}"
+            th:href="@{/manage(page=${clientUsers.number + 1}, searchType=${param.searchType}, searchValue=${param.searchValue}, statisticsType=${param.statisticsType}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
             th:class="'page-link' + (${clientUsers.number} >= ${clientUsers.totalPages - 1} ? ' disabled' : '')"
       />
     </attr>

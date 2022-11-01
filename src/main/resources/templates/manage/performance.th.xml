@@ -23,8 +23,13 @@
     </attr>
   </attr>
 
+    <attr sel="#start-date" th:value="${param.startDate}" />
+    <attr sel="#last-date" th:value="${param.lastDate}" />
+
+
     <attr sel="#statistics_type_week" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(statisticsType=BEFORE_WEEK)}" th:method="get" />
     <attr sel="#statistics_type_month" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(statisticsType=BEFORE_MONTH)}" th:method="get" />
+    <attr sel="#statistics_type_custom" th:action="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
 
     <attr sel="#statistics-info">
         <attr sel="tbody" th:remove="all-but-first">
@@ -63,19 +68,19 @@
     <attr sel="#pagination">
       <attr sel="li[0]/a"
             th:text="'previous'"
-            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number - 1}, statisticsType=${param.statisticsType})}"
+            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number - 1}, statisticsType=${param.statisticsType}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
             th:class="'page-link' + (${performances.number} <= 0 ? ' disabled' : '')"
       />
       <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
         <attr sel="a"
               th:text="${pageNumber + 1}"
-              th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${pageNumber}, statisticsType=${param.statisticsType})}"
+              th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${pageNumber}, statisticsType=${param.statisticsType}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
               th:class="'page-link' + (${pageNumber} == ${performances.number} ? ' disabled' : '')"
         />
       </attr>
       <attr sel="li[2]/a"
             th:text="'next'"
-            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number + 1}, statisticsType=${param.statisticsType})}"
+            th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/' + ${creative.id} + '/performances'(page=${performances.number + 1}, statisticsType=${param.statisticsType}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
             th:class="'page-link' + (${performances.number} >= ${performances.totalPages - 1} ? ' disabled' : '')"
       />
     </attr>

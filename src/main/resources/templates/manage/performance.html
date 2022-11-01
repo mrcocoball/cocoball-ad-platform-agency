@@ -84,6 +84,19 @@
     </header>
 
     <div class="row">
+      <div class="create-btn d-grid gap-2 justify-content-md">
+        <form id="statistics-date-form" method="get">
+          <div class="date-form">
+            <input type="date" class="form-control" id="start-date" name="startDate" , min="2020-01-01"/>
+          </div>
+          <div class="date-form">
+            <input type="date" class="form-control" id="last-date" name="lastDate"/>
+          </div>
+          <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인</button>
+        </form>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일간 통계</a>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일간 통계</a>
+      </div>
       <table class="table" id="creative-info">
         <thead>
         <tr>
@@ -92,7 +105,7 @@
           <th class="keyword"><a>소재 키워드</a></th>
           <th class="biding-price"><a>입찰가(원)</a></th>
           <th class="description"><a>노출 문구</a></th>
-      		<th class="url"><a>URL</a></th>
+          <th class="url"><a>URL</a></th>
         </tr>
         </thead>
         <tbody>
@@ -104,49 +117,40 @@
           <td class="keyword">코코볼추천</td>
           <td class="biding-price">30000</td>
           <td class="description">맛있는 코코볼 추천해요</td>
-      		<td class="url"><a href="https://www.naver.com" target="_blank">URL 확인</a></td>
+          <td class="url"><a href="https://www.naver.com" target="_blank">URL 확인</a></td>
         </tr>
         </tbody>
       </table>
-
-      <div class="row right" style="margin-top: 50px">
-        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일간 통계</a>
-        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일간 통계</a>
-      </div>
-
-      <div class="row">
-        <table class="table" id="statistics-info">
-          <thead>
-          <tr>
-            <th class="date" style="width: 150px"><a>조회 기간</a></th>
-            <th class="view" style="width: 75px;"><a>총 노출수</a></th>
-            <th class="click" style="width: 75px;"><a>총 클릭수</a></th>
-            <th class="conversion" style="width: 75px;"><a>총 전환수</a></th>
-            <th class="purchase" style="width: 100px;"><a>총 구매액</a></th>
-            <th class="spend" style="width: 80px;"><a>총 소진액</a></th>
-            <th class="CTR" style="width: 75px;"><a>클릭률</a></th>
-            <th class="CVR" style="width: 75px;"><a>전환률</a></th>
-            <th class="CPA" style="width: 50px;"><a>CPA</a></th>
-            <th class="ROAS" style="width: 60px;"><a>ROAS</a></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td class="date"><a>2022-09-24 ~ 2022-10-24</a></td>
-            <td class="view"><a>1000</a></td>
-            <td class="click"><a>100</a></td>
-            <td class="conversion"><a>10</a></td>
-            <td class="purchase"><a>100000</a></td>
-            <td class="spend"><a>20000</a></td>
-            <td class="CTR"><a>0.1</a></td>
-            <td class="CVR"><a>0.1</a></td>
-            <td class="CPA"><a>2000</a></td>
-            <td class="ROAS"><a>500</a></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-
+      <table class="table" id="statistics-info">
+        <thead>
+        <tr>
+          <th class="date" style="width: 150px"><a>조회 기간</a></th>
+          <th class="view" style="width: 75px;"><a>총 노출수</a></th>
+          <th class="click" style="width: 75px;"><a>총 클릭수</a></th>
+          <th class="conversion" style="width: 75px;"><a>총 전환수</a></th>
+          <th class="purchase" style="width: 100px;"><a>총 구매액</a></th>
+          <th class="spend" style="width: 80px;"><a>총 소진액</a></th>
+          <th class="CTR" style="width: 75px;"><a>클릭률</a></th>
+          <th class="CVR" style="width: 75px;"><a>전환률</a></th>
+          <th class="CPA" style="width: 50px;"><a>CPA</a></th>
+          <th class="ROAS" style="width: 60px;"><a>ROAS</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="date"><a>2022-09-24 ~ 2022-10-24</a></td>
+          <td class="view"><a>1000</a></td>
+          <td class="click"><a>100</a></td>
+          <td class="conversion"><a>10</a></td>
+          <td class="purchase"><a>100000</a></td>
+          <td class="spend"><a>20000</a></td>
+          <td class="CTR"><a>0.1</a></td>
+          <td class="CVR"><a>0.1</a></td>
+          <td class="CPA"><a>2000</a></td>
+          <td class="ROAS"><a>500</a></td>
+        </tr>
+        </tbody>
+      </table>
       <table class="table" id="performance-table" style="margin-top: 50px">
         <thead>
         <tr>

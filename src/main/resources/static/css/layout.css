@@ -8,6 +8,11 @@ h1 {
     justify-content: space-between !important;
 }
 
+.justify-content-md-reverse {
+    justify-content: space-between !important;
+    flex-direction: row-reverse;
+}
+
 .container {
     width: 1080px;
     min-width: 1080px;
@@ -70,7 +75,17 @@ main {
 
 .create-btn {
     display: flex !important;
-    flex-direction: row-reverse;
+}
+
+.date-form {
+    display: flex !important;
+    width: 200px;
+    margin-right: 10px;
+    margin-left: 0px;
+}
+
+#statistics-date-form {
+    display: flex !important;
 }
 
 th, td {
