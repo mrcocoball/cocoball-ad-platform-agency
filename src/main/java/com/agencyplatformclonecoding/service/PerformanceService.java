@@ -38,21 +38,29 @@ public class PerformanceService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PerformanceDto> searchPerformances(Pageable pageable, StatisticsType statisticsType, Long creativeId, Long campaignId, String clientId) {
+    public Page<PerformanceDto> searchPerformances(Pageable pageable, LocalDate startDate, LocalDate lastDate, StatisticsType statisticsType, Long creativeId, Long campaignId, String clientId) {
+
         validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
-        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
 
         if (statisticsType == null) {
-            return performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDateBeforeThirtyDays, lastDate).map(PerformanceDto::from);
+            return performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDate, lastDate).map(PerformanceDto::from);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDateBeforeSevenDays, lastDate).map(PerformanceDto::from);
-            case BEFORE_MONTH -> performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDateBeforeThirtyDays, lastDate).map(PerformanceDto::from);
-            case BEFORE_CUSTOM -> null;
+            case BEFORE_WEEK -> performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDateBeforeSevenDays, defaultLastDate).map(PerformanceDto::from);
+            case BEFORE_MONTH -> performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDateBeforeThirtyDays, defaultLastDate).map(PerformanceDto::from);
         };
     }
 

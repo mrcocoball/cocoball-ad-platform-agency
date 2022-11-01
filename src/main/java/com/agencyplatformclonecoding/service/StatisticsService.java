@@ -21,116 +21,159 @@ public class StatisticsService {
     private final StatisticsQueryRepository statisticsQueryRepository;
 
     @Transactional(readOnly = true)
-    public List<PerformanceStatisticsDto> totalPerformanceStatistics(StatisticsType statisticsType, Long creativeId) {
+    public List<PerformanceStatisticsDto> totalPerformanceStatistics(LocalDate startDate, LocalDate lastDate, StatisticsType statisticsType, Long creativeId) {
 
-        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
 
         if (statisticsType == null) {
-            return statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDate, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeThirtyDays, lastDate);
-            case BEFORE_CUSTOM -> null;
+            case BEFORE_WEEK -> statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeSevenDays, defaultLastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeThirtyDays, defaultLastDate);
         };
     }
 
     @Transactional(readOnly = true)
-    public List<PerformanceStatisticsDto> creativesWithPerformanceStatistics(StatisticsType statisticsType, Long campaignId) {
+    public List<PerformanceStatisticsDto> creativesWithPerformanceStatistics(LocalDate startDate, LocalDate lastDate, StatisticsType statisticsType, Long campaignId) {
 
-        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
 
         if (statisticsType == null) {
-            return statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDate, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
-            case BEFORE_CUSTOM -> null;
+            case BEFORE_WEEK -> statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeSevenDays, defaultLastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(campaignId, startDateBeforeThirtyDays, defaultLastDate);
         };
     }
 
     @Transactional(readOnly = true)
-    public List<PerformanceStatisticsDto> totalCreativesPerformanceStatistics(StatisticsType statisticsType, Long campaignId) {
+    public List<PerformanceStatisticsDto> totalCreativesPerformanceStatistics(LocalDate startDate, LocalDate lastDate, StatisticsType statisticsType, Long campaignId) {
 
-        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
 
         if (statisticsType == null) {
-            return statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDate, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeThirtyDays, lastDate);
-            case BEFORE_CUSTOM -> null;
+            case BEFORE_WEEK -> statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeSevenDays, defaultLastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByCampaign_IdAndTotalStatisticsDefault(campaignId, startDateBeforeThirtyDays, defaultLastDate);
         };
     }
 
     @Transactional(readOnly = true)
-    public List<PerformanceStatisticsDto> clientWithCampaignsStatistics(StatisticsType statisticsType, String clientId) {
+    public List<PerformanceStatisticsDto> clientWithCampaignsStatistics(LocalDate startDate, LocalDate lastDate, StatisticsType statisticsType, String clientId) {
 
-        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
 
         if (statisticsType == null) {
-            return statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDate, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
-            case BEFORE_CUSTOM -> null;
+            case BEFORE_WEEK -> statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDateBeforeSevenDays, defaultLastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(clientId, startDateBeforeThirtyDays, defaultLastDate);
         };
     }
 
     @Transactional(readOnly = true)
-    public List<PerformanceStatisticsDto> totalCampaignsPerformanceStatistics(StatisticsType statisticsType, String clientId) {
+    public List<PerformanceStatisticsDto> totalCampaignsPerformanceStatistics(LocalDate startDate, LocalDate lastDate, StatisticsType statisticsType, String clientId) {
 
-        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
 
         if (statisticsType == null) {
-            return statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDate, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeThirtyDays, lastDate);
-            case BEFORE_CUSTOM -> null;
+            case BEFORE_WEEK -> statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeSevenDays, defaultLastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByClientUser_IdAndTotalStatisticsDefault(clientId, startDateBeforeThirtyDays, defaultLastDate);
         };
     }
 
     @Transactional(readOnly = true)
-    public List<PerformanceStatisticsDto> totalSpendStatistics(StatisticsType statisticsType) {
+    public List<PerformanceStatisticsDto> totalSpendStatistics(LocalDate startDate, LocalDate lastDate, StatisticsType statisticsType) {
 
-        LocalDate lastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        LocalDate startDateBeforeSevenDays = lastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = lastDate.minusDays(30);
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
 
         if (statisticsType == null) {
-            return statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDateBeforeThirtyDays, lastDate);
+            return statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDate, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDateBeforeSevenDays, lastDate);
-            case BEFORE_MONTH -> statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDateBeforeThirtyDays, lastDate);
-            case BEFORE_CUSTOM -> null;
+            case BEFORE_WEEK -> statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDateBeforeSevenDays, defaultLastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findClientUserSpendTotalStatisticsDefault(startDateBeforeThirtyDays, defaultLastDate);
         };
     }
 
