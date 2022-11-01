@@ -14,10 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -125,14 +127,16 @@ public class CreativeController {
             @PathVariable("campaignId") Long campaignId,
             @PathVariable Long creativeId,
             @RequestParam(required = false) StatisticsType statisticsType,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             @PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
     ) {
         CreativeWithPerformancesResponse creativeWithPerformancesResponse = CreativeWithPerformancesResponse.from(creativeService.getCreativeWithPerformances(creativeId));
         CampaignWithCreativesResponse campaignWithCreativesResponse = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
-        Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, statisticsType, creativeId, campaignId, clientId).map(PerformanceResponse::from);
-        Set<PerformanceStatisticsResponse> statistics = statisticsService.totalPerformanceStatistics(statisticsType, creativeId)
+        Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, startDate, lastDate, statisticsType, creativeId, campaignId, clientId).map(PerformanceResponse::from);
+        Set<PerformanceStatisticsResponse> statistics = statisticsService.totalPerformanceStatistics(startDate, lastDate, statisticsType, creativeId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), performances.getTotalPages());
 

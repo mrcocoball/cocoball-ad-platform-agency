@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,12 +42,14 @@ public class ManageController {
             @RequestParam(required = false) SearchType searchType,
             @RequestParam(required = false) String searchValue,
             @RequestParam(required = false) StatisticsType statisticsType,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             @PageableDefault(size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
             ModelMap map
     ) {
         Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)
                 .map(ClientUserResponse::from);
-        Set<PerformanceStatisticsResponse> totalClientSpendStatistics = statisticsService.totalSpendStatistics(statisticsType)
+        Set<PerformanceStatisticsResponse> totalClientSpendStatistics = statisticsService.totalSpendStatistics(startDate, lastDate, statisticsType)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), clientUsers.getTotalPages());
 
@@ -61,13 +65,15 @@ public class ManageController {
     public String campaigns(
             @PathVariable String clientId,
             @RequestParam(required = false) StatisticsType statisticsType,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             @PageableDefault(size = 5, sort = "activated", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
     ) {
         Page<CampaignResponse> campaigns = campaignService.searchCampaigns(pageable, clientId).map(CampaignResponse::from);
-        Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.clientWithCampaignsStatistics(statisticsType, clientId)
+        Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.clientWithCampaignsStatistics(startDate, lastDate, statisticsType, clientId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
-        Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.totalCampaignsPerformanceStatistics(statisticsType, clientId)
+        Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.totalCampaignsPerformanceStatistics(startDate, lastDate, statisticsType, clientId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), campaigns.getTotalPages());

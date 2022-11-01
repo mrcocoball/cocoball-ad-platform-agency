@@ -11,10 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -98,12 +100,14 @@ public class CampaignController {
             @PathVariable Long campaignId,
             @PageableDefault(size = 5, sort = "activated", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false) StatisticsType statisticsType,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             ModelMap map
     ) {
         Page<CreativeResponse> creatives = creativeService.searchCreatives(pageable, campaignId, clientId).map(CreativeResponse::from);
-        Set<PerformanceStatisticsResponse> creativesStatistics = statisticsService.creativesWithPerformanceStatistics(statisticsType, campaignId)
+        Set<PerformanceStatisticsResponse> creativesStatistics = statisticsService.creativesWithPerformanceStatistics(startDate, lastDate, statisticsType, campaignId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
-        Set<PerformanceStatisticsResponse> totalCreativesStatistics = statisticsService.totalCreativesPerformanceStatistics(statisticsType, campaignId)
+        Set<PerformanceStatisticsResponse> totalCreativesStatistics = statisticsService.totalCreativesPerformanceStatistics(startDate, lastDate, statisticsType, campaignId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         CampaignResponse campaign = CampaignResponse.from(campaignService.getCampaign(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
