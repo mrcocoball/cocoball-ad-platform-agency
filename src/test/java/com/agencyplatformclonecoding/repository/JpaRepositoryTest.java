@@ -71,8 +71,8 @@ class JpaRepositoryTest {
         assertThat(categories).isNotNull().hasSize(26);
         assertThat(clientUsers).isNotNull().hasSize(40);
         assertThat(campaigns).isNotNull().hasSize(45);
-        assertThat(creatives).isNotNull().hasSize(5);
-        assertThat(performances).isNotNull().hasSize(31);
+        assertThat(creatives).isNotNull().hasSize(53);
+        assertThat(performances).isNotNull().hasSize(1298);
     }
 
     @DisplayName("INSERT 테스트 - 에이전트 그룹")
@@ -166,7 +166,7 @@ class JpaRepositoryTest {
         clientUserRepository.save(clientUser);
         Campaign campaign = Campaign.of(clientUser, "testxxx", 22222L);
         campaignRepository.save(campaign);
-        Creative creative = Creative.of(campaign, "초특가할인", 10000L);
+        Creative creative = Creative.of(campaign, "초특가할인", 10000L, "description", "url");
 
         // When
         creativeRepository.save(creative);
