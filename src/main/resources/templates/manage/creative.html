@@ -86,15 +86,16 @@
       <div class="create-btn d-grid gap-2 justify-content-md">
         <form id="statistics-date-form" method="get">
           <div class="date-form">
-            <input type="date" class="form-control" id="start-date" name="startDate", min="2020-01-01" />
+            <input type="date" class="form-control" id="start-date" name="startDate" , min="2020-01-01"/>
           </div>
-          <div class="date-form" >
-            <input type="date" class="form-control" id="last-date" name="lastDate" />
+          <div class="date-form">
+            <input type="date" class="form-control" id="last-date" name="lastDate"/>
           </div>
-            <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인</button>
+          <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인</button>
         </form>
         <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일간 통계</a>
         <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일간 통계</a>
+        <a class="stats-btn btn btn-primary" role="button" id="get-report">실적 보고서</a>
         <a class="btn btn-primary me-md-2" role="button" id="create-creative">소재 생성</a>
       </div>
       <table class="table" id="statistics-info">
@@ -185,7 +186,7 @@
           <th class="keyword"><a>소재 키워드</a></th>
           <th class="biding-price"><a>입찰가(원)</a></th>
           <th class="description"><a>노출 문구</a></th>
-      		<th class="url"><a>URL</a></th>
+          <th class="url"><a>URL</a></th>
           <th class="manage" colspan="3"><a></a></th>
         </tr>
         </thead>
@@ -201,7 +202,7 @@
           <td class="keyword">코코볼추천</td>
           <td class="biding-price">30000</td>
           <td class="description">맛있는 코코볼 추천해요</td>
-      		<td class="url"><a href="https://www.naver.com" target="_blank">URL 확인</a></td>
+          <td class="url"><a href="https://www.naver.com" target="_blank">URL 확인</a></td>
           <td class="button"><a class="btn btn-primary" role="button" id="manage-creative">관리</a></td>
           <td>
             <form id="delete-creative-form">

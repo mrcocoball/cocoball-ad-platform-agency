@@ -1,5 +1,6 @@
 package com.agencyplatformclonecoding.controller;
 
+import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.response.CampaignResponse;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -36,6 +39,7 @@ public class ManageController {
     private final CampaignService campaignService;
     private final PaginationService paginationService;
     private final StatisticsService statisticsService;
+    private final ReportService reportService;
 
     @GetMapping()
     public String manage(
@@ -86,6 +90,24 @@ public class ManageController {
         map.addAttribute("totalCount", campaignService.getCampaignCount());
 
         return "manage/campaign";
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity clientReport(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+        return ResponseEntity.ok(reportService.getPerformanceStatistics(response, startDate, lastDate, ReportType.CLIENT));
+    }
+
+    @GetMapping("/spendReport")
+    public ResponseEntity clientSpendReport(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+        return ResponseEntity.ok(reportService.getSpendStatistics(response, startDate, lastDate, ReportType.CLIENT));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
+import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.CampaignDto;
@@ -15,10 +16,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -35,6 +38,7 @@ public class CreativeController {
     private final CreativeService creativeService;
     private final PerformanceService performanceService;
     private final StatisticsService statisticsService;
+    private final ReportService reportService;
     private final PaginationService paginationService;
 
     @GetMapping("/form")
@@ -149,5 +153,18 @@ public class CreativeController {
         map.addAttribute("totalCount", performanceService.getPerformanceCount());
 
         return "manage/performance";
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity creativeReport(
+            @PathVariable("campaignId") Long campaignId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+
+        ReportType reportType = ReportType.CREATIVE;
+
+        return ResponseEntity.ok(reportService.getPerformanceStatistics(response, campaignId, startDate, lastDate, reportType));
     }
 }

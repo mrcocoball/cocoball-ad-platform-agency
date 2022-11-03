@@ -17,7 +17,7 @@
   <attr sel="#statistics_type_week" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(statisticsType=BEFORE_WEEK)}" th:method="get" />
   <attr sel="#statistics_type_month" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(statisticsType=BEFORE_MONTH)}" th:method="get" />
   <attr sel="#statistics_type_custom" th:action="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
-
+  <attr sel="#get-report" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns/' + ${campaign.id} + '/creatives/report'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
     <attr sel="#statistics-info">
         <attr sel="tbody" th:remove="all-but-first">
           <attr sel="tr[0]" th:each="totalCreativeStatistic : ${totalCreativeStatistics}">
