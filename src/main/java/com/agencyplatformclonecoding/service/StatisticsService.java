@@ -37,12 +37,12 @@ public class StatisticsService {
         }
 
         if (statisticsType == null) {
-            return statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDate, lastDate);
+            return statisticsQueryRepository.findByCreative_IdAndTotalStatisticsDefault(creativeId, startDate, lastDate);
         }
 
         return switch (statisticsType) {
-            case BEFORE_WEEK -> statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeSevenDays, defaultLastDate);
-            case BEFORE_MONTH -> statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(creativeId, startDateBeforeThirtyDays, defaultLastDate);
+            case BEFORE_WEEK -> statisticsQueryRepository.findByCreative_IdAndTotalStatisticsDefault(creativeId, startDateBeforeSevenDays, defaultLastDate);
+            case BEFORE_MONTH -> statisticsQueryRepository.findByCreative_IdAndTotalStatisticsDefault(creativeId, startDateBeforeThirtyDays, defaultLastDate);
         };
     }
 
