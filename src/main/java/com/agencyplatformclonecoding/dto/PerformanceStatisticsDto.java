@@ -7,9 +7,11 @@ import java.time.LocalDate;
 
 @Getter
 public class PerformanceStatisticsDto {
+    String agentId;
     String clientId;
     Long campaignId;
     Long creativeId;
+    String category;
     String username;
     String name;
     String keyword;

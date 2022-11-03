@@ -7,9 +7,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public record PerformanceStatisticsResponse(
+        String agentId,
         String clientId,
         Long campaignId,
         Long creativeId,
+        String category,
         String username,
         String name,
         String keyword,
@@ -42,16 +44,18 @@ public record PerformanceStatisticsResponse(
 
 ) implements Serializable {
 
-    public static PerformanceStatisticsResponse of(String clientId, Long campaignId, Long creativeId, String username, String name, String keyword, Long budget, String sBudget, Long bidingPrice, String sBidingPrice, Long view, String sView, Long click, String sClick, Long conversion, String sConversion, Long purchase, String sPurchase, Long spend, String sSpend, double CTR, String sCTR, double CVR, String sCVR, Long CPA, String sCPA, double ROAS, String sROAS, boolean activated, boolean deleted, LocalDate startDate, LocalDate lastDate) {
-        return new PerformanceStatisticsResponse(clientId, campaignId, creativeId, username, name, keyword, budget, sBudget, bidingPrice, sBidingPrice, view, sView, click, sClick, conversion, sConversion, purchase, sPurchase, spend, sSpend, CTR, sCTR, CVR, sCVR, CPA, sCPA, ROAS, sROAS, activated, deleted, startDate, lastDate);
+    public static PerformanceStatisticsResponse of(String agentId, String clientId, Long campaignId, Long creativeId, String category, String username, String name, String keyword, Long budget, String sBudget, Long bidingPrice, String sBidingPrice, Long view, String sView, Long click, String sClick, Long conversion, String sConversion, Long purchase, String sPurchase, Long spend, String sSpend, double CTR, String sCTR, double CVR, String sCVR, Long CPA, String sCPA, double ROAS, String sROAS, boolean activated, boolean deleted, LocalDate startDate, LocalDate lastDate) {
+        return new PerformanceStatisticsResponse(agentId, clientId, campaignId, creativeId, category, username, name, keyword, budget, sBudget, bidingPrice, sBidingPrice, view, sView, click, sClick, conversion, sConversion, purchase, sPurchase, spend, sSpend, CTR, sCTR, CVR, sCVR, CPA, sCPA, ROAS, sROAS, activated, deleted, startDate, lastDate);
     }
 
     public static PerformanceStatisticsResponse from(PerformanceStatisticsDto dto) {
 
         return new PerformanceStatisticsResponse(
+                dto.getAgentId(),
                 dto.getClientId(),
                 dto.getCampaignId(),
                 dto.getCreativeId(),
+                dto.getCategory(),
                 dto.getUsername(),
                 dto.getName(),
                 dto.getKeyword(),
