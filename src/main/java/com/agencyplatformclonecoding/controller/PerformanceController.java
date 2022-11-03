@@ -1,22 +1,33 @@
 package com.agencyplatformclonecoding.controller;
 
-import com.agencyplatformclonecoding.service.CampaignService;
-import com.agencyplatformclonecoding.service.CreativeService;
-import com.agencyplatformclonecoding.service.ManageService;
-import com.agencyplatformclonecoding.service.PerformanceService;
+import com.agencyplatformclonecoding.domain.constrant.ReportType;
+import com.agencyplatformclonecoding.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @RequestMapping(value = "/manage/{clientId}/campaigns/{campaignId}/creatives/{creativeId}/performances")
 @Controller
 public class PerformanceController {
 
-    private final ManageService manageService;
-    private final CampaignService campaignService;
-    private final CreativeService creativeService;
-    private final PerformanceService performanceService;
+    private final ReportService reportService;
 
-    // TODO :: 통계 / 보고서 관련 기능 추가 예정
+    @GetMapping("/report")
+    public ResponseEntity performanceReport(
+            @PathVariable("creativeId") Long creativeId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+        return ResponseEntity.ok(reportService.getPerformanceStatistics(response, creativeId, startDate, lastDate, ReportType.PERFORMANCE));
+    }
 }

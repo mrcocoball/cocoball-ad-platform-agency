@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
+import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.ClientUserDto;
 import com.agencyplatformclonecoding.dto.request.CampaignRequest;
@@ -12,10 +13,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -32,6 +35,7 @@ public class CampaignController {
     private final CreativeService creativeService;
     private final PaginationService paginationService;
     private final StatisticsService statisticsService;
+    private final ReportService reportService;
 
     @GetMapping("/form")
     public String campaignForm(
@@ -132,5 +136,15 @@ public class CampaignController {
         campaignService.toggleCampaignActivate(campaignId, clientId);
 
         return "redirect:/manage/{clientId}/campaigns";
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity campaignReport(
+            @PathVariable("clientId") String clientId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+        return ResponseEntity.ok(reportService.getPerformanceStatistics(response, clientId, startDate, lastDate, ReportType.CAMPAIGN));
     }
 }
