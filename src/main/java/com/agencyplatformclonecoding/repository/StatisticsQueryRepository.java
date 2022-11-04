@@ -28,7 +28,7 @@ public class StatisticsQueryRepository {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<PerformanceStatisticsDto> findByCreative_IdAndStatisticsDefault(@Param("id") Long creativeId,
+    public List<PerformanceStatisticsDto> findPerformanceStatisticsByCreativeId(@Param("id") Long creativeId,
                                                                                 @Param("startDate") LocalDate startDate,
                                                                                 @Param("lastDate") LocalDate lastDate
     ) {
@@ -65,83 +65,7 @@ public class StatisticsQueryRepository {
         return results;
     }
 
-    // 광고주별 실적 가져오기
-    public List<PerformanceStatisticsDto> findClientUserAndPerformanceStatisticsDefault(@Param("startDate") LocalDate startDate,
-                                                                                        @Param("lastDate") LocalDate lastDate
-    ) {
-        List<PerformanceStatisticsDto> results = jpaQueryFactory
-                .select(Projections.fields(PerformanceStatisticsDto.class,
-                        clientUser.userId.as("clientId"),
-                        clientUser.nickname.as("username"),
-                        category.name.as("category"),
-                        performance.view.sum().as("view"),
-                        performance.click.sum().as("click"),
-                        performance.conversion.sum().as("conversion"),
-                        performance.purchase.sum().as("purchase"),
-                        performance.spend.sum().as("spend")
-                ))
-                .from(performance)
-                .leftJoin(performance.creative, creative)
-                .leftJoin(creative.campaign, campaign)
-                .leftJoin(campaign.clientUser, clientUser)
-                .leftJoin(clientUser.category, category)
-                .where(
-                        performance.createdAt.between(startDate, lastDate),
-                        campaign.deleted.eq(false)
-                )
-                .groupBy(clientUser.userId)
-                .fetch();
-
-        for (PerformanceStatisticsDto result : results) {
-            Long spend = result.getSpend();
-            Long view = result.getView();
-            Long click = result.getClick();
-            Long conversion = result.getConversion();
-            Long purchase = result.getPurchase();
-
-            result.setTotalIndicator(spend, view, click, conversion, purchase);
-            result.setStartDateAndLastDate(startDate, lastDate);
-        }
-
-        return results;
-    }
-
-    // 광고주별 소진액 가져오기
-    public List<PerformanceStatisticsDto> findClientUserAndSpendStatisticsDefault(@Param("startDate") LocalDate startDate,
-                                                                                  @Param("lastDate") LocalDate lastDate
-    ) {
-        List<PerformanceStatisticsDto> results = jpaQueryFactory
-                .select(Projections.fields(PerformanceStatisticsDto.class,
-                        clientUser.userId.as("clientId"),
-                        clientUser.nickname.as("username"),
-                        category.name.as("category"),
-                        agent.userId.as("agentId"),
-                        performance.spend.sum().as("spend")
-                ))
-                .from(performance)
-                .leftJoin(performance.creative, creative)
-                .leftJoin(creative.campaign, campaign)
-                .leftJoin(campaign.clientUser, clientUser)
-                .leftJoin(clientUser.agent, agent)
-                .leftJoin(clientUser.category, category)
-                .where(
-                        performance.createdAt.between(startDate, lastDate),
-                        creative.deleted.eq(false)
-                )
-                .groupBy(clientUser.userId)
-                .fetch();
-
-        for (PerformanceStatisticsDto result : results) {
-            Long spend = result.getSpend();
-
-            result.setSpendIndicator(spend);
-            result.setStartDateAndLastDate(startDate, lastDate);
-        }
-
-        return results;
-    }
-
-    public List<PerformanceStatisticsDto> findByCreative_IdAndTotalStatisticsDefault(@Param("id") Long creativeId,
+    public List<PerformanceStatisticsDto> findTotalPerformanceStatisticsByCreativeId(@Param("id") Long creativeId,
                                                                                      @Param("startDate") LocalDate startDate,
                                                                                      @Param("lastDate") LocalDate lastDate
     ) {
@@ -177,9 +101,9 @@ public class StatisticsQueryRepository {
         return results;
     }
 
-    public List<PerformanceStatisticsDto> findByCampaign_IdAndStatisticsDefault(@Param("id") Long campaignId,
-                                                                                @Param("startDate") LocalDate startDate,
-                                                                                @Param("lastDate") LocalDate lastDate
+    public List<PerformanceStatisticsDto> findCreativeStatisticsByCampaignId(@Param("id") Long campaignId,
+                                                                             @Param("startDate") LocalDate startDate,
+                                                                             @Param("lastDate") LocalDate lastDate
     ) {
         List<PerformanceStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(PerformanceStatisticsDto.class,
@@ -219,9 +143,9 @@ public class StatisticsQueryRepository {
         return results;
     }
 
-    public List<PerformanceStatisticsDto> findByCampaign_IdAndTotalStatisticsDefault(@Param("id") Long campaignId,
-                                                                                     @Param("startDate") LocalDate startDate,
-                                                                                     @Param("lastDate") LocalDate lastDate
+    public List<PerformanceStatisticsDto> findTotalCreativeStatisticsByCampaignId(@Param("id") Long campaignId,
+                                                                                  @Param("startDate") LocalDate startDate,
+                                                                                  @Param("lastDate") LocalDate lastDate
     ) {
         List<PerformanceStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(PerformanceStatisticsDto.class,
@@ -256,9 +180,9 @@ public class StatisticsQueryRepository {
         return results;
     }
 
-    public List<PerformanceStatisticsDto> findByClientUser_IdAndStatisticsDefault(@Param("id") String clientId,
-                                                                                  @Param("startDate") LocalDate startDate,
-                                                                                  @Param("lastDate") LocalDate lastDate
+    public List<PerformanceStatisticsDto> findCampaignStatisticsByClientId(@Param("id") String clientId,
+                                                                           @Param("startDate") LocalDate startDate,
+                                                                           @Param("lastDate") LocalDate lastDate
     ) {
         List<PerformanceStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(PerformanceStatisticsDto.class,
@@ -298,9 +222,9 @@ public class StatisticsQueryRepository {
         return results;
     }
 
-    public List<PerformanceStatisticsDto> findByClientUser_IdAndTotalStatisticsDefault(@Param("id") String clientId,
-                                                                                       @Param("startDate") LocalDate startDate,
-                                                                                       @Param("lastDate") LocalDate lastDate
+    public List<PerformanceStatisticsDto> findTotalCampaignStatisticsByClientId(@Param("id") String clientId,
+                                                                                @Param("startDate") LocalDate startDate,
+                                                                                @Param("lastDate") LocalDate lastDate
     ) {
         List<PerformanceStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(PerformanceStatisticsDto.class,
@@ -336,8 +260,8 @@ public class StatisticsQueryRepository {
         return results;
     }
 
-    public List<PerformanceStatisticsDto> findClientUserSpendTotalStatisticsDefault(@Param("startDate") LocalDate startDate,
-                                                                                    @Param("lastDate") LocalDate lastDate
+    public List<PerformanceStatisticsDto> findTotalSpendStatistics(@Param("startDate") LocalDate startDate,
+                                                                   @Param("lastDate") LocalDate lastDate
     ) {
         List<PerformanceStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(PerformanceStatisticsDto.class,
@@ -349,6 +273,82 @@ public class StatisticsQueryRepository {
                         performance.createdAt.between(startDate, lastDate),
                         creative.deleted.eq(false)
                 )
+                .fetch();
+
+        for (PerformanceStatisticsDto result : results) {
+            Long spend = result.getSpend();
+
+            result.setSpendIndicator(spend);
+            result.setStartDateAndLastDate(startDate, lastDate);
+        }
+
+        return results;
+    }
+
+    // 광고주별 실적 가져오기
+    public List<PerformanceStatisticsDto> findClientUserPerformanceStatistics(@Param("startDate") LocalDate startDate,
+                                                                              @Param("lastDate") LocalDate lastDate
+    ) {
+        List<PerformanceStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(PerformanceStatisticsDto.class,
+                        clientUser.userId.as("clientId"),
+                        clientUser.nickname.as("username"),
+                        category.name.as("category"),
+                        performance.view.sum().as("view"),
+                        performance.click.sum().as("click"),
+                        performance.conversion.sum().as("conversion"),
+                        performance.purchase.sum().as("purchase"),
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .leftJoin(campaign.clientUser, clientUser)
+                .leftJoin(clientUser.category, category)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        campaign.deleted.eq(false)
+                )
+                .groupBy(clientUser.userId)
+                .fetch();
+
+        for (PerformanceStatisticsDto result : results) {
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setTotalIndicator(spend, view, click, conversion, purchase);
+            result.setStartDateAndLastDate(startDate, lastDate);
+        }
+
+        return results;
+    }
+
+    // 광고주별 소진액 가져오기
+    public List<PerformanceStatisticsDto> findClientUserSpendStatistics(@Param("startDate") LocalDate startDate,
+                                                                        @Param("lastDate") LocalDate lastDate
+    ) {
+        List<PerformanceStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(PerformanceStatisticsDto.class,
+                        clientUser.userId.as("clientId"),
+                        clientUser.nickname.as("username"),
+                        category.name.as("category"),
+                        agent.userId.as("agentId"),
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .leftJoin(campaign.clientUser, clientUser)
+                .leftJoin(clientUser.agent, agent)
+                .leftJoin(clientUser.category, category)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        creative.deleted.eq(false)
+                )
+                .groupBy(clientUser.userId)
                 .fetch();
 
         for (PerformanceStatisticsDto result : results) {
