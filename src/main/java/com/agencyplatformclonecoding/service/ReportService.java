@@ -34,7 +34,7 @@ public class ReportService {
 
     // 실적 보고서, 소재 실적 보고서
     @Transactional(readOnly = true)
-    public Object getPerformanceStatistics(HttpServletResponse response, Long id, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
+    public Object getPerformanceReport(HttpServletResponse response, Long id, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -51,14 +51,14 @@ public class ReportService {
         }
 
         if (reportType == ReportType.PERFORMANCE) {
-            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findByCreative_IdAndStatisticsDefault(id, startDate, lastDate);
-            createPerformanceExcelReportResponse(response, performanceList, reportType);
+            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findPerformanceStatisticsByCreativeId(id, startDate, lastDate);
+            createPerformanceReportResponse(response, performanceList, reportType);
             return null;
         }
 
         if (reportType == ReportType.CREATIVE) {
-            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findByCampaign_IdAndStatisticsDefault(id, startDate, lastDate);
-            createPerformanceExcelReportResponse(response, performanceList, reportType);
+            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findCreativeStatisticsByCampaignId(id, startDate, lastDate);
+            createPerformanceReportResponse(response, performanceList, reportType);
             return null;
         }
 
@@ -68,7 +68,7 @@ public class ReportService {
 
     // 캠페인 실적 보고서
     @Transactional(readOnly = true)
-    public Object getPerformanceStatistics(HttpServletResponse response, String id, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
+    public Object getPerformanceReport(HttpServletResponse response, String id, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -85,8 +85,8 @@ public class ReportService {
         }
 
         if (reportType == ReportType.CAMPAIGN) {
-            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findByClientUser_IdAndStatisticsDefault(id, startDate, lastDate);
-            createPerformanceExcelReportResponse(response, performanceList, reportType);
+            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findCampaignStatisticsByClientId(id, startDate, lastDate);
+            createPerformanceReportResponse(response, performanceList, reportType);
         }
 
         return null;
@@ -95,7 +95,7 @@ public class ReportService {
 
     // 광고주 실적 보고서
     @Transactional(readOnly = true)
-    public Object getPerformanceStatistics(HttpServletResponse response, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
+    public Object getPerformanceReport(HttpServletResponse response, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -112,8 +112,8 @@ public class ReportService {
         }
 
         if (reportType == ReportType.CLIENT) {
-            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findClientUserAndPerformanceStatisticsDefault(startDate, lastDate);
-            createPerformanceExcelReportResponse(response, performanceList, reportType);
+            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findClientUserPerformanceStatistics(startDate, lastDate);
+            createPerformanceReportResponse(response, performanceList, reportType);
         }
 
         return null;
@@ -122,7 +122,7 @@ public class ReportService {
 
     // 광고주 소진액 보고서
     @Transactional(readOnly = true)
-    public Object getSpendStatistics(HttpServletResponse response, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
+    public Object getSpendReport(HttpServletResponse response, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -139,8 +139,8 @@ public class ReportService {
         }
 
         if (reportType == ReportType.CLIENT) {
-            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findClientUserAndSpendStatisticsDefault(startDate, lastDate);
-            createSpendExcelReportResponse(response, performanceList, reportType);
+            List<PerformanceStatisticsDto> performanceList = statisticsQueryRepository.findClientUserSpendStatistics(startDate, lastDate);
+            createSpendReportResponse(response, performanceList, reportType);
         }
 
         return null;
@@ -148,7 +148,7 @@ public class ReportService {
 
 
     // 실적 보고서 파일 생성
-    private void createPerformanceExcelReportResponse(HttpServletResponse response, List<PerformanceStatisticsDto> performanceList, ReportType reportType) {
+    private void createPerformanceReportResponse(HttpServletResponse response, List<PerformanceStatisticsDto> performanceList, ReportType reportType) {
 
         try {
             Workbook workbook = new SXSSFWorkbook();
@@ -254,7 +254,7 @@ public class ReportService {
 
 
     // 소진액 보고서 파일 생성
-    private void createSpendExcelReportResponse(HttpServletResponse response, List<PerformanceStatisticsDto> performanceList, ReportType reportType) {
+    private void createSpendReportResponse(HttpServletResponse response, List<PerformanceStatisticsDto> performanceList, ReportType reportType) {
 
         try {
             Workbook workbook = new SXSSFWorkbook();

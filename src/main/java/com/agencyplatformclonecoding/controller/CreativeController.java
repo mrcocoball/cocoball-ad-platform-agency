@@ -2,11 +2,8 @@ package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
 import com.agencyplatformclonecoding.domain.constrant.ReportType;
-import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.CampaignDto;
-import com.agencyplatformclonecoding.dto.ClientUserDto;
-import com.agencyplatformclonecoding.dto.request.CampaignRequest;
 import com.agencyplatformclonecoding.dto.request.CreativeRequest;
 import com.agencyplatformclonecoding.dto.response.*;
 import com.agencyplatformclonecoding.service.*;
@@ -140,7 +137,7 @@ public class CreativeController {
         CampaignWithCreativesResponse campaignWithCreativesResponse = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
         Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, startDate, lastDate, statisticsType, creativeId, campaignId, clientId).map(PerformanceResponse::from);
-        Set<PerformanceStatisticsResponse> statistics = statisticsService.totalPerformanceStatistics(startDate, lastDate, statisticsType, creativeId)
+        Set<PerformanceStatisticsResponse> statistics = statisticsService.getTotalPerformanceStatistics(startDate, lastDate, statisticsType, creativeId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), performances.getTotalPages());
 
@@ -163,8 +160,6 @@ public class CreativeController {
             HttpServletResponse response
     ) {
 
-        ReportType reportType = ReportType.CREATIVE;
-
-        return ResponseEntity.ok(reportService.getPerformanceStatistics(response, campaignId, startDate, lastDate, reportType));
+        return ResponseEntity.ok(reportService.getPerformanceReport(response, campaignId, startDate, lastDate, ReportType.CREATIVE));
     }
 }

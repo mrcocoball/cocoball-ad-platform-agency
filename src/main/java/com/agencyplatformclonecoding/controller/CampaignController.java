@@ -109,9 +109,9 @@ public class CampaignController {
             ModelMap map
     ) {
         Page<CreativeResponse> creatives = creativeService.searchCreatives(pageable, campaignId, clientId).map(CreativeResponse::from);
-        Set<PerformanceStatisticsResponse> creativesStatistics = statisticsService.creativesWithPerformanceStatistics(startDate, lastDate, statisticsType, campaignId)
+        Set<PerformanceStatisticsResponse> creativesStatistics = statisticsService.getCreativeStatistics(startDate, lastDate, statisticsType, campaignId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
-        Set<PerformanceStatisticsResponse> totalCreativesStatistics = statisticsService.totalCreativesPerformanceStatistics(startDate, lastDate, statisticsType, campaignId)
+        Set<PerformanceStatisticsResponse> totalCreativesStatistics = statisticsService.getTotalCreativeStatistics(startDate, lastDate, statisticsType, campaignId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         CampaignResponse campaign = CampaignResponse.from(campaignService.getCampaign(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
@@ -145,6 +145,6 @@ public class CampaignController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             HttpServletResponse response
     ) {
-        return ResponseEntity.ok(reportService.getPerformanceStatistics(response, clientId, startDate, lastDate, ReportType.CAMPAIGN));
+        return ResponseEntity.ok(reportService.getPerformanceReport(response, clientId, startDate, lastDate, ReportType.CAMPAIGN));
     }
 }
