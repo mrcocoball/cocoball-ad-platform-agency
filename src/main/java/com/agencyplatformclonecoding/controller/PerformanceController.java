@@ -28,6 +28,6 @@ public class PerformanceController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             HttpServletResponse response
     ) {
-        return ResponseEntity.ok(reportService.getPerformanceStatistics(response, creativeId, startDate, lastDate, ReportType.PERFORMANCE));
+        return ResponseEntity.ok(reportService.getPerformanceReport(response, creativeId, startDate, lastDate, ReportType.PERFORMANCE));
     }
 }

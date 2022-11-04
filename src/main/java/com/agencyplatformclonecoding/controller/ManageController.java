@@ -7,7 +7,6 @@ import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
 import com.agencyplatformclonecoding.dto.response.PerformanceStatisticsResponse;
-import com.agencyplatformclonecoding.repository.StatisticsQueryRepository;
 import com.agencyplatformclonecoding.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -53,7 +52,7 @@ public class ManageController {
     ) {
         Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)
                 .map(ClientUserResponse::from);
-        Set<PerformanceStatisticsResponse> totalClientSpendStatistics = statisticsService.totalSpendStatistics(startDate, lastDate, statisticsType)
+        Set<PerformanceStatisticsResponse> totalClientSpendStatistics = statisticsService.getTotalSpendStatistics(startDate, lastDate, statisticsType)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), clientUsers.getTotalPages());
 
@@ -75,9 +74,9 @@ public class ManageController {
             ModelMap map
     ) {
         Page<CampaignResponse> campaigns = campaignService.searchCampaigns(pageable, clientId).map(CampaignResponse::from);
-        Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.clientWithCampaignsStatistics(startDate, lastDate, statisticsType, clientId)
+        Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.getCampaignStatistics(startDate, lastDate, statisticsType, clientId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
-        Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.totalCampaignsPerformanceStatistics(startDate, lastDate, statisticsType, clientId)
+        Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.getTotalCampaignStatistics(startDate, lastDate, statisticsType, clientId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), campaigns.getTotalPages());
@@ -98,7 +97,7 @@ public class ManageController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             HttpServletResponse response
     ) {
-        return ResponseEntity.ok(reportService.getPerformanceStatistics(response, startDate, lastDate, ReportType.CLIENT));
+        return ResponseEntity.ok(reportService.getPerformanceReport(response, startDate, lastDate, ReportType.CLIENT));
     }
 
     @GetMapping("/spendReport")
@@ -107,7 +106,7 @@ public class ManageController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             HttpServletResponse response
     ) {
-        return ResponseEntity.ok(reportService.getSpendStatistics(response, startDate, lastDate, ReportType.CLIENT));
+        return ResponseEntity.ok(reportService.getSpendReport(response, startDate, lastDate, ReportType.CLIENT));
     }
 
 }
