@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.service;
 
 import com.agencyplatformclonecoding.domain.constrant.ReportType;
+import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
 import com.agencyplatformclonecoding.dto.PerformanceStatisticsDto;
 import com.agencyplatformclonecoding.repository.StatisticsQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +66,6 @@ public class ReportService {
         return null;
     }
 
-
     // 캠페인 실적 보고서
     @Transactional(readOnly = true)
     public Object getPerformanceReport(HttpServletResponse response, String id, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
@@ -91,7 +91,6 @@ public class ReportService {
 
         return null;
     }
-
 
     // 광고주 실적 보고서
     @Transactional(readOnly = true)
@@ -119,7 +118,6 @@ public class ReportService {
         return null;
     }
 
-
     // 광고주 소진액 보고서
     @Transactional(readOnly = true)
     public Object getSpendReport(HttpServletResponse response, LocalDate startDate, LocalDate lastDate, ReportType reportType) {
@@ -146,8 +144,56 @@ public class ReportService {
         return null;
     }
 
+    // 대행사 일일 소진액 보고서
+    @Transactional(readOnly = true)
+    public Object getDashboardTotalSpendReport(HttpServletResponse response, LocalDate startDate, LocalDate lastDate) {
 
-    // 실적 보고서 파일 생성
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        List<DashboardStatisticsDto> dPerformanceList = statisticsQueryRepository.dashboardTestQuery2(startDate, lastDate);
+        createDashboardTotalSpendReportResponse(response, dPerformanceList);
+
+        return null;
+    }
+
+    // 광고주 소진액 보고서
+    @Transactional(readOnly = true)
+    public Object getDashboardClientsSpendReport(HttpServletResponse response, LocalDate startDate, LocalDate lastDate) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        List<DashboardStatisticsDto> dPerformanceList = statisticsQueryRepository.dashboardTestQuery3(startDate, lastDate);
+        createDashboardClientsSpendReportResponse(response, dPerformanceList);
+
+        return null;
+    }
+
+
+    // 실적 보고서 파일 생성 (광고 관리)
     private void createPerformanceReportResponse(HttpServletResponse response, List<PerformanceStatisticsDto> performanceList, ReportType reportType) {
 
         try {
@@ -252,8 +298,7 @@ public class ReportService {
         }
     }
 
-
-    // 소진액 보고서 파일 생성
+    // 소진액 보고서 파일 생성 (광고 관리)
     private void createSpendReportResponse(HttpServletResponse response, List<PerformanceStatisticsDto> performanceList, ReportType reportType) {
 
         try {
@@ -308,6 +353,144 @@ public class ReportService {
                 cell.setCellValue(performance.getAgentId());
 
                 cell = row.createCell(5); // 소진액
+                cell.setCellStyle(numberCellStyle);
+                cell.setCellValue(performance.getSpend());
+
+            }
+
+            response.setContentType("application/vdn.ms-excel");
+            response.setHeader("Content-Disposition", "attatchment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
+
+            workbook.write(response.getOutputStream());
+            workbook.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    // 대행사 일일 소진액 보고서 파일 생성 (대시보드)
+    private void createDashboardTotalSpendReportResponse(HttpServletResponse response, List<DashboardStatisticsDto> performanceList) {
+
+        try {
+            Workbook workbook = new SXSSFWorkbook();
+            Sheet sheet = workbook.createSheet("대행사_일일_소진액_보고서"); // 동적
+
+            // 숫자 포맷 적용
+            CellStyle numberCellStyle = workbook.createCellStyle();
+            numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+
+            LocalDate reportDate = LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            final String fileName = "대행사_일일_소진액_보고서_" + reportDate; // 동적
+
+            // column width 설정, 1글자당 256
+            sheet.setColumnWidth(0, 24 * 256); // 기간
+            sheet.setColumnWidth(1, 20 * 256); // 총 소진액(VAT+)
+            sheet.setColumnWidth(2, 20 * 256); // 총 소진액(VAT-)
+            sheet.setColumnWidth(3, 13 * 256); // VAT
+            sheet.setColumnWidth(4, 13 * 256); // 대행수수료
+
+            // header
+            final String[] header = {"조회 기간", "총 소진액(VAT 포함)", "총 소진액(VAT 미포함)", "VAT", "대행 수수료"};
+            Row row = sheet.createRow(0);
+            for (int i = 0; i < header.length; i++) {
+                Cell cell = row.createCell(i);
+                cell.setCellValue(header[i]);
+            }
+
+            // body
+            for (int i = 0; i < performanceList.size(); i++) {
+                row = sheet.createRow(i + 1);
+
+                DashboardStatisticsDto performance = performanceList.get(i);
+
+                Cell cell = null;
+
+                cell = row.createCell(0); // 기간
+                setDate(cell, performance);
+
+                cell = row.createCell(1); // 총 소진액(VAT+)
+                cell.setCellStyle(numberCellStyle);
+                cell.setCellValue(performance.getSpend());
+
+                cell = row.createCell(2); // 총 소진액(VAT-)
+                cell.setCellStyle(numberCellStyle);
+                cell.setCellValue(performance.getMinusVAT());
+
+                cell = row.createCell(3); // VAT
+                cell.setCellStyle(numberCellStyle);
+                cell.setCellValue(performance.getVAT());
+
+                cell = row.createCell(4); // 대행수수료
+                cell.setCellStyle(numberCellStyle);
+                cell.setCellValue(performance.getCommission());
+
+            }
+
+            response.setContentType("application/vdn.ms-excel");
+            response.setHeader("Content-Disposition", "attatchment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
+
+            workbook.write(response.getOutputStream());
+            workbook.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    // 광고주별 소진액 보고서 파일 생성 (대시보드)
+    private void createDashboardClientsSpendReportResponse(HttpServletResponse response, List<DashboardStatisticsDto> performanceList) {
+
+        try {
+            Workbook workbook = new SXSSFWorkbook();
+            Sheet sheet = workbook.createSheet("광고주별_소진액_보고서"); // 동적
+
+            // 숫자 포맷 적용
+            CellStyle numberCellStyle = workbook.createCellStyle();
+            numberCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("#,##0"));
+
+            LocalDate reportDate = LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            final String fileName = "광고주별_소진액_보고서_" + reportDate; // 동적
+
+            // column width 설정, 1글자당 256
+            sheet.setColumnWidth(0, 24 * 256); // 기간
+            sheet.setColumnWidth(1, 10 * 256); // ID
+            sheet.setColumnWidth(2, 20 * 256); // 이름
+            sheet.setColumnWidth(3, 20 * 256); // 업종
+            sheet.setColumnWidth(4, 12 * 256); // 소진액
+
+            // header
+            final String[] header = {"기간", "광고주 ID", "광고주명", "업종", "총 소진액"};
+            Row row = sheet.createRow(0);
+            for (int i = 0; i < header.length; i++) {
+                Cell cell = row.createCell(i);
+                cell.setCellValue(header[i]);
+            }
+
+            // body
+            for (int i = 0; i < performanceList.size(); i++) {
+                row = sheet.createRow(i + 1);
+
+                DashboardStatisticsDto performance = performanceList.get(i);
+
+                Cell cell = null;
+
+                cell = row.createCell(0); // 기간
+                setDate(cell, performance);
+
+                cell = row.createCell(1); // 광고주 ID
+                cell.setCellValue(performance.getClientId());
+
+                cell = row.createCell(2); // 광고주명
+                cell.setCellValue(performance.getClientName());
+
+                cell = row.createCell(3); // 업종
+                cell.setCellStyle(numberCellStyle);
+                cell.setCellValue(performance.getCategory());
+
+                cell = row.createCell(4); // 소진액
                 cell.setCellStyle(numberCellStyle);
                 cell.setCellValue(performance.getSpend());
 
@@ -390,6 +573,15 @@ public class ReportService {
     }
 
     private void setDate(Cell cell, PerformanceStatisticsDto psd) {
+
+        if (psd.getLastDate() == null) {
+            cell.setCellValue(psd.getStartDate() + "");
+        } else {
+            cell.setCellValue(psd.getStartDate() + " - " + psd.getLastDate());
+        }
+    }
+
+    private void setDate(Cell cell, DashboardStatisticsDto psd) {
 
         if (psd.getLastDate() == null) {
             cell.setCellValue(psd.getStartDate() + "");
