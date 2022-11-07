@@ -31,6 +31,10 @@ h1 {
     margin-bottom: 30px;
 }
 
+.row > h1 {
+    margin-bottom: 30px;
+}
+
 .table {
     margin-top: 20px;
 }
@@ -71,6 +75,11 @@ main {
 
 #statistics-table > tbody {
     font-size: 11px
+}
+
+#dashboard-statistics-info > tbody {
+    font-size: 12px;
+    height: 85%;
 }
 
 .create-btn {
