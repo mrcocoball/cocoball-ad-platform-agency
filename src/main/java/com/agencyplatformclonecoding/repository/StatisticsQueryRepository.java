@@ -1,5 +1,6 @@
 package com.agencyplatformclonecoding.repository;
 
+import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
 import com.agencyplatformclonecoding.dto.PerformanceStatisticsDto;
 import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.Projections;
@@ -10,7 +11,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.agencyplatformclonecoding.domain.QAgent.agent;
 import static com.agencyplatformclonecoding.domain.QCampaign.campaign;
@@ -357,6 +360,96 @@ public class StatisticsQueryRepository {
             result.setSpendIndicator(spend);
             result.setStartDateAndLastDate(startDate, lastDate);
         }
+
+        return results;
+    }
+
+    public List<DashboardStatisticsDto> dashboardTestQuery(@Param("startDate") LocalDate startDate,
+                                                           @Param("lastDate") LocalDate lastDate
+    ) {
+        List<DashboardStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(DashboardStatisticsDto.class,
+                        performance.spend.sum().as("spend"),
+                        performance.createdAt.as("startDate")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        creative.deleted.eq(false)
+                )
+                .groupBy(performance.createdAt)
+                .fetch();
+
+        for (DashboardStatisticsDto result : results) {
+            Long spend = result.getSpend();
+
+            result.setSpendIndicator(spend);
+        }
+
+        return results;
+    }
+
+    public List<DashboardStatisticsDto> dashboardTestQuery2(@Param("startDate") LocalDate startDate,
+                                                            @Param("lastDate") LocalDate lastDate
+    ) {
+        List<DashboardStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(DashboardStatisticsDto.class,
+                        performance.spend.sum().as("spend"),
+                        performance.createdAt.as("startDate")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        creative.deleted.eq(false)
+                )
+                .groupBy(performance.createdAt)
+                .orderBy(performance.createdAt.desc())
+                .fetch();
+
+        for (DashboardStatisticsDto result : results) {
+            Long spend = result.getSpend();
+
+            result.setSpendIndicator(spend);
+        }
+
+        return results;
+    }
+
+    // 광고주별 소진액 차트 출력
+    public List<DashboardStatisticsDto> dashboardTestQuery3(@Param("startDate") LocalDate startDate,
+                                                            @Param("lastDate") LocalDate lastDate
+    ) {
+        List<DashboardStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(DashboardStatisticsDto.class,
+                        clientUser.userId.as("clientId"),
+                        clientUser.nickname.as("clientName"),
+                        performance.spend.sum().as("spend"),
+                        category.name.as("category")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .leftJoin(campaign.clientUser, clientUser)
+                .leftJoin(clientUser.category, category)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        creative.deleted.eq(false)
+                )
+                .groupBy(clientUser.userId)
+                .fetch();
+
+        for (DashboardStatisticsDto result : results) {
+            Long spend = result.getSpend();
+
+            result.setSpendIndicator(spend);
+            result.setStartDateAndLastDate(startDate, lastDate);
+        }
+
+        results = results.stream()
+                .sorted(Comparator.comparing(DashboardStatisticsDto::getSpend).reversed())
+                .collect(Collectors.toList()); // Collections의 comparing을 사용, 내림차순 정렬
 
         return results;
     }
