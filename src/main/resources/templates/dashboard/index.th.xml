@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="head" th:replace="head :: head" />
+  <attr sel="#header" th:replace="header :: header" />
+  <attr sel="#footer" th:replace="footer :: footer" />
+
+  <attr sel="#start-date" th:value="${param.startDate}" />
+  <attr sel="#last-date" th:value="${param.lastDate}" />
+  <attr sel="#statistics_type_custom" th:href="@{'/dashboard/test'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
+  <attr sel="#default_dashboard" th:href="@{'/dashboard'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
+  <attr sel="#client_top_20_dashboard" th:href="@{'/dashboard/clients'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
+  <attr sel="#get-report" th:href="@{'/dashboard/report'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
+
+  <attr sel="#dashboard-statistics-info">
+      <attr sel="tbody" th:remove="all-but-first">
+        <attr sel="tr[0]" th:each="resultpage : ${resultpages}">
+          <attr sel="td.date" th:text="${resultpage.startDate}" />
+          <attr sel="td.spend" th:text="${resultpage.sSpend} + '원'" />
+          <attr sel="td.minusVAT" th:text="${resultpage.sMinusVAT} + '원'"/>
+          <attr sel="td.VAT" th:text="${resultpage.sVAT} + '원'"/>
+          <attr sel="td.commission" th:text="${resultpage.sCommission} + '원'"/>
+        </attr>
+      </attr>
+    </attr>
+
+  <attr sel="#pagination">
+    <attr sel="li[0]/a"
+          th:text="'previous'"
+          th:href="@{/dashboard(page=${resultpages.number - 1}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
+          th:class="'page-link' + (${resultpages.number} <= 0 ? ' disabled' : '')"
+    />
+    <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
+      <attr sel="a"
+            th:text="${pageNumber + 1}"
+            th:href="@{/dashboard(page=${pageNumber}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
+            th:class="'page-link' + (${pageNumber} == ${resultpages.number} ? ' disabled' : '')"
+      />
+    </attr>
+    <attr sel="li[2]/a"
+          th:text="'next'"
+          th:href="@{/dashboard(page=${resultpages.number + 1}, startDate=${param.startDate}, lastDate=${param.lastDate})}"
+          th:class="'page-link' + (${resultpages.number} >= ${resultpages.totalPages - 1} ? ' disabled' : '')"
+    />
+  </attr>
+</attr>
+</thlogic>
