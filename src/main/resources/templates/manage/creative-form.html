@@ -6,54 +6,67 @@
   <meta name="author" content="mrcocoball">
   <title>소재 생성 페이지</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
 <body>
 
-  <header id="header">
-    헤더 삽입부
-    <hr>
-  </header>
+<header id="header">
+  헤더 삽입부
+  <hr>
+</header>
 
-  <main class="d-flex flex-nowrap">
-      <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 900px; width: 280px;">
-        <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
-          <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-          <span class="fs-4"></span>
+<main class="d-flex flex-nowrap">
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 900px; width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi pe-none me-2" width="40" height="10">
+        <use xlink:href="#bootstrap"/>
+      </svg>
+      <span class="fs-4"></span>
+    </a>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/agents" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#home"/>
+          </svg>
+          에이전트 관리
         </a>
-        <ul class="nav nav-pills flex-column mb-auto">
-          <li class="nav-item">
-            <a href="/agents" class="nav-link text-white">
-              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-              에이전트 관리
-            </a>
-          </li>
-          <li>
-            <a href="/agentGroups" class="nav-link text-white">
-              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-              에이전트 그룹 관리
-            </a>
-          </li>
-          <li>
-            <a href="/clients" class="nav-link text-white">
-              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-              광고주 관리
-            </a>
-          </li>
-          <li>
-            <a href="/manage" class="nav-link active" aria-current="page">
-              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-              광고 관리
-            </a>
-          </li>
-          <li>
-            <a href="/dashboard" class="nav-link text-white">
-              <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-              대시보드
-            </a>
-          </li>
-      </div>
+      </li>
+      <li>
+        <a href="/agentGroups" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#speedometer2"/>
+          </svg>
+          에이전트 그룹 관리
+        </a>
+      </li>
+      <li>
+        <a href="/clients" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#table"/>
+          </svg>
+          광고주 관리
+        </a>
+      </li>
+      <li>
+        <a href="/manage" class="nav-link active" aria-current="page">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#grid"/>
+          </svg>
+          광고 관리
+        </a>
+      </li>
+      <li>
+        <a href="/dashboard" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#people-circle"/>
+          </svg>
+          대시보드
+        </a>
+      </li>
+  </div>
 
   <div class="container">
     <header id="creative-form-header" class="py-5 text-center">
@@ -94,6 +107,8 @@
     </form>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+          crossorigin="anonymous"></script>
 
 </body>

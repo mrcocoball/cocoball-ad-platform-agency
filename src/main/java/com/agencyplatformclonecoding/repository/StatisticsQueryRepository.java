@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.agencyplatformclonecoding.domain.QAgent.agent;
+import static com.agencyplatformclonecoding.domain.QAgentGroup.agentGroup;
 import static com.agencyplatformclonecoding.domain.QCampaign.campaign;
 import static com.agencyplatformclonecoding.domain.QCategory.category;
 import static com.agencyplatformclonecoding.domain.QClientUser.clientUser;
@@ -438,6 +439,80 @@ public class StatisticsQueryRepository {
                         creative.deleted.eq(false)
                 )
                 .groupBy(clientUser.userId)
+                .fetch();
+
+        for (DashboardStatisticsDto result : results) {
+            Long spend = result.getSpend();
+
+            result.setSpendIndicator(spend);
+            result.setStartDateAndLastDate(startDate, lastDate);
+        }
+
+        results = results.stream()
+                .sorted(Comparator.comparing(DashboardStatisticsDto::getSpend).reversed())
+                .collect(Collectors.toList()); // Collections의 comparing을 사용, 내림차순 정렬
+
+        return results;
+    }
+
+    // 에이전트 소진액 차트 출력
+    public List<DashboardStatisticsDto> dashboardTestQuery4(@Param("startDate") LocalDate startDate,
+                                                            @Param("lastDate") LocalDate lastDate
+    ) {
+        List<DashboardStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(DashboardStatisticsDto.class,
+                        agent.userId.as("agentId"),
+                        agent.nickname.as("agentName"),
+                        agentGroup.name.as("agentGroupName"),
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .leftJoin(campaign.clientUser, clientUser)
+                .leftJoin(clientUser.agent, agent)
+                .leftJoin(agent.agentGroup, agentGroup)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        creative.deleted.eq(false)
+                )
+                .groupBy(agent.userId)
+                .fetch();
+
+        for (DashboardStatisticsDto result : results) {
+            Long spend = result.getSpend();
+
+            result.setSpendIndicator(spend);
+            result.setStartDateAndLastDate(startDate, lastDate);
+        }
+
+        results = results.stream()
+                .sorted(Comparator.comparing(DashboardStatisticsDto::getSpend).reversed())
+                .collect(Collectors.toList()); // Collections의 comparing을 사용, 내림차순 정렬
+
+        return results;
+    }
+
+    // 에이전트 그룹 소진액 차트 출력
+    public List<DashboardStatisticsDto> dashboardTestQuery5(@Param("startDate") LocalDate startDate,
+                                                            @Param("lastDate") LocalDate lastDate
+    ) {
+        List<DashboardStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(DashboardStatisticsDto.class,
+                        agentGroup.name.as("agentGroupName"),
+                        performance.spend.sum().as("spend")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .leftJoin(campaign.clientUser, clientUser)
+                .leftJoin(clientUser.agent, agent)
+                .leftJoin(agent.agentGroup, agentGroup)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        creative.deleted.eq(false)
+                )
+                .groupBy(agentGroup.id)
                 .fetch();
 
         for (DashboardStatisticsDto result : results) {

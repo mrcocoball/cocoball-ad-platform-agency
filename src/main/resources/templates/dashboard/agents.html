@@ -72,13 +72,14 @@
     <div class="row">
       <ul class="nav nav-pills">
         <li class="nav-item dropdown">
-          <a class="nav-link disabled">대행사 대시보드</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">그룹-에이전트 대시보드</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">대행사 대시보드</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/dashboard/groups">그룹별 소진액</a></li>
-            <li><a class="dropdown-item" href="/dashboard/agents">에이전트별 소진액</a></li>
+            <li><a class="dropdown-item" href="/dashboard">일일 소진액</a></li>
+            <li><a class="dropdown-item" href="/dashboard/clients">광고주별 소진액</a></li>
           </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link disabled">그룹-에이전트 대시보드</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">업종별 대시보드</a>
@@ -100,10 +101,9 @@
           <div class="date-form">
             <input type="date" class="form-control" id="last-date" name="lastDate"/>
           </div>
-          <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인
-          </button>
-          <a class="stats-btn btn btn-primary" role="button" id="default_dashboard">일일 소진액 대시보드</a>
-          <a class="stats-btn btn btn-primary" role="button" id="client_top_20_dashboard">광고주별 소진액 대시보드</a>
+          <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인</button>
+          <a class="stats-btn btn btn-primary" role="button" id="default_dashboard">그룹별 소진액 대시보드</a>
+          <a class="stats-btn btn btn-primary" role="button" id="agent_top_20_dashboard">에이전트별 소진액 대시보드</a>
           <a class="stats-btn btn btn-primary" role="button" id="get-report">보고서 다운로드</a>
         </form>
       </div>
@@ -113,19 +113,19 @@
         <thead>
         <tr>
           <th class="date" style="width: 70px;"><a>조회 기간</a></th>
+          <th class="agent_id" style="width: 50px;"><a>에이전트 ID</a></th>
+          <th class="agent_name" style="width: 50px;"><a>에이전트명</a></th>
+          <th class="agent_group" style="width: 50px;"><a>소속 그룹</a></th>
           <th class="spend" style="width: 70px;"><a>총 소진액(VAT 포함)</a></th>
-          <th class="minusVAT" style="width: 70px;"><a>총 소진액(VAT 미포함)</a></th>
-          <th class="VAT" style="width: 70px;"><a>VAT</a></th>
-          <th class="commission" style="width: 70px"><a>대행 수수료</a></th>
         </tr>
         </thead>
         <tbody>
         <tr>
           <td class="date"><a>2022-09-24 ~ 2022-10-24</a></td>
-          <td class="spend"><a>22000</a></td>
-          <td class="minusVAT"><a>20000</a></td>
-          <td class="VAT"><a>2000</a></td>
-          <td class="commission"><a></a>30</td>
+          <td class="agent_id"><a></a></td>
+          <td class="agent_name"><a></a></td>
+          <td class="agent_group"><a></a></td>
+          <td class="spend"><a></a>20000</td>
         </tr>
         </tbody>
       </table>
@@ -148,19 +148,19 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
-        var dayList = [];
+        var agentList = [];
         var spendList = [];
 
         var data = /*[[ ${results} ]]*/[];
         for (var i = 0; i < data.length; i++) {
-            dayList.push(data[i].startDate);
+            agentList.push(data[i].agentName);
             spendList.push(data[i].spend);
         }
         const ctx = document.getElementById('myChart').getContext('2d');
         const chart = new Chart(ctx, {
             type: 'bar', //chart 타입
             data: {
-                labels: dayList,
+                labels: agentList,
                 datasets: [{
                     fill: false,
                     data: spendList,
@@ -203,7 +203,9 @@
                             font: {
                                 size: 9
                             },
-                            padding: 10
+                            padding: 10,
+                            autoSkip: true, // x축 데이터 갯수 제한
+                            maxTicksLimit: 10 // x축 데이터 갯수 제한
                         }
                     }
                 }
