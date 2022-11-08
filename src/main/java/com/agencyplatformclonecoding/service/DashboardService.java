@@ -110,4 +110,94 @@ public class DashboardService {
 
         return resultPage;
     }
+
+    // 상위 에이전트별 소진액 차트 출력
+    @Transactional(readOnly = true)
+    public List<DashboardStatisticsDto> setTestDashboard3(LocalDate startDate, LocalDate lastDate) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        return statisticsQueryRepository.dashboardTestQuery4(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
+    }
+
+    // 전체 에이전트별 소진액 페이지 출력
+    @Transactional(readOnly = true)
+    public Page<DashboardStatisticsDto> setTestDashboardTable3(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        List<DashboardStatisticsDto> resultList = statisticsQueryRepository.dashboardTestQuery4(startDate, lastDate);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), resultList.size());
+        final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
+
+        return resultPage;
+    }
+
+    // 에이전트 그룹별 소진액 차트 출력
+    @Transactional(readOnly = true)
+    public List<DashboardStatisticsDto> setTestDashboard4(LocalDate startDate, LocalDate lastDate) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        return statisticsQueryRepository.dashboardTestQuery5(startDate, lastDate);
+    }
+
+    // 전체 에이전트별 소진액 페이지 출력
+    @Transactional(readOnly = true)
+    public Page<DashboardStatisticsDto> setTestDashboardTable4(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        List<DashboardStatisticsDto> resultList = statisticsQueryRepository.dashboardTestQuery5(startDate, lastDate);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), resultList.size());
+        final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
+
+        return resultPage;
+    }
 }

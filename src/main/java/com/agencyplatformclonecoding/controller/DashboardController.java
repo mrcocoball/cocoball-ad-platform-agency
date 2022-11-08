@@ -1,11 +1,9 @@
 package com.agencyplatformclonecoding.controller;
 
-import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
 import com.agencyplatformclonecoding.service.DashboardService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import com.agencyplatformclonecoding.service.ReportService;
-import com.agencyplatformclonecoding.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,7 +68,47 @@ public class DashboardController {
         model.addAttribute("resultpages", resultpages);
         map.addAttribute("paginationBarNumbers", barNumbers);
 
-        return "dashboard/clients_top";
+        return "dashboard/clients";
+    }
+
+    @GetMapping("/agents")
+    public String dashboardAgents(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            Model model,
+            ModelMap map,
+            @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+
+        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard3(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable3(startDate, lastDate, pageable);
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
+
+        model.addAttribute("results", results);
+        model.addAttribute("resultpages", resultpages);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+
+        return "dashboard/agents";
+    }
+
+    @GetMapping("/groups")
+    public String dashboardGroups(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            Model model,
+            ModelMap map,
+            @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+
+        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard4(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable4(startDate, lastDate, pageable);
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
+
+        model.addAttribute("results", results);
+        model.addAttribute("resultpages", resultpages);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+
+        return "dashboard/groups";
     }
 
     @GetMapping("/report")
@@ -89,5 +127,23 @@ public class DashboardController {
             HttpServletResponse response
     ) {
         return ResponseEntity.ok(reportService.getDashboardClientsSpendReport(response, startDate, lastDate));
+    }
+
+    @GetMapping("/agents/report")
+    public ResponseEntity agentsReport(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+        return ResponseEntity.ok(reportService.getDashboardAgentsSpendReport(response, startDate, lastDate));
+    }
+
+    @GetMapping("/groups/report")
+    public ResponseEntity groupsReport(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+        return ResponseEntity.ok(reportService.getDashboardGroupsSpendReport(response, startDate, lastDate));
     }
 }
