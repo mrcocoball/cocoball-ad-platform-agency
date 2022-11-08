@@ -114,3 +114,15 @@ div {
     overflow: hidden;
     height: auto;
 }
+
+.nav-item dropdown {
+    margin-right: 10px;
+}
+
+#myChart {
+    margin-top: 20px;
+}
+
+.nav nav-pills{
+    justify-content: space-between !important;
+}
