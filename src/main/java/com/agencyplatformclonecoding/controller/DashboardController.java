@@ -111,6 +111,46 @@ public class DashboardController {
         return "dashboard/groups";
     }
 
+    @GetMapping("/category")
+    public String dashboardCategory(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            Model model,
+            ModelMap map,
+            @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+
+        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard5(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable5(startDate, lastDate, pageable);
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
+
+        model.addAttribute("results", results);
+        model.addAttribute("resultpages", resultpages);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+
+        return "dashboard/category";
+    }
+
+    @GetMapping("/reference")
+    public String dashboardReference(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            Model model,
+            ModelMap map,
+            @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+
+        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard6(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable6(startDate, lastDate, pageable);
+        List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
+
+        model.addAttribute("results", results);
+        model.addAttribute("resultpages", resultpages);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+
+        return "dashboard/reference";
+    }
+
     @GetMapping("/report")
     public ResponseEntity totalSpendReport(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -145,5 +185,23 @@ public class DashboardController {
             HttpServletResponse response
     ) {
         return ResponseEntity.ok(reportService.getDashboardGroupsSpendReport(response, startDate, lastDate));
+    }
+
+    @GetMapping("/category/report")
+    public ResponseEntity categoryReport(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+        return ResponseEntity.ok(reportService.getDashboardCategorySpendReport(response, startDate, lastDate));
+    }
+
+    @GetMapping("/reference/report")
+    public ResponseEntity referenceReport(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
+            HttpServletResponse response
+    ) {
+        return ResponseEntity.ok(reportService.getDashboardCategoryReferenceReport(response, startDate, lastDate));
     }
 }
