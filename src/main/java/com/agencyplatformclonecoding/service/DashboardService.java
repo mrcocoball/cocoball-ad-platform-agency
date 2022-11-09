@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.service;
 
 import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
+import com.agencyplatformclonecoding.repository.DashboardQueryRepository;
 import com.agencyplatformclonecoding.repository.StatisticsQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class DashboardService {
 
-    private final StatisticsQueryRepository statisticsQueryRepository;
+    private final DashboardQueryRepository dashboardQueryRepository;
 
     @Transactional(readOnly = true)
     public List<DashboardStatisticsDto> setTestDashboard(LocalDate startDate, LocalDate lastDate) {
@@ -39,7 +40,7 @@ public class DashboardService {
             startDate = startDateBeforeThirtyDays;
         }
 
-        return statisticsQueryRepository.dashboardTestQuery(startDate, lastDate).stream().limit(31).collect(Collectors.toList());
+        return dashboardQueryRepository.dashboardTestQuery(startDate, lastDate).stream().limit(31).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -58,7 +59,7 @@ public class DashboardService {
             startDate = startDateBeforeThirtyDays;
         }
 
-        List<DashboardStatisticsDto> resultList = statisticsQueryRepository.dashboardTestQuery2(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery2(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -83,7 +84,7 @@ public class DashboardService {
             startDate = startDateBeforeThirtyDays;
         }
 
-        return statisticsQueryRepository.dashboardTestQuery3(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
+        return dashboardQueryRepository.dashboardTestQuery3(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
     }
 
     // 전체 광고주별 소진액 차트 출력
@@ -103,7 +104,7 @@ public class DashboardService {
             startDate = startDateBeforeThirtyDays;
         }
 
-        List<DashboardStatisticsDto> resultList = statisticsQueryRepository.dashboardTestQuery3(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery3(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -128,7 +129,7 @@ public class DashboardService {
             startDate = startDateBeforeThirtyDays;
         }
 
-        return statisticsQueryRepository.dashboardTestQuery4(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
+        return dashboardQueryRepository.dashboardTestQuery4(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
     }
 
     // 전체 에이전트별 소진액 페이지 출력
@@ -148,7 +149,7 @@ public class DashboardService {
             startDate = startDateBeforeThirtyDays;
         }
 
-        List<DashboardStatisticsDto> resultList = statisticsQueryRepository.dashboardTestQuery4(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery4(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -173,7 +174,7 @@ public class DashboardService {
             startDate = startDateBeforeThirtyDays;
         }
 
-        return statisticsQueryRepository.dashboardTestQuery5(startDate, lastDate);
+        return dashboardQueryRepository.dashboardTestQuery5(startDate, lastDate);
     }
 
     // 전체 에이전트별 소진액 페이지 출력
@@ -193,7 +194,97 @@ public class DashboardService {
             startDate = startDateBeforeThirtyDays;
         }
 
-        List<DashboardStatisticsDto> resultList = statisticsQueryRepository.dashboardTestQuery5(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery5(startDate, lastDate);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), resultList.size());
+        final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
+
+        return resultPage;
+    }
+
+    // 업종별 소진액 차트 출력
+    @Transactional(readOnly = true)
+    public List<DashboardStatisticsDto> setTestDashboard5(LocalDate startDate, LocalDate lastDate) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        return dashboardQueryRepository.dashboardTestQuery6(startDate, lastDate);
+    }
+
+    // 업종별 소진액 페이지 출력
+    @Transactional(readOnly = true)
+    public Page<DashboardStatisticsDto> setTestDashboardTable5(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery6(startDate, lastDate);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), resultList.size());
+        final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
+
+        return resultPage;
+    }
+
+    // 업종별 실적 지표 차트 출력
+    @Transactional(readOnly = true)
+    public List<DashboardStatisticsDto> setTestDashboard6(LocalDate startDate, LocalDate lastDate) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        return dashboardQueryRepository.dashboardTestQuery7(startDate, lastDate);
+    }
+
+    // 업종별 실적 지표 페이지 출력
+    @Transactional(readOnly = true)
+    public Page<DashboardStatisticsDto> setTestDashboardTable6(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery7(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());

@@ -1,10 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <meta name="description" content="">
+  <meta name="author" content="mrcocoball">
+  <title>대시보드</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
+
 <body>
 
+<header id="header">
+  헤더 삽입부
+  <hr>
+</header>
+
+<main class="d-flex flex-nowrap">
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 900px; width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi pe-none me-2" width="40" height="10">
+        <use xlink:href="#bootstrap"/>
+      </svg>
+      <span class="fs-4"></span>
+    </a>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/agents" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#home"/>
+          </svg>
+          에이전트 관리
+        </a>
+      </li>
+      <li>
+        <a href="/agentGroups" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#speedometer2"/>
+          </svg>
+          에이전트 그룹 관리
+        </a>
+      </li>
+      <li>
+        <a href="/clients" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#table"/>
+          </svg>
+          광고주 관리
+        </a>
+      </li>
+      <li>
+        <a href="/manage" class="nav-link text-white">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#grid"/>
+          </svg>
+          광고 관리
+        </a>
+      </li>
+      <li>
+        <a href="/dashboard" class="nav-link active" aria-current="page">
+          <svg class="bi pe-none me-2" width="16" height="16">
+            <use xlink:href="#people-circle"/>
+          </svg>
+          대시보드
+        </a>
+      </li>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <ul class="nav nav-pills">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">대행사 대시보드</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/dashboard">일일 소진액</a></li>
+            <li><a class="dropdown-item" href="/dashboard/clients">광고주별 소진액</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">그룹-에이전트 대시보드</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/dashboard/groups">그룹별 소진액</a></li>
+            <li><a class="dropdown-item" href="/dashboard/agents">에이전트별 소진액</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link disabled">업종별 대시보드</a>
+        </li>
+      </ul>
+      <h1> 대시보드 </h1>
+    </div>
+
+    <div class="row">
+      <div class="create-btn d-grid gap-2 justify-content-md">
+        <form id="statistics-date-form" method="get">
+          <div class="date-form">
+            <input type="date" class="form-control" id="start-date" name="startDate" , min="2020-01-01"/>
+          </div>
+          <div class="date-form">
+            <input type="date" class="form-control" id="last-date" name="lastDate"/>
+          </div>
+          <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인</button>
+          <a class="stats-btn btn btn-primary" role="button" id="default_dashboard">업종별 소진액</a>
+          <a class="stats-btn btn btn-primary" role="button" id="reference_dashboard">업종별 레퍼런스</a>
+          <a class="stats-btn btn btn-primary" role="button" id="get-report">보고서 다운로드</a>
+        </form>
+      </div>
+
+      <canvas id="myChart" height="175" width="600"></canvas>
+      <table class="table" id="dashboard-statistics-info">
+        <thead>
+        <tr>
+          <th class="date" style="width: 70px;"><a>조회 기간</a></th>
+          <th class="category" style="width: 70px;"><a>업종</a></th>
+          <th class="spend" style="width: 70px;"><a>총 소진액(VAT 포함)</a></th>
+          <th class="minusVAT" style="width: 70px;"><a>총 소진액(VAT 미포함)</a></th>
+          <th class="VAT" style="width: 70px;"><a>VAT</a></th>
+          <th class="commission" style="width: 70px"><a>대행 수수료</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="date"><a>2022-09-24 ~ 2022-10-24</a></td>
+          <td class="category"><a></a></td>
+          <td class="spend"><a>22000</a></td>
+          <td class="minusVAT"><a>20000</a></td>
+          <td class="VAT"><a>2000</a></td>
+          <td class="commission"><a></a>30</td>
+        </tr>
+        </tbody>
+      </table>
+      <nav id="pagination" aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+      </nav>
+    </div>
+</main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+        var categoryList = [];
+        var spendList = [];
+
+        var data = /*[[ ${results} ]]*/[];
+        for (var i = 0; i < data.length; i++) {
+            categoryList.push(data[i].category);
+            spendList.push(data[i].spend);
+        }
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar', //chart 타입
+            data: {
+                labels: categoryList,
+                datasets: [{
+                    fill: false,
+                    data: spendList,
+                    backgroundColor: [
+                        'rgb(95,192,153)',
+                    ],
+                    borderColor: [
+                        'rgba(125,134,173,0)',
+                    ],
+                    borderWidth: 1,
+                    barPercentage: 0.5
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            drawOnChartArea: true,  //선 지우기
+                            drawTicks: false,   //축의 숫자 옆 눈금 지우기
+                            drawBorder: true,
+                            borderDash: [3, 3]	//y축 선 실선으로 길이 3,간격 3으로
+                        },
+                        ticks: {
+                            padding: 10,
+                            beginAtZero: true
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                            drawTicks: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 9
+                            },
+                            padding: 10
+                        }
+                    }
+                }
+            }
+        });
+    });
+    /*]]>*/
+
+</script>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
 </body>
-</html>
