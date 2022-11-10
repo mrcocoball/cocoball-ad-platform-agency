@@ -291,4 +291,64 @@ public class DashboardService {
 
         return resultPage;
     }
+
+    // 캠페인 실적 지표 차트 출력
+    @Transactional(readOnly = true)
+    public List<DashboardStatisticsDto> setChart1(LocalDate startDate, LocalDate lastDate, String clientId) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        return dashboardQueryRepository.chartQuery1(clientId, startDate, lastDate);
+    }
+
+    // 소재 실적 지표 차트 출력
+    @Transactional(readOnly = true)
+    public List<DashboardStatisticsDto> setChart2(LocalDate startDate, LocalDate lastDate, Long campaignId) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        return dashboardQueryRepository.chartQuery2(campaignId, startDate, lastDate);
+    }
+
+    // 상세 실적 지표 차트 출력
+    @Transactional(readOnly = true)
+    public List<DashboardStatisticsDto> setChart3(LocalDate startDate, LocalDate lastDate, Long creativeId) {
+
+        LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
+        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
+
+        if (lastDate == null) {
+            lastDate = defaultLastDate;
+        }
+
+        if (startDate == null) {
+            startDate = startDateBeforeThirtyDays;
+        }
+
+        return dashboardQueryRepository.chartQuery3(creativeId, startDate, lastDate);
+    }
 }

@@ -265,4 +265,119 @@ public class DashboardQueryRepository {
 
         return results;
     }
+
+    // 캠페인 실적 차트
+    public List<DashboardStatisticsDto> chartQuery1(@Param("id") String clientId,
+                                                    @Param("startDate") LocalDate startDate,
+                                                    @Param("lastDate") LocalDate lastDate
+    ) {
+        List<DashboardStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(DashboardStatisticsDto.class,
+                        performance.view.sum().as("view"),
+                        performance.click.sum().as("click"),
+                        performance.conversion.sum().as("conversion"),
+                        performance.purchase.sum().as("purchase"),
+                        performance.spend.sum().as("spend"),
+                        performance.createdAt.as("startDate")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .leftJoin(campaign.clientUser, clientUser)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        clientUser.userId.eq(clientId),
+                        campaign.deleted.eq(false)
+                )
+                .groupBy(performance.createdAt)
+                .fetch();
+
+        for (DashboardStatisticsDto result : results) {
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setPerformanceIndicator(spend, view, click, conversion, purchase);
+        }
+
+        return results;
+    }
+
+
+    // 소재 실적 차트
+    public List<DashboardStatisticsDto> chartQuery2(@Param("id") Long campaignId,
+                                                    @Param("startDate") LocalDate startDate,
+                                                    @Param("lastDate") LocalDate lastDate
+    ) {
+        List<DashboardStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(DashboardStatisticsDto.class,
+                        performance.view.sum().as("view"),
+                        performance.click.sum().as("click"),
+                        performance.conversion.sum().as("conversion"),
+                        performance.purchase.sum().as("purchase"),
+                        performance.spend.sum().as("spend"),
+                        performance.createdAt.as("startDate")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .leftJoin(creative.campaign, campaign)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        campaign.id.eq(campaignId),
+                        performance.creative.deleted.eq(false)
+                )
+                .groupBy(performance.createdAt)
+                .fetch();
+
+        for (DashboardStatisticsDto result : results) {
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setPerformanceIndicator(spend, view, click, conversion, purchase);
+        }
+
+        return results;
+    }
+
+
+    // 상세 실적 차트
+    public List<DashboardStatisticsDto> chartQuery3(@Param("id") Long creativeId,
+                                                    @Param("startDate") LocalDate startDate,
+                                                    @Param("lastDate") LocalDate lastDate
+    ) {
+        List<DashboardStatisticsDto> results = jpaQueryFactory
+                .select(Projections.fields(DashboardStatisticsDto.class,
+                        performance.view.as("view"),
+                        performance.click.as("click"),
+                        performance.conversion.as("conversion"),
+                        performance.purchase.as("purchase"),
+                        performance.spend.as("spend"),
+                        performance.createdAt.as("startDate")
+                ))
+                .from(performance)
+                .leftJoin(performance.creative, creative)
+                .where(
+                        performance.createdAt.between(startDate, lastDate),
+                        creative.id.eq(creativeId)
+                )
+                .groupBy(performance.createdAt)
+                .fetch();
+
+        for (DashboardStatisticsDto result : results) {
+            Long spend = result.getSpend();
+            Long view = result.getView();
+            Long click = result.getClick();
+            Long conversion = result.getConversion();
+            Long purchase = result.getPurchase();
+
+            result.setPerformanceIndicator(spend, view, click, conversion, purchase);
+        }
+
+        return results;
+    }
 }
