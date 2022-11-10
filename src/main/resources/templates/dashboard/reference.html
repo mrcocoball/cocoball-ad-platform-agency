@@ -106,11 +106,11 @@
           <a class="stats-btn btn btn-primary" role="button" id="reference_dashboard">업종별 레퍼런스</a>
           <a class="stats-btn btn btn-primary" role="button" id="get-report">보고서 다운로드</a>
         </form>
-        <select name="performance" style="width: 90px; margin-left: 50px;">
+        <select id="performance" style="width: 90px; margin-left: 50px;">
           <option value="view">노출수</option>
-          <option value="click">노출수</option>
+          <option value="click">클릭수</option>
           <option value="conversion">전환수</option>
-          <option value="purchase">구매액</option>
+          <option value="purchase">전환매출</option>
           <option value="spend">소진액</option>
           <option value="CTR" selected>클릭률</option>
           <option value="CVR">전환률</option>
@@ -135,7 +135,7 @@
           <th class="view" style="width: 60px;"><a>노출수</a></th>
           <th class="click" style="width: 60px;"><a>클릭수</a></th>
           <th class="conversion" style="width: 60px;"><a>전환수</a></th>
-          <th class="purchase" style="width: 90px;"><a>구매액</a></th>
+          <th class="purchase" style="width: 90px;"><a>전환매출</a></th>
           <th class="spend" style="width: 90px;"><a>소진액</a></th>
           <th class="CTR" style="width: 60px;"><a>클릭률</a></th>
           <th class="CVR" style="width: 60px;"><a>전환률</a></th>
@@ -177,69 +177,148 @@
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    $(document).ready(function () {
-        var categoryList = [];
-        var performanceList = [];
-
-        var data = /*[[ ${results} ]]*/[];
-        for (var i = 0; i < data.length; i++) {
-            categoryList.push(data[i].category);
-            performanceList.push(data[i].ctr);
-        }
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'bar', //chart 타입
-            data: {
-                labels: categoryList,
-                datasets: [{
-                    fill: false,
-                    data: performanceList,
-                    backgroundColor: [
-                        'rgb(95,192,153)',
-                    ],
-                    borderColor: [
-                        'rgba(125,134,173,0)',
-                    ],
-                    borderWidth: 1,
-                    barPercentage: 0.5
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    },
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var dayList = [];
+    var PerformanceList = [];
+    var data = /*[[ ${results} ]]*/[];
+    var config = {
+        type: 'bar',
+        data: {
+            labels: dayList,
+            datasets: [{
+                fill: false,
+                data: PerformanceList,
+                backgroundColor: [
+                    'rgb(95,192,153)',
+                ],
+                borderColor: [
+                    'rgba(125,134,173,0)',
+                ],
+                borderWidth: 1,
+                barPercentage: 0.5
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
                 },
-                scales: {
-                    y: {
-                        grid: {
-                            drawOnChartArea: true,  //선 지우기
-                            drawTicks: false,   //축의 숫자 옆 눈금 지우기
-                            drawBorder: true,
-                            borderDash: [3, 3]	//y축 선 실선으로 길이 3,간격 3으로
-                        },
-                        ticks: {
-                            padding: 10,
-                            beginAtZero: true
-                        }
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawOnChartArea: true,  //선 지우기
+                        drawTicks: false,   //축의 숫자 옆 눈금 지우기
+                        drawBorder: true,
+                        borderDash: [3, 3]	//y축 선 실선으로 길이 3,간격 3으로
                     },
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false,
-                            drawTicks: false
+                    ticks: {
+                        padding: 10,
+                        beginAtZero: true
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false,
+                        drawBorder: false,
+                        drawTicks: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 9
                         },
-                        ticks: {
-                            font: {
-                                size: 9
-                            },
-                            padding: 10
-                        }
+                        padding: 10
                     }
                 }
             }
-        });
+        }
+    };
+
+    // 차트 그리기
+
+    var myChart = new Chart(ctx, config);
+
+    // 초기 페이지 조회 시 작동
+    $(document).ready(function () {
+
+        var data = /*[[ ${results} ]]*/[];
+        for (var i = 0; i < data.length; i++) {
+            dayList.push(data[i].category);
+            PerformanceList.push(data[i].ctr);
+        }
+
+        myChart.update();
+
     });
+
+    $(function () {
+
+        $('#performance').on('change', function () { // 변경 감지
+
+            config.data.datasets.splice(0,1);
+
+            var data = /*[[ ${results} ]]*/[];
+            var newPerformanceList = [];
+            var value = this.value;
+
+            if (value == 'view') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].view);
+                }
+            } else if (value == 'click') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].click);
+                }
+            } else if (value == 'conversion') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].conversion);
+                }
+            } else if (value == 'purchase') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].purchase);
+                }
+            } else if (value == 'spend') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].spend);
+                }
+            } else if (value == 'CTR') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].ctr);
+                }
+            } else if (value == 'CVR') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].cvr);
+                }
+            } else if (value == 'CPA') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].cpa);
+                }
+            } else if (value == 'ROAS') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].roas);
+                }
+            }
+
+            var newDataSet = {
+                fill: false,
+                data: newPerformanceList,
+                backgroundColor: [
+                    'rgb(95,192,153)',
+                ],
+                borderColor: [
+                    'rgba(125,134,173,0)',
+                ],
+                borderWidth: 1,
+                barPercentage: 0.5
+            }
+
+            config.data.datasets.push(newDataSet);
+
+            myChart.update();
+        });
+
+    });
+
     /*]]>*/
 
 </script>
