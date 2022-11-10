@@ -88,7 +88,7 @@ main {
 
 .date-form {
     display: flex !important;
-    width: 160px;
+    width: 140px;
     margin-right: 10px;
     margin-left: 0px;
 }
@@ -103,7 +103,7 @@ th, td {
 
 .stats-btn {
     width: fit-content;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 .row.right {
