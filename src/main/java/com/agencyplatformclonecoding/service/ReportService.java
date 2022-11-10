@@ -28,10 +28,10 @@ public class ReportService {
 
     private final StatisticsQueryRepository statisticsQueryRepository;
     private final DashboardQueryRepository dashboardQueryRepository;
-    private static final String[] PERFORMANCE_HEADER = {"날짜", "소재 ID", "키워드명", "입찰가", "노출수", "클릭수", "전환수", "구매액", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
-    private static final String[] CREATIVE_HEADER = {"날짜", "소재 ID", "키워드명", "입찰가", "노출수", "클릭수", "전환수", "구매액", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
-    private static final String[] CAMPAIGN_HEADER = {"날짜", "캠페인 ID", "캠페인명", "예산", "노출수", "클릭수", "전환수", "구매액", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
-    private static final String[] CLIENT_HEADER_P = {"날짜", "광고주 ID", "광고주명", "업종", "노출수", "클릭수", "전환수", "구매액", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
+    private static final String[] PERFORMANCE_HEADER = {"날짜", "소재 ID", "키워드명", "입찰가", "노출수", "클릭수", "전환수", "전환매출", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
+    private static final String[] CREATIVE_HEADER = {"날짜", "소재 ID", "키워드명", "입찰가", "노출수", "클릭수", "전환수", "전환매출", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
+    private static final String[] CAMPAIGN_HEADER = {"날짜", "캠페인 ID", "캠페인명", "예산", "노출수", "클릭수", "전환수", "전환매출", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
+    private static final String[] CLIENT_HEADER_P = {"날짜", "광고주 ID", "광고주명", "업종", "노출수", "클릭수", "전환수", "전환매출", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
     private static final String[] CLIENT_HEADER_S = {"날짜", "광고주 ID", "광고주명", "업종", "에이전트 ID", "소진액"};
 
 
@@ -852,7 +852,7 @@ public class ReportService {
             sheet.setColumnWidth(10, 11 * 256); // ROAS
 
             // header
-            final String[] header = {"기간", "업종", "노출수", "클릭수", "전환수", "구매액", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
+            final String[] header = {"기간", "업종", "노출수", "클릭수", "전환수", "전환매출", "소진액", "클릭률", "전환률", "CPA", "ROAS"};
             Row row = sheet.createRow(0);
             for (int i = 0; i < header.length; i++) {
                 Cell cell = row.createCell(i);

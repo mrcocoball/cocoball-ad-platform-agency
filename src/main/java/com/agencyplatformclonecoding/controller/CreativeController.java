@@ -4,6 +4,7 @@ import com.agencyplatformclonecoding.domain.constrant.FormStatus;
 import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.CampaignDto;
+import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
 import com.agencyplatformclonecoding.dto.request.CreativeRequest;
 import com.agencyplatformclonecoding.dto.response.*;
 import com.agencyplatformclonecoding.service.*;
@@ -15,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +37,7 @@ public class CreativeController {
     private final CreativeService creativeService;
     private final PerformanceService performanceService;
     private final StatisticsService statisticsService;
+    private final DashboardService dashboardService;
     private final ReportService reportService;
     private final PaginationService paginationService;
 
@@ -131,7 +134,8 @@ public class CreativeController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             @PageableDefault(size = 7, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-            ModelMap map
+            ModelMap map,
+			Model model
     ) {
         CreativeWithPerformancesResponse creativeWithPerformancesResponse = CreativeWithPerformancesResponse.from(creativeService.getCreativeWithPerformances(creativeId));
         CampaignWithCreativesResponse campaignWithCreativesResponse = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
@@ -139,6 +143,7 @@ public class CreativeController {
         Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, startDate, lastDate, statisticsType, creativeId, campaignId, clientId).map(PerformanceResponse::from);
         Set<PerformanceStatisticsResponse> statistics = statisticsService.getTotalPerformanceStatistics(startDate, lastDate, statisticsType, creativeId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
+		List<DashboardStatisticsDto> chart = dashboardService.setChart3(startDate, lastDate, campaignId);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), performances.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaignsResponse);
@@ -147,6 +152,7 @@ public class CreativeController {
         map.addAttribute("performances", performances);
         map.addAttribute("paginationBarNumbers", barNumbers);
         map.addAttribute("statistics", statistics);
+		model.addAttribute("chart", chart);
         map.addAttribute("totalCount", performanceService.getPerformanceCount());
 
         return "manage/performance";

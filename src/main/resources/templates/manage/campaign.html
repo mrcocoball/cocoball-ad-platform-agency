@@ -6,7 +6,8 @@
   <meta name="author" content="mrcocoball">
   <title>캠페인 관리</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
 <body>
@@ -68,7 +69,9 @@
   </div>
 
   <div class="container">
-    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <nav
+        style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+        aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/manage">광고 관리</a></li>
         <li class="breadcrumb-item active" aria-current="page">캠페인 관리</li>
@@ -80,18 +83,33 @@
       <div class="create-btn d-grid gap-2 justify-content-md">
         <form id="statistics-date-form" method="get">
           <div class="date-form">
-            <input type="date" class="form-control" id="start-date" name="startDate", min="2020-01-01" />
+            <input type="date" class="form-control" id="start-date" name="startDate" , min="2020-01-01"/>
           </div>
           <div class="date-form">
-            <input type="date" class="form-control" id="last-date" name="lastDate" />
+            <input type="date" class="form-control" id="last-date" name="lastDate"/>
           </div>
-            <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인</button>
+          <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인
+          </button>
         </form>
-        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일간 통계</a>
-        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일간 통계</a>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일</a>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일</a>
         <a class="stats-btn btn btn-primary" role="button" id="get-report">실적 보고서</a>
         <a class="btn btn-primary me-md-2" role="button" id="create-campaign">캠페인 생성</a>
+        <select id="performance">
+          <option value="view">노출수</option>
+          <option value="click">클릭수</option>
+          <option value="conversion">전환수</option>
+          <option value="purchase">전환매출</option>
+          <option value="spend" selected>소진액</option>
+          <option value="CTR">클릭률</option>
+          <option value="CVR">전환률</option>
+          <option value="CPA">CPA</option>
+          <option value="ROAS">ROAS</option>
+        </select>
       </div>
+
+      <canvas id="myChart" height="175" width="600"></canvas>
+
       <table class="table" id="client-info">
         <thead>
         <tr>
@@ -117,7 +135,7 @@
           <th class="view" style="width: 75px;"><a>총 노출수</a></th>
           <th class="click" style="width: 75px;"><a>총 클릭수</a></th>
           <th class="conversion" style="width: 75px;"><a>총 전환수</a></th>
-          <th class="purchase" style="width: 100px;"><a>총 구매액</a></th>
+          <th class="purchase" style="width: 100px;"><a>총 전환매출</a></th>
           <th class="spend" style="width: 80px;"><a>총 소진액</a></th>
           <th class="CTR" style="width: 75px;"><a>클릭률</a></th>
           <th class="CVR" style="width: 75px;"><a>전환률</a></th>
@@ -150,7 +168,7 @@
           <th class="view" style="width: 75px;"><a>노출수</a></th>
           <th class="click" style="width: 75px;"><a>클릭수</a></th>
           <th class="conversion" style="width: 75px;"><a>전환수</a></th>
-          <th class="purchase" style="width: 100px;"><a>구매액</a></th>
+          <th class="purchase" style="width: 100px;"><a>전환매출</a></th>
           <th class="spend" style="width: 90px;"><a>소진액</a></th>
           <th class="CTR" style="width: 75px;"><a>클릭률</a></th>
           <th class="CVR" style="width: 75px;"><a>전환률</a></th>
@@ -253,5 +271,158 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var dayList = [];
+    var performanceList = [];
+    var data = /*[[ ${chart} ]]*/[];
+    var config = {
+        type: 'line',
+        data: {
+            labels: dayList,
+            datasets: [{
+                fill: false,
+                data: performanceList,
+                backgroundColor: [
+                    'rgb(95,192,153)',
+                ],
+                borderColor: [
+                    'rgba(125,134,173,1)',
+                ],
+                borderWidth: 1,
+                barPercentage: 0.5
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                },
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawOnChartArea: true,  //선 지우기
+                        drawTicks: false,   //축의 숫자 옆 눈금 지우기
+                        drawBorder: true,
+                        borderDash: [3, 3]	//y축 선 실선으로 길이 3,간격 3으로
+                    },
+                    ticks: {
+                        padding: 10,
+                        beginAtZero: true
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false,
+                        drawBorder: false,
+                        drawTicks: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 9
+                        },
+                        padding: 10
+                    }
+                }
+            }
+        }
+    };
+
+    // 차트 그리기
+
+    var myChart = new Chart(ctx, config);
+
+    // 초기 페이지 조회 시 작동
+    $(document).ready(function () {
+
+        var data = /*[[ ${chart} ]]*/[];
+        for (var i = 0; i < data.length; i++) {
+            dayList.push(data[i].startDate);
+            performanceList.push(data[i].spend);
+        }
+
+        myChart.update();
+
+    });
+
+    $(function () {
+
+        $('#performance').on('change', function () { // 변경 감지
+
+            config.data.datasets.splice(0,1);
+
+            var data = /*[[ ${chart} ]]*/[];
+            var newPerformanceList = [];
+            var value = this.value;
+
+            if (value == 'view') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].view);
+                }
+            } else if (value == 'click') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].click);
+                }
+            } else if (value == 'conversion') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].conversion);
+                }
+            } else if (value == 'purchase') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].purchase);
+                }
+            } else if (value == 'spend') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].spend);
+                }
+            } else if (value == 'CTR') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].ctr);
+                }
+            } else if (value == 'CVR') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].cvr);
+                }
+            } else if (value == 'CPA') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].cpa);
+                }
+            } else if (value == 'ROAS') {
+                for (var i = 0; i < data.length; i++) {
+                    newPerformanceList.push(data[i].roas);
+                }
+            }
+
+            var newDataSet = {
+                fill: false,
+                data: newPerformanceList,
+                backgroundColor: [
+                    'rgb(95,192,153)',
+                ],
+                borderColor: [
+                    'rgba(125,134,173,1)',
+                ],
+                borderWidth: 1,
+                barPercentage: 0.5
+            }
+
+            config.data.datasets.push(newDataSet);
+
+            myChart.update();
+        });
+
+    });
+
+    /*]]>*/
+
+</script>
 
 </body>

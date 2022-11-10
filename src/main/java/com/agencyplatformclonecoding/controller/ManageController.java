@@ -3,6 +3,7 @@ package com.agencyplatformclonecoding.controller;
 import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
+import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
 import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
@@ -16,6 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +40,7 @@ public class ManageController {
     private final CampaignService campaignService;
     private final PaginationService paginationService;
     private final StatisticsService statisticsService;
+    private final DashboardService dashboardService;
     private final ReportService reportService;
 
     @GetMapping()
@@ -71,7 +74,8 @@ public class ManageController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             @PageableDefault(size = 5, sort = "activated", direction = Sort.Direction.DESC) Pageable pageable,
-            ModelMap map
+            ModelMap map,
+			Model model
     ) {
         Page<CampaignResponse> campaigns = campaignService.searchCampaigns(pageable, clientId).map(CampaignResponse::from);
         Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.getCampaignStatistics(startDate, lastDate, statisticsType, clientId)
@@ -79,6 +83,7 @@ public class ManageController {
         Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.getTotalCampaignStatistics(startDate, lastDate, statisticsType, clientId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
+		List<DashboardStatisticsDto> chart = dashboardService.setChart1(startDate, lastDate, clientId);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), campaigns.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaigns);
@@ -86,6 +91,7 @@ public class ManageController {
         map.addAttribute("campaignStatistics", campaignStatistics);
         map.addAttribute("totalCampaignStatistics", totalCampaignStatistics);
         map.addAttribute("paginationBarNumbers", barNumbers);
+		model.addAttribute("chart", chart);
         map.addAttribute("totalCount", campaignService.getCampaignCount());
 
         return "manage/campaign";
