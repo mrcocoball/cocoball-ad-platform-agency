@@ -20,8 +20,8 @@
 
 <main class="d-flex flex-nowrap">
   <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="min-height: 900px; width: 280px;">
-    <a href="/" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
-      <svg class="bi pe-none me-2" width="40" height="32">
+    <a href="/static" class="d-flex align-items-center mb-0 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi pe-none me-2" width="40" height="10">
         <use xlink:href="#bootstrap"/>
       </svg>
       <span class="fs-4"></span>
@@ -60,7 +60,7 @@
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a href="/dashboard" class="nav-link text-white">
           <svg class="bi pe-none me-2" width="16" height="16">
             <use xlink:href="#people-circle"/>
           </svg>
@@ -70,8 +70,9 @@
   </div>
 
   <div class="container" style="text-align:center">
-    <p style="font-size: 50px;"><span th:text="${statusCode} ?: _">Error</span>가 발생하였습니다.</p>
-    <p>Error 내용 : <span th:text="${message} ?: _">잘못된 요청입니다.</span></p>
+    <p style="font-size: 50px;"><span th:text="${status} ?: _">500</span> Error가 발생하였습니다.</p>
+    <p> Error 분류 : <span th:text="${errorCode} ?: _">INTERNAL_SERVER_ERROR</span></p>
+    <p> Error 내용 : <span th:text="${message} ?: _">서버 내부 오류입니다.</span></p>
   </div>
 </main>
 
