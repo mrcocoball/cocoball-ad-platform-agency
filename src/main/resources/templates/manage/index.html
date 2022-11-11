@@ -176,6 +176,29 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
 
+    // 초기 페이지 조회 시 작동
+    $(document).ready(function () {
+
+        // 초기 세팅
+        var iStartDate = $('#start-date').val();
+        var iLastDate = $('#last-date').val();
+
+        if (iStartDate == '') {
+            var now = new Date();
+            var dayBeforeSeven = new Date(now.setDate(now.getDate()-7));
+            var startDate = dateFormat(dayBeforeSeven);
+            $('#start-date').val(startDate);
+        }
+
+        if (iLastDate == '') {
+            var now2 = new Date();
+            var dayBeforeOne = new Date(now2.setDate(now2.getDate()-1));
+            var lastDate = dateFormat(dayBeforeOne);
+            $('#last-date').val(lastDate);
+        }
+
+    });
+
     // date 포맷 'YYYY-MM-DD' 형식으로 변경
     function dateFormat(date) {
         var dateFormat = date.getFullYear() +
