@@ -28,7 +28,7 @@ public class DashboardQueryRepository {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<DashboardStatisticsDto> dashboardTestQuery(@Param("startDate") LocalDate startDate,
+    public List<DashboardStatisticsDto> findSpendChartData(@Param("startDate") LocalDate startDate,
                                                            @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
@@ -54,8 +54,8 @@ public class DashboardQueryRepository {
         return results;
     }
 
-    public List<DashboardStatisticsDto> dashboardTestQuery2(@Param("startDate") LocalDate startDate,
-                                                            @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findSpendChartList(@Param("startDate") LocalDate startDate,
+                                                           @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
@@ -82,8 +82,8 @@ public class DashboardQueryRepository {
     }
 
     // 광고주별 소진액 차트 출력
-    public List<DashboardStatisticsDto> dashboardTestQuery3(@Param("startDate") LocalDate startDate,
-                                                            @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findClientsSpendChartDataAndList(@Param("startDate") LocalDate startDate,
+                                                                         @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
@@ -119,8 +119,8 @@ public class DashboardQueryRepository {
     }
 
     // 에이전트 소진액 차트 출력
-    public List<DashboardStatisticsDto> dashboardTestQuery4(@Param("startDate") LocalDate startDate,
-                                                            @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findAgentsSpendChartDataAndList(@Param("startDate") LocalDate startDate,
+                                                                        @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
@@ -157,8 +157,8 @@ public class DashboardQueryRepository {
     }
 
     // 에이전트 그룹 소진액 차트 출력
-    public List<DashboardStatisticsDto> dashboardTestQuery5(@Param("startDate") LocalDate startDate,
-                                                            @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findGroupsSpendChartDataAndList(@Param("startDate") LocalDate startDate,
+                                                                        @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
@@ -193,8 +193,8 @@ public class DashboardQueryRepository {
     }
 
     // 업종별 소진액 차트 출력
-    public List<DashboardStatisticsDto> dashboardTestQuery6(@Param("startDate") LocalDate startDate,
-                                                            @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findCategoryChartDataAndList(@Param("startDate") LocalDate startDate,
+                                                                     @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
@@ -228,8 +228,8 @@ public class DashboardQueryRepository {
     }
 
     // 업종별 실적 지표 차트 출력
-    public List<DashboardStatisticsDto> dashboardTestQuery7(@Param("startDate") LocalDate startDate,
-                                                            @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findReferenceChartDataAndList(@Param("startDate") LocalDate startDate,
+                                                                      @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
@@ -267,9 +267,9 @@ public class DashboardQueryRepository {
     }
 
     // 캠페인 실적 차트
-    public List<DashboardStatisticsDto> chartQuery1(@Param("id") String clientId,
-                                                    @Param("startDate") LocalDate startDate,
-                                                    @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findCampaignPerformanceChartData(@Param("id") String clientId,
+                                                                         @Param("startDate") LocalDate startDate,
+                                                                         @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
@@ -307,9 +307,9 @@ public class DashboardQueryRepository {
 
 
     // 소재 실적 차트
-    public List<DashboardStatisticsDto> chartQuery2(@Param("id") Long campaignId,
-                                                    @Param("startDate") LocalDate startDate,
-                                                    @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findCreativePerformanceChartData(@Param("id") Long campaignId,
+                                                                         @Param("startDate") LocalDate startDate,
+                                                                         @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
@@ -346,9 +346,9 @@ public class DashboardQueryRepository {
 
 
     // 상세 실적 차트
-    public List<DashboardStatisticsDto> chartQuery3(@Param("id") Long creativeId,
-                                                    @Param("startDate") LocalDate startDate,
-                                                    @Param("lastDate") LocalDate lastDate
+    public List<DashboardStatisticsDto> findPerformanceChartData(@Param("id") Long creativeId,
+                                                                 @Param("startDate") LocalDate startDate,
+                                                                 @Param("lastDate") LocalDate lastDate
     ) {
         List<DashboardStatisticsDto> results = jpaQueryFactory
                 .select(Projections.fields(DashboardStatisticsDto.class,
