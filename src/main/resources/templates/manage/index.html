@@ -169,4 +169,66 @@
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    // date 포맷 'YYYY-MM-DD' 형식으로 변경
+    function dateFormat(date) {
+        var dateFormat = date.getFullYear() +
+            '-' + ((date.getMonth() + 1) < 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+            '-' + ((date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()));
+        return dateFormat;
+    }
+
+    // 최근 ~일 통계 버튼 관련 동작
+    $(function () {
+
+        $('#statistics_type_week').click(function () { // 클릭 감지
+
+            var now = new Date();
+            var now2 = new Date();
+            var dayBeforeSeven = new Date(now.setDate(now.getDate()-7));
+            var dayBeforeOne = new Date(now2.setDate(now2.getDate()-1));
+            var startDate = dateFormat(dayBeforeSeven);
+            var lastDate = dateFormat(dayBeforeOne);
+
+            $('#start-date').val(startDate);
+            $('#last-date').val(lastDate);
+
+            $('#statistics-date-form').submit();
+
+        });
+
+    });
+
+    // 최근 ~일 통계 버튼 관련 동작
+    $(function () {
+
+        $('#statistics_type_month').click(function () { // 클릭 감지
+
+            var now = new Date();
+            var now2 = new Date();
+            var dayBeforeThirty = new Date(now.setDate(now.getDate()-30));
+            var dayBeforeOne = new Date(now2.setDate(now2.getDate()-1));
+            var startDate = dateFormat(dayBeforeThirty);
+            var lastDate = dateFormat(dayBeforeOne);
+
+            $('#start-date').val(startDate);
+            $('#last-date').val(lastDate);
+
+            $('#statistics-date-form').submit();
+
+        });
+
+    });
+
+
+    /*]]>*/
+
+</script>
+
 </body>

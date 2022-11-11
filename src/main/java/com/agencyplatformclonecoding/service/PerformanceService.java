@@ -3,7 +3,6 @@ package com.agencyplatformclonecoding.service;
 import com.agencyplatformclonecoding.domain.Campaign;
 import com.agencyplatformclonecoding.domain.ClientUser;
 import com.agencyplatformclonecoding.domain.Creative;
-import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.PerformanceDto;
 import com.agencyplatformclonecoding.exception.AdPlatformException;
 import com.agencyplatformclonecoding.exception.ErrorCode;
@@ -38,30 +37,22 @@ public class PerformanceService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PerformanceDto> searchPerformances(Pageable pageable, LocalDate startDate, LocalDate lastDate, StatisticsType statisticsType, Long creativeId, Long campaignId, String clientId) {
+    public Page<PerformanceDto> searchPerformances(Pageable pageable, LocalDate startDate, LocalDate lastDate, Long creativeId, Long campaignId, String clientId) {
 
         validateClientAndCampaignAndCreative(creativeId, campaignId, clientId);
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
-        if (statisticsType == null) {
-            return performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDate, lastDate).map(PerformanceDto::from);
-        }
-
-        return switch (statisticsType) {
-            case BEFORE_WEEK -> performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDateBeforeSevenDays, defaultLastDate).map(PerformanceDto::from);
-            case BEFORE_MONTH -> performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDateBeforeThirtyDays, defaultLastDate).map(PerformanceDto::from);
-        };
+        return performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDate, lastDate).map(PerformanceDto::from);
     }
 
     public long getPerformanceCount() {

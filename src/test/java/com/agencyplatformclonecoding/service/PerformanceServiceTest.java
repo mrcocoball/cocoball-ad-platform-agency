@@ -1,6 +1,5 @@
 package com.agencyplatformclonecoding.service;
 
-import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.PerformanceDto;
 import com.agencyplatformclonecoding.repository.CampaignRepository;
 import com.agencyplatformclonecoding.repository.ClientUserRepository;
@@ -42,13 +41,12 @@ class PerformanceServiceTest {
         Long campaignId = 1L;
         String clientId = "t-client";
         Long creativeId = 1L;
-        StatisticsType statisticsType = null;
         LocalDate lastDate = LocalDate.now().minusDays(1);
         LocalDate startDate = lastDate.minusDays(6);
         given(performanceRepository.findByCreative_IdAndCreatedAtBetween(pageable, creativeId, startDate, lastDate)).willReturn(Page.empty());
 
         // When
-        Page<PerformanceDto> performances = sut.searchPerformances(pageable, startDate, lastDate, statisticsType, creativeId, campaignId, clientId);
+        Page<PerformanceDto> performances = sut.searchPerformances(pageable, startDate, lastDate, creativeId, campaignId, clientId);
 
         // Then
         assertThat(performances).isEmpty();

@@ -2,7 +2,6 @@ package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.domain.constrant.StatisticsType;
 import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
 import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserResponse;
@@ -47,7 +46,6 @@ public class ManageController {
     public String manage(
             @RequestParam(required = false) SearchType searchType,
             @RequestParam(required = false) String searchValue,
-            @RequestParam(required = false) StatisticsType statisticsType,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             @PageableDefault(size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
@@ -55,7 +53,7 @@ public class ManageController {
     ) {
         Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)
                 .map(ClientUserResponse::from);
-        Set<PerformanceStatisticsResponse> totalClientSpendStatistics = statisticsService.getTotalSpendStatistics(startDate, lastDate, statisticsType)
+        Set<PerformanceStatisticsResponse> totalClientSpendStatistics = statisticsService.getTotalSpendStatistics(startDate, lastDate)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), clientUsers.getTotalPages());
 
@@ -70,7 +68,6 @@ public class ManageController {
     @GetMapping("/{clientId}/campaigns")
     public String campaigns(
             @PathVariable String clientId,
-            @RequestParam(required = false) StatisticsType statisticsType,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             @PageableDefault(size = 5, sort = "activated", direction = Sort.Direction.DESC) Pageable pageable,
@@ -78,9 +75,9 @@ public class ManageController {
 			Model model
     ) {
         Page<CampaignResponse> campaigns = campaignService.searchCampaigns(pageable, clientId).map(CampaignResponse::from);
-        Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.getCampaignStatistics(startDate, lastDate, statisticsType, clientId)
+        Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.getCampaignStatistics(startDate, lastDate, clientId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
-        Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.getTotalCampaignStatistics(startDate, lastDate, statisticsType, clientId)
+        Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.getTotalCampaignStatistics(startDate, lastDate, clientId)
                 .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
         ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
 		List<DashboardStatisticsDto> chart = dashboardService.setChart1(startDate, lastDate, clientId);

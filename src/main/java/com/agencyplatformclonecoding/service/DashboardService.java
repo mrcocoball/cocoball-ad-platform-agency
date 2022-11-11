@@ -2,7 +2,6 @@ package com.agencyplatformclonecoding.service;
 
 import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
 import com.agencyplatformclonecoding.repository.DashboardQueryRepository;
-import com.agencyplatformclonecoding.repository.StatisticsQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,14 +29,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.dashboardTestQuery(startDate, lastDate).stream().limit(31).collect(Collectors.toList());
@@ -49,14 +47,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery2(startDate, lastDate);
@@ -74,14 +71,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.dashboardTestQuery3(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
@@ -94,14 +90,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery3(startDate, lastDate);
@@ -119,14 +114,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.dashboardTestQuery4(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
@@ -139,14 +133,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery4(startDate, lastDate);
@@ -164,14 +157,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.dashboardTestQuery5(startDate, lastDate);
@@ -184,14 +176,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery5(startDate, lastDate);
@@ -209,14 +200,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.dashboardTestQuery6(startDate, lastDate);
@@ -229,14 +219,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery6(startDate, lastDate);
@@ -254,14 +243,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.dashboardTestQuery7(startDate, lastDate);
@@ -274,14 +262,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery7(startDate, lastDate);
@@ -299,14 +286,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.chartQuery1(clientId, startDate, lastDate);
@@ -319,14 +305,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.chartQuery2(campaignId, startDate, lastDate);
@@ -339,14 +324,13 @@ public class DashboardService {
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         LocalDate startDateBeforeSevenDays = defaultLastDate.minusDays(6);
-        LocalDate startDateBeforeThirtyDays = defaultLastDate.minusDays(30);
 
         if (lastDate == null) {
             lastDate = defaultLastDate;
         }
 
         if (startDate == null) {
-            startDate = startDateBeforeThirtyDays;
+            startDate = startDateBeforeSevenDays;
         }
 
         return dashboardQueryRepository.chartQuery3(creativeId, startDate, lastDate);
