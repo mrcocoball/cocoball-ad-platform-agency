@@ -17,6 +17,7 @@
 * Thymeleaf
 * MySQL
 * Chart.js
+* Javascript / jquery
 * Querydsl
 * GitKraken
 * Heroku </br></br>
