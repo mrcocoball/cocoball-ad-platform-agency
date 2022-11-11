@@ -9,16 +9,16 @@
 
 * Java
 * Spring Boot
-* Spring Data JPA
 * Spring Data REST
 * Spring Data REST HAL Explorer
 * Spring Security
 * Spring Properties DevTools
-* Thymeleaf
-* MySQL
-* Chart.js
-* Javascript / jquery
+* Spring Data JPA
 * Querydsl
+* MySQL
+* Thymeleaf
+* Javascript / jquery
+* Chart.js
 * GitKraken
 * Heroku </br></br>
 
