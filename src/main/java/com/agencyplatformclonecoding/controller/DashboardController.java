@@ -40,8 +40,8 @@ public class DashboardController {
             @PageableDefault(size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable
     ) {
 
-        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard(startDate, lastDate);
-        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable(startDate, lastDate, pageable);
+        List<DashboardStatisticsDto> results = dashboardService.setSpendChart(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setSpendChartList(startDate, lastDate, pageable);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
 
         model.addAttribute("results", results);
@@ -60,8 +60,8 @@ public class DashboardController {
             @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
     ) {
 
-        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard2(startDate, lastDate);
-        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable2(startDate, lastDate, pageable);
+        List<DashboardStatisticsDto> results = dashboardService.setClientsSpendChart(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setClientsSpendChartList(startDate, lastDate, pageable);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
 
         model.addAttribute("results", results);
@@ -80,8 +80,8 @@ public class DashboardController {
             @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
     ) {
 
-        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard3(startDate, lastDate);
-        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable3(startDate, lastDate, pageable);
+        List<DashboardStatisticsDto> results = dashboardService.setAgentsSpendChart(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setAgentsSpendChartList(startDate, lastDate, pageable);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
 
         model.addAttribute("results", results);
@@ -100,8 +100,8 @@ public class DashboardController {
             @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
     ) {
 
-        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard4(startDate, lastDate);
-        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable4(startDate, lastDate, pageable);
+        List<DashboardStatisticsDto> results = dashboardService.setGroupsSpendChart(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setGroupsSpendChartList(startDate, lastDate, pageable);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
 
         model.addAttribute("results", results);
@@ -120,8 +120,8 @@ public class DashboardController {
             @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
     ) {
 
-        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard5(startDate, lastDate);
-        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable5(startDate, lastDate, pageable);
+        List<DashboardStatisticsDto> results = dashboardService.setCategoryChart(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setCategoryChartList(startDate, lastDate, pageable);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
 
         model.addAttribute("results", results);
@@ -140,8 +140,8 @@ public class DashboardController {
             @PageableDefault(size = 10, sort = "spend", direction = Sort.Direction.DESC) Pageable pageable
     ) {
 
-        List<DashboardStatisticsDto> results = dashboardService.setTestDashboard6(startDate, lastDate);
-        Page<DashboardStatisticsDto> resultpages = dashboardService.setTestDashboardTable6(startDate, lastDate, pageable);
+        List<DashboardStatisticsDto> results = dashboardService.setReferenceChart(startDate, lastDate);
+        Page<DashboardStatisticsDto> resultpages = dashboardService.setReferenceChartList(startDate, lastDate, pageable);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), resultpages.getTotalPages());
 
         model.addAttribute("results", results);

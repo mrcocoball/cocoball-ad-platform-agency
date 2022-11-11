@@ -4,6 +4,7 @@ import com.agencyplatformclonecoding.domain.constrant.FormStatus;
 import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.dto.CampaignDto;
 import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
+import com.agencyplatformclonecoding.dto.PerformanceStatisticsDto;
 import com.agencyplatformclonecoding.dto.request.CreativeRequest;
 import com.agencyplatformclonecoding.dto.response.*;
 import com.agencyplatformclonecoding.service.*;
@@ -21,10 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping(value = "/manage/{clientId}/campaigns/{campaignId}/creatives")
@@ -139,9 +137,8 @@ public class CreativeController {
         CampaignWithCreativesResponse campaignWithCreativesResponse = CampaignWithCreativesResponse.from(campaignService.getCampaignWithCreatives(campaignId));
         ClientUserWithCampaignsResponse clientUserWithCampaignsResponse = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
         Page<PerformanceResponse> performances = performanceService.searchPerformances(pageable, startDate, lastDate, creativeId, campaignId, clientId).map(PerformanceResponse::from);
-        Set<PerformanceStatisticsResponse> statistics = statisticsService.getTotalPerformanceStatistics(startDate, lastDate, creativeId)
-                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
-        List<DashboardStatisticsDto> chart = dashboardService.setChart3(startDate, lastDate, campaignId);
+        List<PerformanceStatisticsDto> statistics = statisticsService.getTotalPerformanceStatistics(startDate, lastDate, creativeId);
+        List<DashboardStatisticsDto> chart = dashboardService.setPerformanceChart(startDate, lastDate, campaignId);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), performances.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaignsResponse);
