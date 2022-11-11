@@ -154,7 +154,7 @@ public class ReportService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.dashboardTestQuery2(startDate, lastDate);
+        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.findSpendChartList(startDate, lastDate);
         createDashboardTotalSpendReportResponse(response, dPerformanceList);
 
         return null;
@@ -176,7 +176,7 @@ public class ReportService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.dashboardTestQuery3(startDate, lastDate);
+        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.findClientsSpendChartDataAndList(startDate, lastDate);
         createDashboardClientsSpendReportResponse(response, dPerformanceList);
 
         return null;
@@ -198,7 +198,7 @@ public class ReportService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.dashboardTestQuery4(startDate, lastDate);
+        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.findAgentsSpendChartDataAndList(startDate, lastDate);
         createDashboardAgentsSpendReportResponse(response, dPerformanceList);
 
         return null;
@@ -220,7 +220,7 @@ public class ReportService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.dashboardTestQuery5(startDate, lastDate);
+        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.findGroupsSpendChartDataAndList(startDate, lastDate);
         createDashboardGroupsSpendReportResponse(response, dPerformanceList);
 
         return null;
@@ -242,7 +242,7 @@ public class ReportService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.dashboardTestQuery6(startDate, lastDate);
+        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.findCategoryChartDataAndList(startDate, lastDate);
         createDashboardCategorySpendReportResponse(response, dPerformanceList);
 
         return null;
@@ -264,7 +264,7 @@ public class ReportService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.dashboardTestQuery7(startDate, lastDate);
+        List<DashboardStatisticsDto> dPerformanceList = dashboardQueryRepository.findReferenceChartDataAndList(startDate, lastDate);
         createDashboardCategoryReferenceReportResponse(response, dPerformanceList);
 
         return null;

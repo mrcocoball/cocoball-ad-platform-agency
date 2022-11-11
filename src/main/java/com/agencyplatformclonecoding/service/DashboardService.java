@@ -21,10 +21,11 @@ import java.util.stream.Collectors;
 @Service
 public class DashboardService {
 
+    // 일일 소진액 차트 출력
     private final DashboardQueryRepository dashboardQueryRepository;
 
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setTestDashboard(LocalDate startDate, LocalDate lastDate) {
+    public List<DashboardStatisticsDto> setSpendChart(LocalDate startDate, LocalDate lastDate) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -38,11 +39,12 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.dashboardTestQuery(startDate, lastDate).stream().limit(31).collect(Collectors.toList());
+        return dashboardQueryRepository.findSpendChartData(startDate, lastDate).stream().limit(31).collect(Collectors.toList());
     }
 
+    // 일일 소진액 리스트 출력
     @Transactional(readOnly = true)
-    public Page<DashboardStatisticsDto> setTestDashboardTable(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+    public Page<DashboardStatisticsDto> setSpendChartList(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -56,7 +58,7 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery2(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.findSpendChartList(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -66,7 +68,7 @@ public class DashboardService {
 
     // 상위 광고주별 소진액 차트 출력
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setTestDashboard2(LocalDate startDate, LocalDate lastDate) {
+    public List<DashboardStatisticsDto> setClientsSpendChart(LocalDate startDate, LocalDate lastDate) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -80,12 +82,12 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.dashboardTestQuery3(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
+        return dashboardQueryRepository.findClientsSpendChartDataAndList(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
     }
 
-    // 전체 광고주별 소진액 차트 출력
+    // 전체 광고주별 소진액 리스트 출력
     @Transactional(readOnly = true)
-    public Page<DashboardStatisticsDto> setTestDashboardTable2(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+    public Page<DashboardStatisticsDto> setClientsSpendChartList(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -99,7 +101,7 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery3(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.findClientsSpendChartDataAndList(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -109,7 +111,7 @@ public class DashboardService {
 
     // 상위 에이전트별 소진액 차트 출력
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setTestDashboard3(LocalDate startDate, LocalDate lastDate) {
+    public List<DashboardStatisticsDto> setAgentsSpendChart(LocalDate startDate, LocalDate lastDate) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -123,12 +125,12 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.dashboardTestQuery4(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
+        return dashboardQueryRepository.findAgentsSpendChartDataAndList(startDate, lastDate).stream().limit(10).collect(Collectors.toList());
     }
 
     // 전체 에이전트별 소진액 페이지 출력
     @Transactional(readOnly = true)
-    public Page<DashboardStatisticsDto> setTestDashboardTable3(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+    public Page<DashboardStatisticsDto> setAgentsSpendChartList(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -142,7 +144,7 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery4(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.findAgentsSpendChartDataAndList(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -152,7 +154,7 @@ public class DashboardService {
 
     // 에이전트 그룹별 소진액 차트 출력
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setTestDashboard4(LocalDate startDate, LocalDate lastDate) {
+    public List<DashboardStatisticsDto> setGroupsSpendChart(LocalDate startDate, LocalDate lastDate) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -166,12 +168,12 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.dashboardTestQuery5(startDate, lastDate);
+        return dashboardQueryRepository.findGroupsSpendChartDataAndList(startDate, lastDate);
     }
 
-    // 전체 에이전트별 소진액 페이지 출력
+    // 전체 에이전트 그룹별 소진액 페이지 출력
     @Transactional(readOnly = true)
-    public Page<DashboardStatisticsDto> setTestDashboardTable4(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+    public Page<DashboardStatisticsDto> setGroupsSpendChartList(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -185,7 +187,7 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery5(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.findGroupsSpendChartDataAndList(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -195,7 +197,7 @@ public class DashboardService {
 
     // 업종별 소진액 차트 출력
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setTestDashboard5(LocalDate startDate, LocalDate lastDate) {
+    public List<DashboardStatisticsDto> setCategoryChart(LocalDate startDate, LocalDate lastDate) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -209,12 +211,12 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.dashboardTestQuery6(startDate, lastDate);
+        return dashboardQueryRepository.findCategoryChartDataAndList(startDate, lastDate);
     }
 
     // 업종별 소진액 페이지 출력
     @Transactional(readOnly = true)
-    public Page<DashboardStatisticsDto> setTestDashboardTable5(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+    public Page<DashboardStatisticsDto> setCategoryChartList(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -228,7 +230,7 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery6(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.findCategoryChartDataAndList(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -238,7 +240,7 @@ public class DashboardService {
 
     // 업종별 실적 지표 차트 출력
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setTestDashboard6(LocalDate startDate, LocalDate lastDate) {
+    public List<DashboardStatisticsDto> setReferenceChart(LocalDate startDate, LocalDate lastDate) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -252,12 +254,12 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.dashboardTestQuery7(startDate, lastDate);
+        return dashboardQueryRepository.findReferenceChartDataAndList(startDate, lastDate);
     }
 
     // 업종별 실적 지표 페이지 출력
     @Transactional(readOnly = true)
-    public Page<DashboardStatisticsDto> setTestDashboardTable6(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
+    public Page<DashboardStatisticsDto> setReferenceChartList(LocalDate startDate, LocalDate lastDate, Pageable pageable) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -271,7 +273,7 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.dashboardTestQuery7(startDate, lastDate);
+        List<DashboardStatisticsDto> resultList = dashboardQueryRepository.findReferenceChartDataAndList(startDate, lastDate);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), resultList.size());
         final Page<DashboardStatisticsDto> resultPage = new PageImpl<>(resultList.subList(start, end), pageable, resultList.size());
@@ -281,7 +283,7 @@ public class DashboardService {
 
     // 캠페인 실적 지표 차트 출력
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setChart1(LocalDate startDate, LocalDate lastDate, String clientId) {
+    public List<DashboardStatisticsDto> setCampaignPerformanceChart(LocalDate startDate, LocalDate lastDate, String clientId) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -295,12 +297,12 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.chartQuery1(clientId, startDate, lastDate);
+        return dashboardQueryRepository.findCampaignPerformanceChartData(clientId, startDate, lastDate);
     }
 
     // 소재 실적 지표 차트 출력
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setChart2(LocalDate startDate, LocalDate lastDate, Long campaignId) {
+    public List<DashboardStatisticsDto> setCreativePerformanceChart(LocalDate startDate, LocalDate lastDate, Long campaignId) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -314,12 +316,12 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.chartQuery2(campaignId, startDate, lastDate);
+        return dashboardQueryRepository.findCreativePerformanceChartData(campaignId, startDate, lastDate);
     }
 
     // 상세 실적 지표 차트 출력
     @Transactional(readOnly = true)
-    public List<DashboardStatisticsDto> setChart3(LocalDate startDate, LocalDate lastDate, Long creativeId) {
+    public List<DashboardStatisticsDto> setPerformanceChart(LocalDate startDate, LocalDate lastDate, Long creativeId) {
 
         LocalDate defaultLastDate = LocalDate.parse(LocalDate.now().minusDays(1)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -333,6 +335,6 @@ public class DashboardService {
             startDate = startDateBeforeSevenDays;
         }
 
-        return dashboardQueryRepository.chartQuery3(creativeId, startDate, lastDate);
+        return dashboardQueryRepository.findPerformanceChartData(creativeId, startDate, lastDate);
     }
 }
