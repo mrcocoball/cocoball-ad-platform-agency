@@ -3,10 +3,10 @@ package com.agencyplatformclonecoding.controller;
 import com.agencyplatformclonecoding.domain.constrant.ReportType;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.DashboardStatisticsDto;
+import com.agencyplatformclonecoding.dto.PerformanceStatisticsDto;
 import com.agencyplatformclonecoding.dto.response.CampaignResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserResponse;
 import com.agencyplatformclonecoding.dto.response.ClientUserWithCampaignsResponse;
-import com.agencyplatformclonecoding.dto.response.PerformanceStatisticsResponse;
 import com.agencyplatformclonecoding.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,10 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RequestMapping("manage")
@@ -53,8 +50,7 @@ public class ManageController {
     ) {
         Page<ClientUserResponse> clientUsers = manageService.searchClientUsers(searchType, searchValue, pageable)
                 .map(ClientUserResponse::from);
-        Set<PerformanceStatisticsResponse> totalClientSpendStatistics = statisticsService.getTotalSpendStatistics(startDate, lastDate)
-                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
+        List<PerformanceStatisticsDto> totalClientSpendStatistics = statisticsService.getTotalSpendStatistics(startDate, lastDate);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), clientUsers.getTotalPages());
 
         map.addAttribute("clientUsers", clientUsers);
@@ -75,12 +71,10 @@ public class ManageController {
 			Model model
     ) {
         Page<CampaignResponse> campaigns = campaignService.searchCampaigns(pageable, clientId).map(CampaignResponse::from);
-        Set<PerformanceStatisticsResponse> campaignStatistics = statisticsService.getCampaignStatistics(startDate, lastDate, clientId)
-                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
-        Set<PerformanceStatisticsResponse> totalCampaignStatistics = statisticsService.getTotalCampaignStatistics(startDate, lastDate, clientId)
-                .stream().map(PerformanceStatisticsResponse::from).collect(Collectors.toCollection(LinkedHashSet::new));
+        List<PerformanceStatisticsDto> campaignStatistics = statisticsService.getCampaignStatistics(startDate, lastDate, clientId);
+        List<PerformanceStatisticsDto> totalCampaignStatistics = statisticsService.getTotalCampaignStatistics(startDate, lastDate, clientId);
         ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
-		List<DashboardStatisticsDto> chart = dashboardService.setChart1(startDate, lastDate, clientId);
+		List<DashboardStatisticsDto> chart = dashboardService.setCampaignPerformanceChart(startDate, lastDate, clientId);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), campaigns.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaigns);
