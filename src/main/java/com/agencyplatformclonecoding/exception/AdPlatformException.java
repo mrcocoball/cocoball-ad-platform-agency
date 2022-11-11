@@ -8,19 +8,19 @@ import lombok.Getter;
 public class AdPlatformException extends RuntimeException {
 
     private ErrorCode errorCode;
-    private String message;
+    private String detail;
 
     public AdPlatformException(ErrorCode errorCode) {
         this.errorCode = errorCode;
-        this.message = null;
+        this.detail = null;
     }
 
     @Override
     public String getMessage() {
-        if (message == null) {
+        if (detail == null) {
             return errorCode.getMessage();
         }
 
-        return String.format("%s. %s", errorCode.getMessage(), message);
+        return String.format("%s. %s", errorCode.getMessage(), detail);
     }
 }
