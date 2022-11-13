@@ -1,7 +1,12 @@
 @charset "utf-8";
 
 h1 {
-    font-size: 40px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 15px;
 }
 
 .justify-content-md-between {
@@ -24,11 +29,19 @@ h1 {
 }
 
 .container > h1 {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+}
+
+.container > h2 {
+    margin-bottom: 20px;
 }
 
 .container > header > h1 {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+}
+
+.container > header > h2 {
+    margin-bottom: 20px;
 }
 
 .row > h1 {
@@ -89,7 +102,7 @@ main {
 .date-form {
     display: flex !important;
     width: 140px;
-    margin-right: 10px;
+    margin-right: 20px;
     margin-left: 0px;
 }
 
@@ -103,7 +116,7 @@ th, td {
 
 .stats-btn {
     width: fit-content;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .row.right {
@@ -123,6 +136,22 @@ div {
     margin-top: 20px;
 }
 
-.nav nav-pills{
-    justify-content: space-between !important;
+#performance {
+    position: absolute;
+    left: 1330px;
+    width: 90px;
+    height: 36px;
+}
+
+.dropdown-menu > li {
+    font-size: 10px;
+}
+
+#client-table > tbody {
+    height: 18px;
+}
+
+.create-agent-group-btn {
+    flex-direction: row-reverse;
+    display: flex !important;
 }
