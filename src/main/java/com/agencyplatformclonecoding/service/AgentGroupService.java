@@ -48,19 +48,18 @@ public class AgentGroupService {
     }
 
     @Transactional(readOnly = true)
-    public Page<AgentGroupDto> searchAgentGroups(SearchType searchType, String searchKeyword, Pageable pageable) {
-        if (searchKeyword == null || searchKeyword.isBlank()) {
-            return agentGroupRepository.findAll(pageable).map(AgentGroupDto::from);
-        }
+    public Page<AgentGroupWithAgentsDto> searchAgentGroups(Pageable pageable) {
 
-        return switch (searchType) {
-            case ID -> agentGroupRepository.findByIdContaining(searchKeyword, pageable).map(AgentGroupDto::from);
-            case NICKNAME -> agentGroupRepository.findByNameContaining(searchKeyword, pageable).map(AgentGroupDto::from);
-        };
+        return agentGroupRepository.findAll(pageable).map(AgentGroupWithAgentsDto::from);
     }
 
     public void saveAgentGroup(AgentGroupDto dto) {
         Agency agency = agencyRepository.getReferenceById(dto.agencyDto().agencyId());
+
+        if (!isValidGroupNameLength(dto.name())) {
+            throw new AdPlatformException(ErrorCode.BAD_REQUEST_AGENT_GROUP_NAME);
+        }
+
         agentGroupRepository.save(dto.toEntity(agency));
     }
 
@@ -78,6 +77,11 @@ public class AgentGroupService {
 
             if (agentGroup.getAgency().equals(agency))
                 if (dto.name() != null) {
+
+                    if (!isValidGroupNameLength(dto.name())) {
+                        throw new AdPlatformException(ErrorCode.BAD_REQUEST_AGENT_GROUP_NAME);
+                    }
+
                     agentGroup.setName(dto.name());
                 }
         } catch (EntityNotFoundException e) {
@@ -112,5 +116,9 @@ public class AgentGroupService {
         } else {
             return 0;
         }
+    }
+
+    public boolean isValidGroupNameLength(String string) {
+        return string.length() <= 20;
     }
 }

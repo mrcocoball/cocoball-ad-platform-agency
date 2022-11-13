@@ -24,7 +24,9 @@ public class Category extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter @Column private String name;
+    @Setter
+    @Column
+    private String name;
 
     protected Category() {
     }

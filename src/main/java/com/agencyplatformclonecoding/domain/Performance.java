@@ -25,14 +25,29 @@ public class Performance {
     private Long id;
 
     // 다대일 양방향
-    @Setter @ManyToOne(optional = false) @JoinColumn(name = "CREATIVE_ID") private Creative creative; // 소재 정보 (ID)
+    @Setter
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "CREATIVE_ID")
+    private Creative creative; // 소재 정보 (ID)
 
-    @Setter @Column private Long view;
-    @Setter @Column private Long click;
-    @Setter @Column private Long conversion;
-    @Setter @Column private Long purchase;
-    @Setter @Column private Long spend;
-    @Setter @Column private LocalDate createdAt;
+    @Setter
+    @Column
+    private Long view;
+    @Setter
+    @Column
+    private Long click;
+    @Setter
+    @Column
+    private Long conversion;
+    @Setter
+    @Column
+    private Long purchase;
+    @Setter
+    @Column
+    private Long spend;
+    @Setter
+    @Column
+    private LocalDate createdAt;
 
     protected Performance() {
     }

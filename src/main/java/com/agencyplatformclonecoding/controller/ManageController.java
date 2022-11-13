@@ -68,13 +68,13 @@ public class ManageController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate lastDate,
             @PageableDefault(size = 5, sort = "activated", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map,
-			Model model
+            Model model
     ) {
         Page<CampaignResponse> campaigns = campaignService.searchCampaigns(pageable, clientId).map(CampaignResponse::from);
         List<PerformanceStatisticsDto> campaignStatistics = statisticsService.getCampaignStatistics(startDate, lastDate, clientId);
         List<PerformanceStatisticsDto> totalCampaignStatistics = statisticsService.getTotalCampaignStatistics(startDate, lastDate, clientId);
         ClientUserWithCampaignsResponse clientUserWithCampaigns = ClientUserWithCampaignsResponse.from(manageService.getClientUserWithCampaigns(clientId));
-		List<DashboardStatisticsDto> chart = dashboardService.setCampaignPerformanceChart(startDate, lastDate, clientId);
+        List<DashboardStatisticsDto> chart = dashboardService.setCampaignPerformanceChart(startDate, lastDate, clientId);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), campaigns.getTotalPages());
 
         map.addAttribute("clientUser", clientUserWithCampaigns);
@@ -82,7 +82,7 @@ public class ManageController {
         map.addAttribute("campaignStatistics", campaignStatistics);
         map.addAttribute("totalCampaignStatistics", totalCampaignStatistics);
         map.addAttribute("paginationBarNumbers", barNumbers);
-		model.addAttribute("chart", chart);
+        model.addAttribute("chart", chart);
         map.addAttribute("totalCount", campaignService.getCampaignCount());
 
         return "manage/campaign";

@@ -22,10 +22,6 @@ public interface AgentGroupRepository extends
         QuerydslPredicateExecutor<AgentGroup>,
         QuerydslBinderCustomizer<QAgentGroup> {
 
-    Page<AgentGroup> findByIdContaining(String id, Pageable pageable);
-
-    Page<AgentGroup> findByNameContaining(String nickname, Pageable pageable);
-
     void deleteByIdAndAgency_AgencyId(Long agentGroupId, String agencyId);
 
     @Override

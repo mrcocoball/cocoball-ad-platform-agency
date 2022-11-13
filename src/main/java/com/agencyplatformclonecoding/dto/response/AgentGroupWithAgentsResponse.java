@@ -1,7 +1,6 @@
 package com.agencyplatformclonecoding.dto.response;
 
 import com.agencyplatformclonecoding.dto.AgentGroupWithAgentsDto;
-import com.agencyplatformclonecoding.dto.AgentWithClientsDto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,11 +12,12 @@ public record AgentGroupWithAgentsResponse(
         Long id,
         LocalDateTime createdAt,
         String name,
-        Set<AgentResponse> agentResponses
+        Set<AgentResponse> agentResponses,
+        int agentsCount
 ) implements Serializable {
 
-    public static AgentGroupWithAgentsResponse of(Long id, LocalDateTime createdAt, String name, Set<AgentResponse> agentResponses) {
-        return new AgentGroupWithAgentsResponse(id, createdAt, name, agentResponses);
+    public static AgentGroupWithAgentsResponse of(Long id, LocalDateTime createdAt, String name, Set<AgentResponse> agentResponses, int agentsCount) {
+        return new AgentGroupWithAgentsResponse(id, createdAt, name, agentResponses, agentsCount);
     }
 
     public static AgentGroupWithAgentsResponse from(AgentGroupWithAgentsDto dto) {
@@ -28,7 +28,8 @@ public record AgentGroupWithAgentsResponse(
                 dto.name(),
                 dto.agentDtos().stream()
                         .map(AgentResponse::from)
-                        .collect(Collectors.toCollection(LinkedHashSet::new))
+                        .collect(Collectors.toCollection(LinkedHashSet::new)),
+                dto.agentsCount()
         );
     }
 

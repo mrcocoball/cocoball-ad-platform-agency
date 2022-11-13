@@ -1,6 +1,5 @@
 package com.agencyplatformclonecoding.dto.response;
 
-import com.agencyplatformclonecoding.dto.CreativeDto;
 import com.agencyplatformclonecoding.dto.CreativeWithPerformancesDto;
 
 import java.io.Serializable;

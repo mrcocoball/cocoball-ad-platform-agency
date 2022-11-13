@@ -17,6 +17,11 @@ public enum ErrorCode {
 	// 400 BAD_REQUEST : 잘못된 요청
 	INVALID_RELATION(HttpStatus.BAD_REQUEST, "잘못된 접근입니다."),
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
+    BAD_REQUEST_AGENT_GROUP_NAME(HttpStatus.BAD_REQUEST, "그룹명은 20자를 초과할 수 없습니다."),
+    BAD_REQUEST_CAMPAIGN_NAME(HttpStatus.BAD_REQUEST, "캠페인 이름은 20자를 초과할 수 없습니다."),
+    BAD_REQUEST_CREATIVE_DESCRIPTION(HttpStatus.BAD_REQUEST, "소재 설명은 15자를 초과할 수 없습니다."),
+    BAD_REQUEST_ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST, "숫자만 작성이 가능합니다."),
+
 
 	// 404 NOT_FOUND : Resource 를 찾을 수 없음
 	AGENT_NOT_FOUND(HttpStatus.NOT_FOUND, "에이전트를 찾을 수 없습니다."),
@@ -25,6 +30,8 @@ public enum ErrorCode {
     CAMPAIGN_NOT_FOUND(HttpStatus.NOT_FOUND, "캠페인을 찾을 수 없습니다."),
     CREATIVE_NOT_FOUND(HttpStatus.NOT_FOUND, "소재를 찾을 수 없습니다."),
     PERFORMANCE_NOT_FOUND(HttpStatus.NOT_FOUND, "실적을 찾을 수 없습니다."),
+    NOT_FOUND(HttpStatus.NOT_FOUND, "요청 처리에 필요한 정보를 찾을 수 없습니다."),
+
 
 	// 409 CONFICT : Resource의 현재 상태와 충돌, 보통 중복된 데이터 존재
     AGENT_EXISTS(HttpStatus.CONFLICT, "그룹 내 에이전트가 존재하여 삭제 할 수 없습니다."),

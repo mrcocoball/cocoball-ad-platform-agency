@@ -26,19 +26,30 @@ public class Campaign extends AuditingFields {
     private Long id;
 
     // 다대일 양방향
-    @Setter @ManyToOne(optional = false) @JoinColumn(name = "CLIENT_ID") private ClientUser clientUser; // 에이전시 정보 (ID)
+    @Setter
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "CLIENT_ID")
+    private ClientUser clientUser; // 에이전시 정보 (ID)
 
-    @Setter @Column(length = 50, nullable = false) private String name;
-    @Setter @Column private Long budget;
+    @Setter
+    @Column(length = 20, nullable = false)
+    private String name;
+    @Setter
+    @Column
+    private Long budget;
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
     private final Set<Creative> creatives = new LinkedHashSet<>();
 
-    @Setter @Column private boolean activated;
+    @Setter
+    @Column
+    private boolean activated;
 
-    @Setter @Column private boolean deleted;
+    @Setter
+    @Column
+    private boolean deleted;
 
     protected Campaign() {
     }
