@@ -27,14 +27,19 @@ public class AgentGroup extends AuditingFields {
     private Long id;
 
     // 다대일 양방향
-    @Setter @ManyToOne @JoinColumn(name = "AGENCY_ID") private Agency agency; // 에이전시 정보 (ID)
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "AGENCY_ID")
+    private Agency agency; // 에이전시 정보 (ID)
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "agentGroup", cascade = CascadeType.ALL)
     private final Set<Agent> agents = new LinkedHashSet<>();
 
-    @Setter @Column(length = 50, nullable = false) private String name;
+    @Setter
+    @Column(length = 20, nullable = false)
+    private String name;
 
     protected AgentGroup() {
     }

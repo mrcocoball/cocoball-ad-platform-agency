@@ -1,7 +1,6 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.response.AgentResponse;
 import com.agencyplatformclonecoding.dto.response.AgentWithClientsResponse;
 import com.agencyplatformclonecoding.dto.security.PlatformPrincipal;
 import com.agencyplatformclonecoding.service.AgentService;
@@ -33,8 +32,8 @@ public class AgentController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
     ) {
-        Page<AgentResponse> agents = agentService.searchAgents(searchType, searchValue, pageable)
-                .map(AgentResponse::from);
+        Page<AgentWithClientsResponse> agents = agentService.searchAgents(searchType, searchValue, pageable)
+                .map(AgentWithClientsResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), agents.getTotalPages());
         map.addAttribute("agents", agents);
         map.addAttribute("paginationBarNumbers", barNumbers);

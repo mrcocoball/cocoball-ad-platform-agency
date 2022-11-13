@@ -17,7 +17,7 @@ public class ErrorResponse {
     private final String code;
     private final String message;
 
-	// ErrorCode를 받아 ResponseEntity<ErrorResponse>로 반환
+    // ErrorCode를 받아 ResponseEntity<ErrorResponse>로 반환
 
     public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode errorCode) {
         return ResponseEntity

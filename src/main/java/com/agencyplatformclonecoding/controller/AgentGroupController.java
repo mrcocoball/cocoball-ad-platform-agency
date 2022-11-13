@@ -1,14 +1,11 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
-import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.AgencyDto;
 import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
 import com.agencyplatformclonecoding.dto.response.AgentGroupResponse;
 import com.agencyplatformclonecoding.dto.response.AgentGroupWithAgentsResponse;
 import com.agencyplatformclonecoding.dto.security.PlatformPrincipal;
 import com.agencyplatformclonecoding.service.AgentGroupService;
-import com.agencyplatformclonecoding.service.AgentService;
 import com.agencyplatformclonecoding.service.PaginationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +15,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -32,17 +32,15 @@ public class AgentGroupController {
 
     @GetMapping
     public String agentGroups(
-            @RequestParam(required = false) SearchType searchType,
-            @RequestParam(required = false) String searchValue,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
     ) {
-        Page<AgentGroupResponse> agentGroups = agentGroupService.searchAgentGroups(searchType, searchValue, pageable)
-                .map(AgentGroupResponse::from);
+        Page<AgentGroupWithAgentsResponse> agentGroups = agentGroupService.searchAgentGroups(pageable)
+                .map(AgentGroupWithAgentsResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), agentGroups.getTotalPages());
         map.addAttribute("agentGroups", agentGroups);
         map.addAttribute("paginationBarNumbers", barNumbers);
-        map.addAttribute("searchTypes", SearchType.values());
+        map.addAttribute("totalCount", agentGroupService.getAgentGroupCount());
 
         return "agentgroups/index";
     }

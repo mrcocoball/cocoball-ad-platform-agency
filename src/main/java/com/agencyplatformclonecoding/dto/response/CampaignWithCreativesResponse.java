@@ -1,7 +1,6 @@
 package com.agencyplatformclonecoding.dto.response;
 
 import com.agencyplatformclonecoding.dto.CampaignWithCreativesDto;
-import com.agencyplatformclonecoding.dto.ClientUserWithCampaignsDto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

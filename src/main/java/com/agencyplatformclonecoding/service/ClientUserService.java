@@ -21,7 +21,6 @@ import javax.persistence.EntityNotFoundException;
 @Service
 public class ClientUserService {
 
-    private final AgentRepository agentRepository;
     private final ClientUserRepository clientUserRepository;
 
     @Transactional(readOnly = true)

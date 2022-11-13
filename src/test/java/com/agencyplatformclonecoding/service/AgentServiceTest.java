@@ -67,7 +67,7 @@ class AgentServiceTest {
         given(agentRepository.findByDeletedFalse(pageable)).willReturn(Page.empty());
 
         // When
-        Page<AgentDto> agents = sut.searchAgents(null, null, pageable);
+        Page<AgentWithClientsDto> agents = sut.searchAgents(null, null, pageable);
 
         // Then
         assertThat(agents).isEmpty();
@@ -84,7 +84,7 @@ class AgentServiceTest {
         given(agentRepository.findByUserIdContainingAndDeletedFalse(searchKeyword, pageable)).willReturn(Page.empty());
 
         // When
-        Page<AgentDto> agents = sut.searchAgents(searchType, searchKeyword, pageable);
+        Page<AgentWithClientsDto> agents = sut.searchAgents(searchType, searchKeyword, pageable);
 
         // Then
         assertThat(agents).isEmpty();

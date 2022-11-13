@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="description" content="">
   <meta name="author" content="mrcocoball">
-  <title>대시보드</title>
+  <title>그룹-에이전트 대시보드 : 그룹별 소진액</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -79,7 +79,11 @@
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link disabled">그룹-에이전트 대시보드</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><b>그룹-에이전트 대시보드</b></a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/dashboard/groups">그룹별 소진액</a></li>
+            <li><a class="dropdown-item" href="/dashboard/agents">에이전트별 소진액</a></li>
+          </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">업종별 대시보드</a>
@@ -89,7 +93,7 @@
           </ul>
         </li>
       </ul>
-      <h1> 대시보드 </h1>
+      <h1> 그룹-에이전트 대시보드 : 그룹별 소진액 </h1>
     </div>
 
     <div class="row">
@@ -102,10 +106,10 @@
             <input type="date" class="form-control" id="last-date" name="lastDate"/>
           </div>
           <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인</button>
-          <a class="stats-btn btn btn-primary" role="button" id="default_dashboard">그룹별 소진액</a>
-          <a class="stats-btn btn btn-primary" role="button" id="agent_top_20_dashboard">에이전트별 소진액</a>
-          <a class="stats-btn btn btn-primary" role="button" id="get-report">보고서 다운로드</a>
         </form>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일간 통계</a>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일간 통계</a>
+        <a class="stats-btn btn btn-primary" role="button" id="get-report">보고서 다운로드</a>
       </div>
 
       <canvas id="myChart" height="175" width="600"></canvas>
@@ -151,14 +155,6 @@
     /*<![CDATA[*/
     $(document).ready(function () {
 
-        // date 포맷 'YYYY-MM-DD' 형식으로 변경
-        function dateFormat(date) {
-            var dateFormat = date.getFullYear() +
-                '-' + ((date.getMonth() + 1) < 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
-                '-' + ((date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()));
-            return dateFormat;
-        }
-
         // 초기 세팅
         var iStartDate = $('#start-date').val();
         var iLastDate = $('#last-date').val();
@@ -194,7 +190,7 @@
                     fill: false,
                     data: spendList,
                     backgroundColor: [
-                        'rgb(95,192,153)',
+                        'rgb(0,70,164)',
                     ],
                     borderColor: [
                         'rgba(125,134,173,0)',
@@ -238,6 +234,56 @@
                 }
             }
         });
+    });
+
+    // date 포맷 'YYYY-MM-DD' 형식으로 변경
+    function dateFormat(date) {
+        var dateFormat = date.getFullYear() +
+            '-' + ((date.getMonth() + 1) < 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) +
+            '-' + ((date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()));
+        return dateFormat;
+    }
+
+    // 최근 ~일 통계 버튼 관련 동작
+    $(function () {
+
+        $('#statistics_type_week').click(function () { // 클릭 감지
+
+            var now = new Date();
+            var now2 = new Date();
+            var dayBeforeSeven = new Date(now.setDate(now.getDate()-7));
+            var dayBeforeOne = new Date(now2.setDate(now2.getDate()-1));
+            var startDate = dateFormat(dayBeforeSeven);
+            var lastDate = dateFormat(dayBeforeOne);
+
+            $('#start-date').val(startDate);
+            $('#last-date').val(lastDate);
+
+            $('#statistics-date-form').submit();
+
+        });
+
+    });
+
+    // 최근 ~일 통계 버튼 관련 동작
+    $(function () {
+
+        $('#statistics_type_month').click(function () { // 클릭 감지
+
+            var now = new Date();
+            var now2 = new Date();
+            var dayBeforeThirty = new Date(now.setDate(now.getDate()-30));
+            var dayBeforeOne = new Date(now2.setDate(now2.getDate()-1));
+            var startDate = dateFormat(dayBeforeThirty);
+            var lastDate = dateFormat(dayBeforeOne);
+
+            $('#start-date').val(startDate);
+            $('#last-date').val(lastDate);
+
+            $('#statistics-date-form').submit();
+
+        });
+
     });
     /*]]>*/
 

@@ -27,8 +27,6 @@ import java.util.List;
 public class AgentService {
 
     private final AgentRepository agentRepository;
-    private final AgentGroupRepository agentGroupRepository;
-    private final AgencyRepository agencyRepository;
     private final ClientUserRepository clientUserRepository;
 
     @Transactional(readOnly = true)
@@ -39,14 +37,14 @@ public class AgentService {
     }
 
     @Transactional(readOnly = true)
-    public Page<AgentDto> searchAgents(SearchType searchType, String searchKeyword, Pageable pageable) {
+    public Page<AgentWithClientsDto> searchAgents(SearchType searchType, String searchKeyword, Pageable pageable) {
         if (searchKeyword == null || searchKeyword.isBlank()) {
-            return agentRepository.findByDeletedFalse(pageable).map(AgentDto::from);
+            return agentRepository.findByDeletedFalse(pageable).map(AgentWithClientsDto::from);
         }
 
         return switch (searchType) {
-            case ID -> agentRepository.findByUserIdContainingAndDeletedFalse(searchKeyword, pageable).map(AgentDto::from);
-            case NICKNAME -> agentRepository.findByNicknameContainingAndDeletedFalse(searchKeyword, pageable).map(AgentDto::from);
+            case ID -> agentRepository.findByUserIdContainingAndDeletedFalse(searchKeyword, pageable).map(AgentWithClientsDto::from);
+            case NICKNAME -> agentRepository.findByNicknameContainingAndDeletedFalse(searchKeyword, pageable).map(AgentWithClientsDto::from);
         };
     }
 

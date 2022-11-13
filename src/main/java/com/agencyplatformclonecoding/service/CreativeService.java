@@ -45,6 +45,15 @@ public class CreativeService {
     public void saveCreative(CreativeDto dto) {
         try {
             Campaign campaign = campaignRepository.getReferenceById(dto.campaignDto().id());
+
+            if (!isLong(dto.bidingPrice())) {
+                throw new AdPlatformException(ErrorCode.BAD_REQUEST_ILLEGAL_ARGUMENT);
+            }
+
+            if (!isValidDescriptionLength(dto.description())) {
+                throw new AdPlatformException(ErrorCode.BAD_REQUEST_CREATIVE_DESCRIPTION);
+            }
+
             creativeRepository.save(dto.toEntity(campaign));
         } catch (EntityNotFoundException e) {
             log.warn("소재 저장에 실패하였습니다. 소재 저장에 필요한 정보를 찾을 수 없습니다. - {}", e.getLocalizedMessage());
@@ -67,11 +76,20 @@ public class CreativeService {
                     creative.setKeyword(dto.keyword());
                 }
             if (dto.description() != null) {
-                creative.setDescription(dto.description());
 
+                if (!isValidDescriptionLength(dto.description())) {
+                    throw new AdPlatformException(ErrorCode.BAD_REQUEST_CREATIVE_DESCRIPTION);
+                }
+
+                creative.setDescription(dto.description());
             }
+
             if (dto.url() != null) {
                 creative.setUrl(dto.url());
+            }
+
+            if (!isLong(dto.bidingPrice())) {
+                throw new AdPlatformException(ErrorCode.BAD_REQUEST_ILLEGAL_ARGUMENT);
             }
 
             creative.setBidingPrice(dto.bidingPrice());
@@ -150,6 +168,14 @@ public class CreativeService {
         if (!creative.getCampaign().equals(campaign)) {
             throw new AdPlatformException(ErrorCode.INVALID_RELATION);
         }
+    }
+
+    public boolean isLong(Object object) {
+        return object instanceof Long;
+    }
+
+    public boolean isValidDescriptionLength(String string) {
+        return string.length() <= 15;
     }
 
 }

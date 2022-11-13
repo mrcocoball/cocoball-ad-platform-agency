@@ -61,7 +61,7 @@ class AgentGroupControllerTest {
     @Test
     public void givenNothing_whenRequestingAgentGroupsView_thenReturnsAgentGroupsView() throws Exception {
         // Given
-        given(agentGroupService.searchAgentGroups(eq(null), eq(null), any(Pageable.class))).willReturn(Page.empty());
+        given(agentGroupService.searchAgentGroups(any(Pageable.class))).willReturn(Page.empty());
         given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0, 1, 2, 3, 4));
 
         // When & Then
@@ -71,7 +71,7 @@ class AgentGroupControllerTest {
                 .andExpect(view().name("agentgroups/index"))
                 .andExpect(model().attributeExists("agentGroups"))
                 .andExpect(model().attributeExists("paginationBarNumbers"));
-        then(agentGroupService).should().searchAgentGroups(eq(null), eq(null), any(Pageable.class));
+        then(agentGroupService).should().searchAgentGroups(eq(any(Pageable.class)));
     }
 
     @WithMockUser
@@ -81,7 +81,7 @@ class AgentGroupControllerTest {
         // Given
         SearchType searchType = SearchType.NICKNAME;
         String searchValue = "name";
-        given(agentGroupService.searchAgentGroups(eq(searchType), eq(searchValue), any(Pageable.class))).willReturn(Page.empty());
+        given(agentGroupService.searchAgentGroups( any(Pageable.class))).willReturn(Page.empty());
         given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0, 1, 2, 3, 4));
 
         // When & Then
@@ -95,7 +95,7 @@ class AgentGroupControllerTest {
                 .andExpect(view().name("agentgroups/index"))
                 .andExpect(model().attributeExists("agentGroups"))
                 .andExpect(model().attributeExists("searchTypes"));
-        then(agentGroupService).should().searchAgentGroups(eq(searchType), eq(searchValue), any(Pageable.class));
+        then(agentGroupService).should().searchAgentGroups(any(Pageable.class));
         then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
 
@@ -143,7 +143,7 @@ class AgentGroupControllerTest {
         int pageSize = 5;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Order.desc(sortName)));
         List<Integer> barNumbers = List.of(1, 2, 3, 4, 5);
-        given(agentGroupService.searchAgentGroups(null, null, pageable)).willReturn(Page.empty());
+        given(agentGroupService.searchAgentGroups(pageable)).willReturn(Page.empty());
         given(paginationService.getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages())).willReturn(barNumbers);
 
         // When & Then
@@ -158,7 +158,7 @@ class AgentGroupControllerTest {
                 .andExpect(view().name("agentgroups/index"))
                 .andExpect(model().attributeExists("agentGroups"))
                 .andExpect(model().attribute("paginationBarNumbers", barNumbers));
-        then(agentGroupService).should().searchAgentGroups(null, null, pageable);
+        then(agentGroupService).should().searchAgentGroups(pageable);
         then(paginationService).should().getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages());
     }
 

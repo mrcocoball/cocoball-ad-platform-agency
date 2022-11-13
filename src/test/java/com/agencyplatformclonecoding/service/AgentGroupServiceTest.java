@@ -63,28 +63,11 @@ class AgentGroupServiceTest {
         given(agentGroupRepository.findAll(pageable)).willReturn(Page.empty());
 
         // When
-        Page<AgentGroupDto> agentGroups = sut.searchAgentGroups(null, null, pageable);
+        Page<AgentGroupWithAgentsDto> agentGroups = sut.searchAgentGroups(pageable);
 
         // Then
         assertThat(agentGroups).isEmpty();
         then(agentGroupRepository).should().findAll(pageable);
-    }
-
-    @DisplayName("READ - 검색어와 함께 에이전트 그룹 검색 시 에이전트 그룹 페이지 반환")
-    @Test
-    void givenSearchingParameters_whenSearchingAgentGroup_thenReturnsAgentGroupPage() {
-        // Given
-        SearchType searchType = SearchType.NICKNAME;
-        String searchKeyword = "테스트";
-        Pageable pageable = Pageable.ofSize(20);
-        given(agentGroupRepository.findByNameContaining(searchKeyword, pageable)).willReturn(Page.empty());
-
-        // When
-        Page<AgentGroupDto> agentGroups = sut.searchAgentGroups(searchType, searchKeyword, pageable);
-
-        // Then
-        assertThat(agentGroups).isEmpty();
-        then(agentGroupRepository).should().findByNameContaining(searchKeyword, pageable);
     }
 
     @DisplayName("READ - 에이전트 그룹 ID 조회 시 에이전트 그룹과 소속된 광고주 리스트 페이지 반환")

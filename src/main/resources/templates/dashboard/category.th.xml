@@ -7,8 +7,6 @@
   <attr sel="#start-date" th:value="${param.startDate}" />
   <attr sel="#last-date" th:value="${param.lastDate}" />
   <attr sel="#statistics_type_custom" th:href="@{'/dashboard/category'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
-  <attr sel="#default_dashboard" th:href="@{'/dashboard/category'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
-  <attr sel="#reference_dashboard" th:href="@{'/dashboard/reference'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
   <attr sel="#get-report" th:href="@{'/dashboard/category/report'(startDate=${param.startDate}, lastDate=${param.lastDate})}" th:method="get" />
 
   <attr sel="#dashboard-statistics-info">
