@@ -20,15 +20,7 @@ public interface PerformanceRepository extends
         QuerydslPredicateExecutor<Performance>,
         QuerydslBinderCustomizer<QPerformance> {
 
-    Page<Performance> findByCreative_Id(Pageable pageable, Long creativeId);
-
     Page<Performance> findByCreative_IdAndCreatedAtBetween(Pageable pageable, Long creativeId, LocalDate startDate, LocalDate lastDate);
-
-    List<Performance> findByCreative_IdAndCreatedAtBetween(Long creativeId, LocalDate startDate, LocalDate lastDate);
-
-    Optional<Performance> findByCreative_Id(Long creativeId);
-
-    long countByCreative_Id(Long creativeId);
 
     @Override
     default void customize(QuerydslBindings bindings, QPerformance root) {

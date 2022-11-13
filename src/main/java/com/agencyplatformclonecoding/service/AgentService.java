@@ -27,8 +27,6 @@ import java.util.List;
 public class AgentService {
 
     private final AgentRepository agentRepository;
-    private final AgentGroupRepository agentGroupRepository;
-    private final AgencyRepository agencyRepository;
     private final ClientUserRepository clientUserRepository;
 
     @Transactional(readOnly = true)

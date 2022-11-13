@@ -25,8 +25,6 @@ import javax.persistence.EntityNotFoundException;
 public class ManageService {
 
     private final ClientUserRepository clientUserRepository;
-    private final CampaignRepository campaignRepository;
-    private final CreativeRepository creativeRepository;
 
     @Transactional(readOnly = true)
     public ClientUserDto getClientUser(String clientId) {

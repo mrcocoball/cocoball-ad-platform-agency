@@ -27,7 +27,6 @@ public class PerformanceService {
     private final CreativeRepository creativeRepository;
     private final ClientUserRepository clientUserRepository;
     private final PerformanceRepository performanceRepository;
-    private final StatisticsQueryRepository statisticsQueryRepository;
 
     @Transactional(readOnly = true)
     public PerformanceDto getPerformance(Long performanceId) {
