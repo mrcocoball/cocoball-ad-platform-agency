@@ -46,7 +46,6 @@
           <attr sel="td.agent-name" th:text="${clientUser.agentName}"/>
           <attr sel="#client-info" th:href="@{'/clients/' + ${clientUser.userId}}"/>
           <attr sel="#client-manage" th:href="@{'/manage/' + ${clientUser.userId} + '/campaigns'}"/>
-          <attr sel="#client-mapping" th:href="@{'/clients/' + ${clientUser.userId}}"/>
         </attr>
       </attr>
     </attr>

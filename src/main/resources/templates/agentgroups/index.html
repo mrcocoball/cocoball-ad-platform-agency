@@ -70,6 +70,7 @@
 
   <div class="container">
     <h1> 에이전트 그룹 관리 페이지 </h1>
+    <h2> 대행사에 편성된 에이전트 그룹을 관리합니다. </h2>
     <div class="row right">
       <div class="create-btn d-grid gap-2 justify-content-md">
         <a class="btn btn-primary me-md-2" role="button" id="create-agentgroup">에이전트 그룹 생성</a>
@@ -80,7 +81,8 @@
       <table class="table" id="agentgroup-table">
         <thead>
         <tr>
-          <th class="name col-xs-2" style="width: 600px"><a>그룹명</a></th>
+          <th class="id col-xs-2"><a>ID</a></th>
+          <th class="name col-xs-2" style="width: 400px"><a>그룹명</a></th><th class="count col-xs-2"><a>인원 수</a></th>
           <th class="agents-list col-xs-2"><a>소속 에이전트 확인</a></th>
           <th class="button"><a></a></th>
           <th class="button"><a></a></th>
@@ -88,41 +90,22 @@
         </thead>
         <tbody>
         <tr>
+          <td class="id">1</td>
           <td class="name">마케팅 1팀</td>
+          <td class="count">3명</td>
           <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
-          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
+          <td class="button"><a class="btn btn-primary" role="button" id="update-agentgroup">이름 변경</a></td>
           <td>
             <form id="delete-agentgroup-form">
               <button class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</button>
             </form>
           </td>
         </tr>
-        <tr>
-          <td>마케팅 2팀</td>
-          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
-          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
-        </tr>
-        <tr>
-          <td>마케팅 3팀</td>
-          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
-          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
-        </tr>
-        <tr>
-          <td>마케팅 5팀</td>
-          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
-          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
-        </tr>
-        <tr>
-          <td>마케팅 본부</td>
-          <td class="button"><a class="btn btn-primary me-md-2" role="button" id="agents-list">소속 에이전트 확인</a></td>
-          <td class="button"><a class="btn btn-secondary" role="button" id="update-agentgroup">이름 변경</a></td>
-          <td class="button"><a class="btn btn-danger me-md-2" role="button" id="delete-agentgroup">삭제</a></td>
-        </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="row">
       <nav id="pagination" aria-label="Page navigation">
         <ul class="pagination justify-content-center">
           <li class="page-item"><a class="page-link" href="#">Previous</a></li>

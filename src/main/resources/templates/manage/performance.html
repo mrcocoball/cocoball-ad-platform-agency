@@ -81,6 +81,7 @@
     </nav>
     <header id="performance-header">
       <h1> 소재 실적 페이지 </h1>
+      <h2> 소재의 상세 실적을 확인합니다.</h2>
     </header>
 
     <div class="row">
@@ -94,8 +95,8 @@
           </div>
           <button type="submit" class="stats-btn btn btn-primary" role="button" id="statistics_type_custom">통계 확인</button>
         </form>
-        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일</a>
-        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일</a>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_week">최근 7일간 통계</a>
+        <a class="stats-btn btn btn-primary" role="button" id="statistics_type_month">최근 30일간 통계</a>
         <a class="stats-btn btn btn-primary" role="button" id="get-report">실적 보고서</a>
         <select id="performance">
           <option value="view">노출수</option>
@@ -246,7 +247,7 @@
                 fill: false,
                 data: performanceList,
                 backgroundColor: [
-                    'rgb(95,192,153)',
+                    'rgb(0,70,164)',
                 ],
                 borderColor: [
                     'rgba(125,134,173,1)',

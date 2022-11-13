@@ -57,6 +57,7 @@
 
    <div class="container">
    <h1> 에이전트 관리 페이지 </h1>
+   <h2> 대행사에 소속된 에이전트를 관리합니다. </h2>
     <div class="row">
       <div class="card card-margin search-form">
         <div class="card-body p-0">
@@ -93,7 +94,7 @@
 
     <div class="row right">
       <div class="create-btn d-grid gap-2 justify-content-md">
-        <a class="btn btn-primary me-md-2" role="button" id="write-article">에이전트 계정 생성</a>
+        <a class="btn btn-secondary" role="button" id="create-agent">에이전트 계정 생성</a>
       </div>
     </div>
 
@@ -103,7 +104,8 @@
         <tr>
           <th class="user-id col-xs-2" style="width: 150px;"><a>ID</a></th>
           <th class="nickname col-xs-2" style="width: 170px;"><a>이름</a></th>
-          <th class="agent-group col-xs-2" style="width: 300px;"><a>그룹</a></th>
+          <th class="agent-group col-xs-2" style="width: 200px;"><a>그룹</a></th>
+          <th class="count col-xs-2"><a>담당 광고주 수</a></th>
           <th class="created-at col-xs"><a>계정 생성일</a></th>
           <th class="profile col-xs-2"><a></a></th>
           <th class="button col-xs"><a></a></th>
@@ -114,6 +116,7 @@
           <td class="user-id">cocoballagent</td>
           <td class="nickname">김코코볼</td>
           <td class="agent-group">마케팅 1팀</td>
+          <td class="count">3명</td>
           <td class="created-at"><time>2022-08-18</time></td>
           <td class="profile"><a class="btn btn-primary me-md-2" role="button" id="agent-info">상세 정보 확인</a></td>
           <td>
@@ -211,5 +214,22 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.js"
+          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+          crossorigin="anonymous"></script>
+
+  <script type="text/javascript" th:inline="javascript">
+      // 최근 ~일 통계 버튼 관련 동작
+      $(function () {
+
+          $('#create-agent').click(function () { // 클릭 감지
+
+              alert("아직 구현되지 않은 기능입니다. 추후 구현하겠습니다.")
+
+          });
+
+      });
+
+  </script>
 
 </body>

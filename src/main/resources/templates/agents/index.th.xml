@@ -36,6 +36,7 @@
           <attr sel="td.user-id" th:text="${agent.userId}" />
           <attr sel="td.nickname" th:text="${agent.nickname}" />
           <attr sel="td.agent-group" th:text="${agent.agentGroupName}" />
+          <attr sel="td.count" th:text="${agent.clientsCount} + '명'" />
           <attr sel="td.created-at/time" th:datetime="${agent.createdAt}" th:text="${#temporals.format(agent.createdAt, 'yyyy-MM-dd')}" />
           <attr sel="#agent-info" th:href="@{'/agents/' + ${agent.userId}}" />
           <attr sel="#delete-agent-form" th:action="'/agents/' + ${agent.userId} + '/delete'" th:method="post" />
@@ -46,7 +47,7 @@
     <attr sel="#pagination">
       <attr sel="li[0]/a"
             th:text="'previous'"
-            th:href="@{/articles(page=${agents.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+            th:href="@{/agents(page=${agents.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
             th:class="'page-link' + (${agents.number} <= 0 ? ' disabled' : '')"
       />
       <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
