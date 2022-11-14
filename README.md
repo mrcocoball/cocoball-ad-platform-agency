@@ -81,6 +81,7 @@
 
 ## 참고 플랫폼
 
+* 
 * Criteo
 * ABLY
 * Mobon
