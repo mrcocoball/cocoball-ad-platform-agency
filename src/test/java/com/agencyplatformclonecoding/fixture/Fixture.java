@@ -121,6 +121,7 @@ public class Fixture {
         return AgentGroupWithAgentsDto.of(
                 createAgencyDto(),
                 Set.of(),
+                1,
                 1L,
                 "김테스트",
                 LocalDateTime.now(),
@@ -150,6 +151,7 @@ public class Fixture {
                 createAgencyDto(),
                 createAgentGroupDto(),
                 Set.of(),
+                1,
                 "t-client",
                 "pw",
                 "김테스트",
