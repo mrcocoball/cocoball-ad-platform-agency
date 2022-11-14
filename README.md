@@ -81,7 +81,7 @@
 
 ## 참고 플랫폼
 
-* 
+* NAVER GFA
 * Criteo
 * ABLY
 * Mobon
