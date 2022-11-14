@@ -1,1 +1,0 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -Dspring.profiles.active=heroku -jar build/libs/agencyplatform-clone-coding-1.3.0.jar
