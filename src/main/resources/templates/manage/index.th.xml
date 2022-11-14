@@ -47,7 +47,7 @@
       searchValue=${param.searchValue},
       startDate=${param.startDate}, lastDate=${param.lastDate}
   )}"/>
-        <attr sel="th.category/a" th:text="'업종'" th:href="@{/clients(
+        <attr sel="th.category/a" th:text="'업종'" th:href="@{/manage(
       page=${clientUsers.number},
       sort='categoryName' + (*{sort.getOrderFor('categoryName')} != null ? (*{sort.getOrderFor('categoryName').direction.name} != 'DESC' ? ',desc' : '') : ''),
       searchType=${param.searchType},

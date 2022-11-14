@@ -9,9 +9,12 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/agencyplatform
-    username: agencytest
-    password: agencytest23!@
+    #url: jdbc:mysql://localhost:3306/agencyplatform
+    #username: agencytest
+    #password: agencytest23!@
+    url: jdbc:mysql://cocoball-free-db-1.ca0nf9opyvzh.ap-northeast-2.rds.amazonaws.com:3306/cocoball_ad_agency
+    username: cocoballmaster
+    password: cocoballtest
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -31,9 +34,9 @@ spring:
 ---
 
 spring:
-  config.activate.on-profile: heroku
+  # config.activate.on-profile: heroku
   datasource:
-    url: ${JAWSDB_URL}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    #url: ${JAWSDB_URL}
+    #driver-class-name: com.mysql.cj.jdbc.Driver
   jpa.hibernate.ddl-auto: create
   sql.init.mode: always

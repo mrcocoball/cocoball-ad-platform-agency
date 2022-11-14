@@ -2,7 +2,6 @@ package com.agencyplatformclonecoding.service;
 
 import com.agencyplatformclonecoding.domain.Agent;
 import com.agencyplatformclonecoding.domain.AgentGroup;
-import com.agencyplatformclonecoding.domain.constrant.SearchType;
 import com.agencyplatformclonecoding.dto.AgentDto;
 import com.agencyplatformclonecoding.dto.AgentGroupDto;
 import com.agencyplatformclonecoding.dto.AgentGroupWithAgentsDto;
