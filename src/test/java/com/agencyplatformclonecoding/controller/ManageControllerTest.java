@@ -1,15 +1,12 @@
 package com.agencyplatformclonecoding.controller;
 
-import com.agencyplatformclonecoding.config.SecurityConfig;
 import com.agencyplatformclonecoding.config.TestSecurityConfig;
 import com.agencyplatformclonecoding.domain.constrant.SearchType;
-import com.agencyplatformclonecoding.dto.*;
 import com.agencyplatformclonecoding.fixture.Fixture;
 import com.agencyplatformclonecoding.service.CampaignService;
 import com.agencyplatformclonecoding.service.CreativeService;
 import com.agencyplatformclonecoding.service.ManageService;
 import com.agencyplatformclonecoding.service.PaginationService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +21,13 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @DisplayName("VIEW 컨트롤러 - 광고주 관리")
 @Import(TestSecurityConfig.class)

@@ -35,9 +35,11 @@ class AgentControllerTest {
 
     private final MockMvc mvc;
 
-    @MockBean private AgentService agentService;
+    @MockBean
+    private AgentService agentService;
 
-    @MockBean private PaginationService paginationService;
+    @MockBean
+    private PaginationService paginationService;
 
     public AgentControllerTest(
             @Autowired MockMvc mvc
