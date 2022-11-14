@@ -49,6 +49,10 @@ dependencies {
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api" // java.lang.NoClassDefFoundError 대응
 }
 
+test {
+    exclude '**/*'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
