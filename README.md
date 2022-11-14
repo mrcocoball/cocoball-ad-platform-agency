@@ -17,18 +17,19 @@
 * Querydsl
 * MySQL
 * Thymeleaf
-* Javascript / jquery
+* Javascript / jQuery
 * Chart.js
 * GitKraken
 * Heroku </br></br>
 
-## 1.2.1 릴리즈 구현 기능 (2022-10-27)
+## 1.3.0 릴리즈 구현 기능 (2022-11-14)
 - URL : <a href="https://cocoball-ad-agency-platform.herokuapp.com/" target='_blank'>확인하기</a>
 - 최초 로그인이 필요 (ID : TestAgency / PW : test1234) 
 - 서버 자동 슬립 모드로 인해 초기 실행 시 다소 시간이 소요됩니다. 양해 부탁드립니다.
 - 대행사 어드민 기능이 구현되었음
-- 1.2.0 기획 문서 : <a href="https://velog.io/@mrcocoball/221019%EA%B4%91%EA%B3%A0-%EA%B4%80%EB%A6%AC-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EB%8C%80%ED%96%89%EC%82%AC-%EC%84%BC%ED%84%B0-%EC%A0%9C%EC%9E%91-341.2.0-%EB%B2%84%EC%A0%84-%EB%A6%B4%EB%A6%AC%EC%A6%88-%EA%B8%B0%ED%9A%8D" target='_blank'>확인하기</a>
-- 1.2.0 업데이트 내용 정리 : <a href="https://velog.io/@mrcocoball/221027%EA%B4%91%EA%B3%A0-%EA%B4%80%EB%A6%AC-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EB%8C%80%ED%96%89%EC%82%AC-%EC%84%BC%ED%84%B0-%EC%A0%9C%EC%9E%91-421.2.0-%EB%B2%84%EC%A0%84-%EB%A6%B4%EB%A6%AC%EC%A6%88-%EB%B0%B0%ED%8F%AC" target='_blank'>확인하기</a>
+- 1.3.0 기획 문서 : <a href="https://velog.io/@mrcocoball/221028%EA%B4%91%EA%B3%A0-%EA%B4%80%EB%A6%AC-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EB%8C%80%ED%96%89%EC%82%AC-%EC%84%BC%ED%84%B0-%EC%A0%9C%EC%9E%91-431.3.0-%EB%B2%84%EC%A0%84-%EB%A6%B4%EB%A6%AC%EC%A6%88-%EA%B8%B0%ED%9A%8D" target='_blank'>확인하기</a>
+- 1.3.0 업데이트 내용 정리 : <a href="https://velog.io/@mrcocoball/221027%EA%B4%91%EA%B3%A0-%EA%B4%80%EB%A6%AC-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EB%8C%80%ED%96%89%EC%82%AC-%EC%84%BC%ED%84%B0-%EC%A0%9C%EC%9E%91-421.2.0-%EB%B2%84%EC%A0%84-%EB%A6%B4%EB%A6%AC%EC%A6%88-%EB%B0%B0%ED%8F%AC" target='_blank'>확인하기</a>
+- Endpoints & API Spec (구글 스프레드 시트) : <a href="https://docs.google.com/spreadsheets/d/1-BwBfL-ueBmqHRt8ew1FzkCIftxCdYlsnspRv2GkSlk/edit#gid=2041215260" target='blank'>확인하기</a> 
 
 * 에이전트 관리 기능
    * 에이전트 리스트 조회
@@ -53,14 +54,22 @@
    * 광고주의 캠페인 내의 소재 리스트 조회
    * 광고주의 캠페인 내의 소재 생성 / 수정 / 삭제
    * 광고주의 캠페인 내의 소재 활성화 상태 변경 (ON / OFF)
-   * 광고주의 캠페인 내의 소재의 실적 조회 및 통계 확인 (최근 7일, 최근 30일 통계)
-   * 광고주의 캠페인의 실적 조회 및 통계 확인 (최근 7일, 30일 통계) - 1.2.0 릴리즈 추가
-   * 광고주의 실적 조회 및 통계 확인 (최근 7일, 30일 통계) - 1.2.0 릴리즈 추가
-   * 에이전시 내 광고주의 전체 소진액 조회 (최근 7일, 30일 통계) - 1.2.0 릴리즈 추가 
+   * 광고주의 캠페인 내의 소재의 실적 조회 및 통계 확인
+   * 광고주의 캠페인의 실적 조회 및 통계 확인
+   * 광고주의 실적 조회 및 통계 확인
+   * 에이전시 내 광고주의 전체 소진액 조회
+   * 광고주 / 캠페인 / 소재 / 소재의 실적 보고서 다운로드 기능 - 1.3.0 릴리즈 추가
+   * 광고주의 캠페인 / 소재 / 소재의 실적 지표 차트 제공 - 1.3.0 릴리즈 추가
    </br></br>
+* 대시보드 기능 - 1.3.0 릴리즈 전체 추가
+   * 대행사 대시보드 - 일일 소진액 차트, 통계 제공 및 보고서 다운로드 기능
+   * 대행사 대시보드 - 광고주별 소진액 차트 (TOP 10), 통계 제공 및 보고서 다운로드 기능
+   * 그룹-에이전트 대시보드 - 그룹별 소진액 차트, 통계 제공 및 보고서 다운로드 기능
+   * 그룹-에이전트 대시보드 - 에이전트별 소진액 차트 (TOP 10), 통계 제공 및 보고서 다운로드 기능
+   * 업종별 대시보드 - 업종별 소진액 차트, 통계 제공 및 보고서 다운로드 기능
+   * 업종별 대시보드 - 업종별 레퍼런스 차트(지표별 확인 가능), 통계 제공 및 보고서 다운로드 
    
-## 1.3.0 릴리즈 진행 중
-- 1.3.0 기획 문서 : <a href="https://velog.io/@mrcocoball/221028%EA%B4%91%EA%B3%A0-%EA%B4%80%EB%A6%AC-%ED%94%8C%EB%9E%AB%ED%8F%BC-%EB%8C%80%ED%96%89%EC%82%AC-%EC%84%BC%ED%84%B0-%EC%A0%9C%EC%9E%91-431.3.0-%EB%B2%84%EC%A0%84-%EB%A6%B4%EB%A6%AC%EC%A6%88-%EA%B8%B0%ED%9A%8D" target='_blank'>확인하기</a>
+## 1.3.0 이후 지속적인 릴리즈 진행 중
 - 릴리즈 작업 현황 : <a href="https://github.com/users/mrcocoball/projects/4/views/1" target='_blank'>Projects 확인하기</a> 
 </br></br>
 
@@ -69,8 +78,6 @@
     * 에이전트 생성 기능
     * 에이전트 수정 - 소속 그룹 수정 기능
     * 광고주 수정 - 담당 에이전트 수정 기능
-    * 대시보드 기능
-    * 리포트 출력 기능
 * 실제 플랫폼처럼 이관 요청 - 승인 작업의 경우 광고주 어드민도 있어야 하므로 현재 버전에서는 일단 구현 생략 </br>
   (추후 버전업 시 구현 고려 중) </br></br>
 
