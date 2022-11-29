@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.config;
 
 import com.agencyplatformclonecoding.dto.AgencyDto;
+import com.agencyplatformclonecoding.dto.security.CustomAuthFailureHandler;
 import com.agencyplatformclonecoding.dto.security.PlatformPrincipal;
 import com.agencyplatformclonecoding.repository.AgencyRepository;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 public class SecurityConfig {
@@ -24,10 +26,17 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin().and()
+                .formLogin()
+                .loginPage("/agency/login")
+                .loginProcessingUrl("/agency/login")
+                .defaultSuccessUrl("/clients", true)
+                .failureHandler(authenticationFailureHandler())
+                .permitAll()
+                .and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .and()
+                .csrf().disable()
                 .build();
     }
 
@@ -44,4 +53,10 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthFailureHandler();
+    }
+
 }
