@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>로그인</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body class="align-middle">
+<div class="container-fluid d-flex justify-content-center" style="height: 100vh">
+  <div class="card align-self-center" style="width: 600px">
+    <div class="card-header">
+      LOGIN Page
+      <th:block th:if="${param.error}">
+        <p class="error-message" style="color: crimson" th:text="${errorMessage}">로그인 실패!</p>
+      </th:block>
+    </div>
+    <div class="card-body">
+      <th:block th:if="${param.logout != null}">
+        <h1>Logout........</h1>
+      </th:block>
+
+      <form id="registerForm" action="/agency/login" method="post">
+        <div class="input-group mb-3">
+          <span class="input-group-text">아이디　</span>
+          <input type="text" name="username" class="form-control" placeholder="AGENCY ID">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text">패스워드</span>
+          <input type="password" name="password" class="form-control" placeholder="PASSWORD">
+        </div>
+        <div class="my-4">
+          <div class="float-end">
+            <button type="submit" class="btn btn-primary submitBtn">LOGIN</button>
+          </div>
+        </div>
+      </form>
+    </div><!--end card body-->
+  </div><!--end card-->
+</div>
+</body>
+</html>
