@@ -1,6 +1,7 @@
 package com.agencyplatformclonecoding.controller;
 
 import com.agencyplatformclonecoding.domain.constrant.FormStatus;
+import com.agencyplatformclonecoding.dto.AgentGroupDto;
 import com.agencyplatformclonecoding.dto.request.AgentGroupRequest;
 import com.agencyplatformclonecoding.dto.response.AgentGroupResponse;
 import com.agencyplatformclonecoding.dto.response.AgentGroupWithAgentsResponse;
@@ -12,15 +13,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/agentGroups")
@@ -105,6 +109,41 @@ public class AgentGroupController {
         agentGroupService.deleteAgentGroup(agentGroupId, platformPrincipal.getUsername());
 
         return "redirect:/agentGroups";
+    }
+
+
+    /**
+     * 아래는 REST API로 처리하는 핸들러 메소드입니다.
+     */
+
+    @GetMapping("/{agentGroupId}/modify")
+    @ResponseBody
+    public AgentGroupResponse getAgentGroupResponse(@PathVariable("agentGroupId") Long agentGroupId) {
+        return AgentGroupResponse.from(agentGroupService.getAgentGroup(agentGroupId));
+    }
+
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Long> createAgentGroupResponse(@PathVariable("agentGroupId") Long agentGroupId,
+                                                      @Valid @RequestBody AgentGroupRequest request,
+                                                      BindingResult bindingResult) throws BindException {
+
+        Map<String, Long> resultMap = new HashMap<>();
+
+        resultMap.put("agentGroupId", agentGroupId);
+
+        return resultMap;
+    }
+
+    @PostMapping(value = "/{agentGroupId}/modify", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Long> updateAgentGroupResponse(@PathVariable("agentGroupId") Long agentGroupId,
+                                                      @Valid @RequestBody AgentGroupRequest request,
+                                                      BindingResult bindingResult) throws BindException {
+
+        Map<String, Long> resultMap = new HashMap<>();
+
+        resultMap.put("agentGroupId", agentGroupId);
+
+        return resultMap;
     }
 
 }
